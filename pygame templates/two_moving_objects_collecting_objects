@@ -36,7 +36,7 @@ class Mainloop():
         pygame.init()
         global round_counter
         self.clock = pygame.time.Clock()
-        self.display = pygame.display.set_mode((1080, 720))
+        self.display = pygame.display.set_mode((1080, 720))                                                     #pygame.display.set_mode((1000,720),pygame.FULLSCREEN) mahdollistaa kokonäytöntilan
         pygame.display.set_caption("Two objects collecting items. Rounds played: "+str(round_counter))
 
         self.object_hit_index = []
