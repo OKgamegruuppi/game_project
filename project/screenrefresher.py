@@ -10,8 +10,3 @@ def refreshdisplay(self):
   pygame.display.flip() #näytön päivitys
   self.clock.tick(60) # näytön päivitys
 
-
-
-if __name__ == "__main__":
-  refreshdisplay()
-  
