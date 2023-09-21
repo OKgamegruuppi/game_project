@@ -1,9 +1,10 @@
 #cycle through all the main .py components of the game
 #import creature.py, player.py etc. here
+import data.screenrefresher
 
 def maingameloop():
   print("start of maingameloop.")
-
+  
 
 
 
