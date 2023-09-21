@@ -4,7 +4,7 @@ def main():
     pygame.init()
     screen_1 = pygame.display.set_mode((640, 480))
 
-    moving_object = pygame.image.load("imgs/object_2.png")
+    moving_object = pygame.image.load("object_2.png")
     x = 0
     y = 0
 
