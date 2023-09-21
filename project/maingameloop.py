@@ -27,7 +27,6 @@ class Mainloop():
         self.display.fill((250, 250, 250))
 
         #screenfresh.py creates/fetches objects
-        self.mustaneliö = pygame.draw.rect(self.display, (0,0,0), pygame.Rect(30, 30, 740, 740))
 
         #THIS UPDATES
         pygame.display.flip()
