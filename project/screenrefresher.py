@@ -9,6 +9,8 @@ def refreshdisplay(self):
   #ENEMY POSITION
 
   #CURRENT BACKGROUND 
+
+  #GAME STATUS INFO
   
   pygame.display.flip() # refreshing the display
   self.clock.tick(60) # refreshing the display
