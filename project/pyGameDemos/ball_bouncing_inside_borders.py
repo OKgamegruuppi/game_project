@@ -4,7 +4,7 @@ import pygame
 def main():
     pygame.init()   #Initialize pygame
     screen_1 = pygame.display.set_mode((1040, 480)) #Set window size
-    ball = pygame.image.load("imgs/ball.png") #Load the image of the ball
+    ball = pygame.image.load("ball.png") #Load the image of the ball
 
     x = 0 # X & Y
     y = 0 # Coordinates
