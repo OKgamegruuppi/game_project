@@ -1,6 +1,6 @@
 import pygame
 
-def draw_screen(self):
+def draw_on_screen(self):
     self.display.fill((250, 250, 250))
     #THIS UPDATES
     pygame.display.flip()
