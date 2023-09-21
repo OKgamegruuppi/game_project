@@ -2,7 +2,7 @@ import pygame
 
 class ObjectToMove:
     def __init__(self):
-        self.movable_object = pygame.image.load("imgs/object_1.png")
+        self.movable_object = pygame.image.load("object_1.png")
     def spawn_object(self):
         return [self.movable_object, self.movable_object.get_width(), self.movable_object.get_height()]
 
