@@ -2,3 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Omit files starting with test
+test*.py
