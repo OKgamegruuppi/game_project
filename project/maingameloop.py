@@ -9,7 +9,7 @@ class Mainloop():
         pygame.display.set_caption("GAME WINDOW")
         self.silmukka()
 
-#Pelaajan liikkeet/painallukset ja niiden laukaisemat tapahtumafunktiot
+#Pelaajan liikkeet/painallukset ja niiden laukaisemat tapahtumafunktiot.
     def event_observer(self):
         for keyPress in pygame.event.get():
             if keyPress.type == pygame.QUIT:
@@ -22,13 +22,15 @@ class Mainloop():
             self.draw_screen()
             self.clock.tick(60)
 
-#Näytön päivitys.
+#Refreshing the screen.
     def draw_screen(self):
         self.display.fill((250, 250, 250))
 
         #screenfresh.py creates/fetches objects
-
+        #
+        #             
         #THIS UPDATES
+        
         pygame.display.flip()
         self.clock.tick(60)
 
