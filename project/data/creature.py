@@ -7,7 +7,7 @@ class Creature():
         self.pos_x = pos_x          #position X
         self.pos_y = pos_y          #position Y
         self.dir = dir              #direction
-        self.speed = speed
+        self.speed = speed          #speed on negatiicinen jos käevelee takaperin
         self.health = health
         self.target = target        #another Creature or map object
         self.awareness = awareness
@@ -17,11 +17,12 @@ class Creature():
 
     def movement(self,pos_x,pos_y,dir,speed):
         self.pos_x += dir * speed
+        self.pos_y += dir * speed
     
     def notice(self,target):
         #awareness = 5 or something, in units of distance
-        dist_x = target.pos_x - self.pos_x
-        dist_y = target.pos_y - self.pos_y
+        dist_x = abs(target.pos_x - self.pos_x)
+        dist_y = abs(target.pos_y - self.pos_y)
         distance = math.hypot(dist_x,dist_y)
 
         if self.awareness - distance > 0:
@@ -30,9 +31,12 @@ class Creature():
             return False
 
     def facing(self,pos_x,pos_y,dir,target):
-        if notice(target) == True:
+        if self.notice(target) == True:
             dist_x = target.pos_x - pos_x
             dist_y = target.pos_y - pos_y
+            if abs(dist_x) < abs(dist_y):
+                dir = target.pos_x/abs(target.pos_x) #pos vai neg x
+                ##jos 8-directional move niin silti tarvii xdir ja ydir? think
 
     
         # dir = target.pos_x* trig
