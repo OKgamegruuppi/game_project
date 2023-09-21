@@ -21,18 +21,18 @@ def menu_event_observer(menuloop):
                 # Choose current selection
 
 
-def game_event_observer(gameloop):
+def game_event_observer(player):
     for keyPress in pygame.event.get():
         if keyPress.type == pygame.KEYDOWN:
             # Movement
             if keyPress.key == pygame.K_UP:
-                gameloop.up = True
+                player.movement("up",True)
             if keyPress.key == pygame.K_DOWN:
-                gameloop.down = True
+                player.movement("down",True)
             if keyPress.key == pygame.K_LEFT:
-                gameloop.left = True
+                player.movement("left",True)
             if keyPress.key == pygame.K_RIGHT:
-                gameloop.right = True
+                player.movement("right",True)
             # Interact
             if keyPress.key == pygame.K_SPACE:
                 pass
@@ -48,13 +48,13 @@ def game_event_observer(gameloop):
 
         if keyPress.type == pygame.KEYUP:
             if keyPress.key == pygame.K_UP:
-                gameloop.up = False
+                player.movement("up",False)
             if keyPress.key == pygame.K_DOWN:
-                gameloop.down = False
+                player.movement("down",False)
             if keyPress.key == pygame.K_LEFT:
-                gameloop.left = False
+                player.movement("left",False)
             if keyPress.key == pygame.K_RIGHT:
-                gameloop.right = False
+                player.movement("right",False)
 
 
         if keyPress.type == pygame.QUIT:
