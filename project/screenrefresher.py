@@ -1,7 +1,7 @@
 
 
 def refreshdisplay():
-  print(".blit stuff")
+  print(".blit objects onto the screen")
 
 
 
