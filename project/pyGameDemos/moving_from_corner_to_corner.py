@@ -3,7 +3,7 @@ import pygame
 def main():
     pygame.init()
     screen_1 = pygame.display.set_mode((640, 480))
-    robo = pygame.image.load("imgs/robo.png")
+    robo = pygame.image.load("robo.png")
 
     x = 0
     y = 0
