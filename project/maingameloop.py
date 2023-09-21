@@ -1,5 +1,4 @@
 #Necessary libraries
-import random
 import pygame
 
 class Mainloop():
