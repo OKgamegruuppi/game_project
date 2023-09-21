@@ -2,7 +2,7 @@
 #import creature.py, player.py etc. here
 
 def maingameloop():
-  print("start of maingameloop")
+  print("start of maingameloop.")
 
 
 
