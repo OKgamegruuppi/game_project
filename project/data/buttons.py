@@ -41,6 +41,7 @@ class Button():
             # If mousebutton 1 (left-click) is pressed, change color, and run onclickfunction
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
                 self.buttonSurface.fill(self.fillColors["pressed"])
+                # If onePress True, keeping button held keeps executing the function over and over
                 if self.onePress:
                     self.onclickFunction()
                 elif not self.alreadyPressed:
@@ -55,4 +56,4 @@ class Button():
         ])
         # Blit everything to the screen
         screen.blit(self.buttonSurface, self.buttonRect)
-
+        
