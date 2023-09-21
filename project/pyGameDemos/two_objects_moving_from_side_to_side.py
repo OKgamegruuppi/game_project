@@ -3,7 +3,7 @@ import pygame
 def main():
     pygame.init()
     screen_1 = pygame.display.set_mode((640, 480))
-    object_1 = pygame.image.load("imgs/object_1.png")
+    object_1 = pygame.image.load("object_1.png")
 
     object_1_x = 0
     object_1_y = 30
