@@ -4,8 +4,8 @@ def hellobutton():
     print("Hello, I am a Button!")
 
 class Button():
-    def __init__(self, x, y, width, height, buttonText="Button", onclickFunction=hellobutton(), 
-                 font=pygame.font.SysFont("Arial", 40), fillColors = ["#ffffff","#666666","#333333"], onePress=False):
+    def __init__(self, x, y, width, height, buttonText="Button", onclickFunction=hellobutton, onePress=False, font_val="default",
+                 fillColors = ["#ffffff","#666666","#333333"]):
         self.x = x
         self.y = y
         self.width = width
@@ -22,7 +22,10 @@ class Button():
         # Define the Surface and Rect for the button, and the surface for the button text
         self.buttonSurface = pygame.Surface((self.width, self.height))
         self.buttonRect = pygame.Rect(self.x, self.y, self.width, self.height)
-        self.font = font
+        if font_val == "default":
+            self.font = pygame.font.SysFont("Arial", 24)
+        else:
+            self.font = font_val
         self.buttonSurf = self.font.render(buttonText, True, (20, 20, 20))
 
     def __str__(self):
