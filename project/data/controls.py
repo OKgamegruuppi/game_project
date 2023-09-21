@@ -1,7 +1,7 @@
 import pygame
 
 # Event observer for main menu(?)
-def menu_event_observer(menuloop):
+def menu_event_observer():
     for keyPress in pygame.event.get():
         if keyPress.type == pygame.KEYDOWN:
             if keyPress.key == pygame.K_UP:

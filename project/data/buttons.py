@@ -1,7 +1,11 @@
 import pygame
 
+def hellobutton():
+    print("Hello, I am a Button!")
+
 class Button():
-    def __init__(self, x, y, width, height, buttonText='Button', onclickFunction=None, font=pygame.font.SysFont('Arial', 40), onePress=False):
+    def __init__(self, x, y, width, height, buttonText="Button", onclickFunction=hellobutton(), 
+                 font=pygame.font.SysFont("Arial", 40), fillColors = ["#ffffff","#666666","#333333"], onePress=False):
         self.x = x
         self.y = y
         self.width = width
@@ -11,9 +15,9 @@ class Button():
         self.alreadyPressed = False
         # Set button colors for different cases
         self.fillColors = {
-            'normal': '#ffffff',
-            'hover': '#666666',
-            'pressed': '#333333',
+            "normal": fillColors[0],
+            "hover": fillColors[1],
+            "pressed": fillColors[2]
         }
         # Define the Surface and Rect for the button, and the surface for the button text
         self.buttonSurface = pygame.Surface((self.width, self.height))
@@ -27,13 +31,13 @@ class Button():
     def process(self,screen):
         # Get mouse position
         mousePos = pygame.mouse.get_pos()
-        self.buttonSurface.fill(self.fillColors['normal'])
+        self.buttonSurface.fill(self.fillColors["normal"])
         # If mouse is on Button, change color of button
         if self.buttonRect.collidepoint(mousePos):
-            self.buttonSurface.fill(self.fillColors['hover'])
+            self.buttonSurface.fill(self.fillColors["hover"])
             # If mousebutton 1 (left-click) is pressed, change color, and run onclickfunction
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
-                self.buttonSurface.fill(self.fillColors['pressed'])
+                self.buttonSurface.fill(self.fillColors["pressed"])
                 if self.onePress:
                     self.onclickFunction()
                 elif not self.alreadyPressed:

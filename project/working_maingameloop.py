@@ -43,7 +43,7 @@ class Mainloop():
         self.available_object_3s = []
 
         for x in range(10):
-            self.spawned_obj3 = Object_3(random.randint(0, 830), random.randint(40, 580))
+            self.spawned_obj3 = Object_3(random.randint(0, 800), random.randint(40, 650))
             spawn_data = Object_3.mint_new_coin(self.spawned_obj3)
             self.available_object_3s.append(spawn_data)
             self.object_hit_index.append(spawn_data[2])
@@ -138,9 +138,6 @@ class Mainloop():
         self.display.blit(self.obj1_collision_counter, (500, 0))
 
 
-
-        pygame.draw.rect(self.display, (0, 0, 0),[10, 30, 850, 600], 2)
-
         self.object_2s_information = Object_1().spawn_obj1()
         self.object_2_block = self.object_2s_information[0]
         self.display.blit(self.object_2_block, (self.obj_2_pos_x, self.obj_2_pos_y))
@@ -162,23 +159,23 @@ class Mainloop():
 
         if self.up and self.obj_2_pos_y > 30:
             self.obj_2_pos_y -= 5
-        if self.down and self.obj_2_pos_y + self.object_2s_information[2] < 630:
+        if self.down and self.obj_2_pos_y + self.object_2s_information[2] < 720:
             self.obj_2_pos_y += 5
-        if self.left and self.obj_2_pos_x > 10:
+        if self.left and self.obj_2_pos_x > 0:
             self.obj_2_pos_x -= 5
-        if self.right and self.obj_2_pos_x + self.object_2s_information[1] < 860 :
+        if self.right and self.obj_2_pos_x + self.object_2s_information[1] < 1080 :
             self.obj_2_pos_x += 5
 
         if self.button_w and self.obj1_pos_y > 30:
             self.obj1_pos_y -= 5
-        if self.button_s and self.obj1_pos_y + self.object_1s_information[2] < 630:
+        if self.button_s and self.obj1_pos_y + self.object_1s_information[2] < 720:
             self.obj1_pos_y += 5
-        if self.button_a and self.obj1_pos_x > 10:
+        if self.button_a and self.obj1_pos_x > 0:
             self.obj1_pos_x -= 5
-        if self.button_d and self.obj1_pos_x + self.object_1s_information[1] < 860 :
+        if self.button_d and self.obj1_pos_x + self.object_1s_information[1] < 1080 :
             self.obj1_pos_x += 5
 
-        #if self.rect1.colliderect(self.rect2): #If Object_1 & Object_2 collide
+       # if self.rect1.colliderect(self.rect2): #If Object_1 & Object_2 collide
         #    Peli()
 
         lookup_obj1_index = -1
