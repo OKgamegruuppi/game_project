@@ -1,7 +1,6 @@
 #Necessary libraries
 import random
 import pygame
-#import data.screenrefresher
 
 class Mainloop():
     def __init__(self):
