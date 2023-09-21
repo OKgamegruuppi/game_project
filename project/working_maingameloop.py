@@ -194,6 +194,7 @@ class Mainloop():
                 self.available_object_3s.pop(lookup_obj2_index)
                 self.obj1_collision_points += 1
 
+        #THIS UPDATES
         pygame.display.flip()
         self.clock.tick(60)
 
