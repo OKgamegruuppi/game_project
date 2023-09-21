@@ -2,12 +2,12 @@ import pygame
 
 class Object_1:
     def __init__(self):
-        self.moving_object_1 = pygame.image.load("imgs/object_1.png")
+        self.moving_object_1 = pygame.image.load("object_1.png")
     def spawn_object_1(self):
         return [self.moving_object_1, self.moving_object_1.get_width(), self.moving_object_1.get_height()]
 class Object_2:
     def __init__(self):
-        self.moving_object_2 = pygame.image.load("imgs/object_2.png")
+        self.moving_object_2 = pygame.image.load("object_2.png")
     def spawn_object_2(self):
         return [self.moving_object_2, self.moving_object_2.get_width(), self.moving_object_2.get_height()]
 
