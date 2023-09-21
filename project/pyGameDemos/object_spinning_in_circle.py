@@ -5,7 +5,7 @@ def main():
     pygame.init()
     screen_1 = pygame.display.set_mode((640, 480))
 
-    object = pygame.image.load("imgs/object_1.png")
+    object = pygame.image.load("object_1.png")
 
     degree = 0
     clock = pygame.time.Clock()
