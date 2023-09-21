@@ -25,6 +25,7 @@ class Mainloop():
             self.draw_screen()
             self.clock.tick(60)
 
+
 #Näytön päivitys.
     def draw_screen(self):
         self.display.fill((250, 250, 250))
