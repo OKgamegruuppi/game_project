@@ -1,7 +1,8 @@
+import math
 from player import *
 
 class Creature():
-    def __init__(self,name,pos_x,pos_y,dir_x,dir_y,speed,health,target):
+    def __init__(self,name,pos_x,pos_y,dir_x,dir_y,speed,health,target,status,awareness):
         self.name = name
         self.pos_x = pos_x          #position X
         self.pos_y = pos_y          #position Y
@@ -10,21 +11,38 @@ class Creature():
         self.speed = speed
         self.health = health
         self.target = target        #another Creature or map object
+        self.awareness = awareness
+        self.status = status
+
+        ##status : dictionary, hostile, friendly,afraid, poisoned, running away etc
 
     def movement(self,pos_x,pos_y,dir_x,dir_y,speed):
-        pos_x += dir_x * speed
-        pos_y += dir_y * speed
+        self.pos_x += dir_x * speed
+        self.pos_y += dir_y * speed
+    
+    def notice(self,target):
+        #awareness = 5 or something, in units of distance
+        dist_x = target.pos_x - self.pos_x
+        dist_y = target.pos_y - self.pos_y
+        distance = math.hypot(dist_x,dist_y)
+
+        if self.awareness - distance > 0:
+            return True
+        else: 
+            return False
 
     def facing(self,pos_x,pos_y,dir_x,dir_y,target):
-        dist_x = target.pos_x - pos_x
-        dist_y = target.pos_y - pos_y
+        if notice(target) == True:
+            dist_x = target.pos_x - pos_x
+            dist_y = target.pos_y - pos_y
 
+    
         # dir_x = target.pos_x* trig
         # dir_y = target.pos_y* trig
         ## lisää mahdollinen trigonometria että dir X ja Y osoittaa pelaajan/targetin suuntaan
         ## target yleensä pelaaja
 
-    def hp_change():
+    def hp_change(self):
         pass
 
     def __str__(self):
@@ -40,12 +58,11 @@ class Enemy(Creature):
         pass
 
 class NPC(Creature):
-    def __init__(self,name,pos_x,pos_y,dir_x,dir_y,speed,health,target,like,job):
+    def __init__(self,name,pos_x,pos_y,dir_x,dir_y,speed,health,target,job):
         super().__init__(self,name,pos_x,pos_y,dir_x,dir_y,speed,health,target)
-        self.like = like            ##relationship status to player, integer (-5 to +5?) etc
         self.job = job
 
-    def interact(self,name,job,target,like):
+    def interact(self,name,job,target,status):
         facing(target)
         dialouge(name,like)
         ##UI elements
