@@ -1,7 +1,9 @@
 import math
 import pygame
-# import pygame
 from random import randint
+from data.settings import windowsizeX, windowsizeY
+
+
 
 class Creature(pygame.sprite.Sprite):
     def __init__(self,name,image,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0):
@@ -11,7 +13,7 @@ class Creature(pygame.sprite.Sprite):
         self.image = image
         self.pos_x = pos_x          #position X
         self.pos_y = pos_y          #position Y
-        self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
+        self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))     #this draws the image and works as a hitbox
         self.dir = dir              #direction 
         self.speed = speed          #jos speed on negatiivinen niin käevelee takaperin
         self.health = health
@@ -27,11 +29,13 @@ class Creature(pygame.sprite.Sprite):
 
         #target on objektissa määritelty mutta VOI määritellä myös erikseen movement funktiossa jos haluat targetoida koordinaatteja
         target = self.target if self.target else target
+        # print(self.name,self.pos_x, self.pos_y)  
 
-        print(f"{self.name}, target {target}")
+
+        # print(f"{self.name}, target {target}")
         if not target: 
-            print(f"{self.name} is dumdum")   
-            # print(f"{self.name}, no target")   
+            # print(f"{self.name} is dumdum")   
+            # print(f"{self.name}, no target") 
 
             if self.status["walking"] == 60:
                 #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
@@ -40,9 +44,38 @@ class Creature(pygame.sprite.Sprite):
 
             #vähennä kävely-statuksen kestoa 1 per tick 
             if self.status["walking"] > 0:
-                self.pos_x += self.dir[0] * self.speed
-                self.pos_y += self.dir[1] * self.speed
+                            #old code
+                            # self.pos_x += self.dir[0] * self.speed
+                            # self.pos_y += self.dir[1] * self.speed
+
+    #detecting window size to not let walking out of bounds
+    # max x coordinate is windowsizeX, 
+    #if your right, bottom coordinate is at or above max , set coordinate at max
+    #rect.width/2 takes into account your image size
+
+                if windowsizeX - self.rect.right < self.speed or self.rect.right >= windowsizeX:
+                    self.pos_x = windowsizeX - (self.rect.width/2)
+                    self.dir[0] = 0
+
+                elif self.pos_x < self.speed or self.pos_x <=0:
+                    self.pos_x = self.rect.width/2
+                    self.dir[0] = 0
+                else:                    
+                    self.pos_x += self.dir[0] * self.speed               
+
+                if windowsizeY - self.rect.right < self.speed or self.rect.right >= windowsizeY:
+                    self.pos_y = windowsizeY - (self.rect.width/2)
+                    self.dir[1] = 0
+
+                elif self.pos_y < self.speed or self.pos_y <=0:
+                    self.pos_y = self.rect.width/2
+                    self.dir[1] = 0
+                else:                    
+                    self.pos_y += self.dir[1] * self.speed  
+
                 self.status["walking"] -= 1
+
+
 
                 #kun kävelystatus on 0, seiso status hetken aikaa
             else:
@@ -55,6 +88,8 @@ class Creature(pygame.sprite.Sprite):
                 self.status["standing"] = 0
                 print(self.status["standing"])
 
+            
+
         else:
             # print(f"{self.name}, target {target}")   
 
@@ -65,11 +100,21 @@ class Creature(pygame.sprite.Sprite):
             
             dir_y = 1 if target.pos_y > self.pos_y else\
                 0 if target.pos_y == self.pos_y else -1
+            
+            #IF distance from target is less than speed, only move the required distance
+            #ELSE move speed amount of pixels in the directionof target
+            if abs(target.pos_x - self.pos_x) < self.speed:
+                self.pos_x += dir_x * abs(target.pos_x - self.pos_x)
+            else: self.pos_x += dir_x * self.speed
+            
 
-            self.pos_x += dir_x * self.speed
-            self.pos_y += dir_y * self.speed
+            if abs(target.pos_y - self.pos_y) < self.speed:
+                self.pos_y += dir_y * abs(target.pos_y - self.pos_y)
+            else: self.pos_y += dir_y * self.speed
 
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
+        ##muista päivittää self.rect joka hoitaa kuvan piirtämisen ja hitboxit
+
     def notice(self,target):
         #awareness = 5 or something, in units of distance
         dist_x = abs(target.pos_x - self.pos_x)
@@ -82,7 +127,7 @@ class Creature(pygame.sprite.Sprite):
             return False
 
     ##bonus 1 
-    def facing(self,pos_x,pos_y,dir,target):
+    def facing(self,pos_x,pos_y,target):
         if self.notice(target) == True:
             dist_x = target.pos_x - pos_x
             dist_y = target.pos_y - pos_y
@@ -108,68 +153,48 @@ class Creature(pygame.sprite.Sprite):
 
         
 class Enemy(Creature):
-    #def __init__(self,name,pos_x,pos_y,dir=(),speed=1,status={"walking":20,"cooldown":0}):
                 
     def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,dmg=1):
-        # super().__init__(name,image,pos_x,pos_y,dir,speed,health=0,target=None,status={"walking":20,"standing":0},awareness=1)
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,status,awareness)
-        # super().__init__(self,name,pos_x,pos_y,dir,speed,health,target,status,awareness)
+
         self.dmg = dmg
 
+        # super().__init__(name,image,pos_x,pos_y,dir,speed,health=0,target=None,status={"walking":20,"standing":0},awareness=1)
+        # super().__init__(self,name,pos_x,pos_y,dir,speed,health,target,status,awareness)
 
-## Exact sama kopio suoreaan creaturessa
 
-    # def movement(self, target=None):
-    #     if self.status["walking"] == 60:
-    #         #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
-    #         self.dir = (randint(-1,1),randint(-1,1))
-    #         print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0]} ")
-
-    #     #vähennä kävely-statuksen kestoa 1 per tick 
-    #     if self.status["walking"] > 0:
-    #         self.pos_x += self.dir[0] * self.speed
-    #         self.pos_y += self.dir[1] * self.speed
-    #         self.status["walking"] -= 1
-
-    #         #kun kävelystatus on 0, seiso status hetken aikaa
-    #     else:
-    #         self.status["standing"] += 1
-    #         print(self.status["standing"])
-
-    #     #kun seisonut 0.5s, määritä kävely taas 60 ticks
-    #     if self.status["standing"] >= 30:
-    #         self.status["walking"] =60
-    #         self.status["standing"] = 0
-    #         print(self.status["standing"])
  
     def attack(target):
         pass
 
+
+
+
 class NPC(Creature):
-    def __init__(self,name,image,pos_x,pos_y,rect,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,job=None):
-        super().__init__(name,image,pos_x,pos_y,rect,dir,speed,health,target,status,awareness)
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,job=None):
+        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,status,awareness)
         self.job = job
 
     def interact(self,name,job,target,status):
         #facing(target)
         #dialouge(name,status)
         pass
+
         ##UI elements
 
 
 class Pickup(Creature):
     #technically not a creature, sue me
 
-    def __init__(self,name,image,pos_x,pos_y,rect,timer=None):
-        super().__init__(name,image,pos_x,pos_y,rect)
+    def __init__(self,name,image,pos_x,pos_y,timer=None):
+        super().__init__(name,image,pos_x,pos_y)
         self.timer = timer
 
     def spawn(self,timer=None):
-        #chooses a random location in bounds (-10 from the edges atm, needs to have 
-        # (10, display.width - 10 )
+        #chooses a random location in bounds (-10 from the edges atm)
 
-        self.pos_x = randint(10,1070)
-        self.pos_y = randint(10,710)
+        self.pos_x = randint(10,windowsizeX-10)
+        self.pos_y = randint(10,windowsizeY-10)
         self.timer = timer
         #possible to set a timer when spawn() is called not just at init (for constantly appearing instances)
 
