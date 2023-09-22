@@ -1,6 +1,8 @@
 #Necessary libraries
 import pygame
 
+background_image = "alpha_stage.png"
+
 class Mainloop():
     def __init__(self):
         pygame.init()
@@ -16,7 +18,7 @@ class Mainloop():
                 exit()
 
 #Updating loop
-    def silmukka(self):
+    def gameEventLoop(self):
         while True:
             self.event_observer()
             self.draw_screen()
