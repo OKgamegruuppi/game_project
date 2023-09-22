@@ -26,16 +26,16 @@ def game_event_observer(player):
         if keyPress.type == pygame.KEYDOWN:
             # Movement
             if keyPress.key == pygame.K_UP:
-                player.movement("up",True)
+                player.move["up"] = True
             if keyPress.key == pygame.K_DOWN:
-                player.movement("down",True)
+                player.move["down"] = True
             if keyPress.key == pygame.K_LEFT:
-                player.movement("left",True)
+                player.move["left"] = True
             if keyPress.key == pygame.K_RIGHT:
-                player.movement("right",True)
+                player.move["right"] = True
             # Interact
             if keyPress.key == pygame.K_SPACE:
-                pass
+                player.interact()
 
             # Pause Menu
             if keyPress.key == pygame.K_ESCAPE:
@@ -48,14 +48,16 @@ def game_event_observer(player):
 
         if keyPress.type == pygame.KEYUP:
             if keyPress.key == pygame.K_UP:
-                player.movement("up",False)
+                player.move["up"] = False
             if keyPress.key == pygame.K_DOWN:
-                player.movement("down",False)
+                player.move["down"] = False
             if keyPress.key == pygame.K_LEFT:
-                player.movement("left",False)
+                player.move["left"] = False
             if keyPress.key == pygame.K_RIGHT:
-                player.movement("right",False)
+                player.move["right"] = False
 
 
         if keyPress.type == pygame.QUIT:
             exit()
+
+
