@@ -4,14 +4,14 @@ import pygame
 from random import randint
 
 class Creature(pygame.sprite.Sprite):
-    def __init__(self,name,image,pos_x,pos_y,rect,dir,speed,health=0,target=None,status={},awareness=0):
+    def __init__(self,name,image,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0):
         super().__init__()
     #def __init__(self,name,pos_x,pos_y,dir,speed,status={}):
         self.name = name
         self.image = image
         self.pos_x = pos_x          #position X
         self.pos_y = pos_y          #position Y
-        self.rect = rect
+        self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
         self.dir = dir              #direction 
         self.speed = speed          #jos speed on negatiivinen niin käevelee takaperin
         self.health = health
@@ -110,9 +110,9 @@ class Creature(pygame.sprite.Sprite):
 class Enemy(Creature):
     #def __init__(self,name,pos_x,pos_y,dir=(),speed=1,status={"walking":20,"cooldown":0}):
                 
-    def __init__(self,name,image,pos_x,pos_y,rect,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,dmg=1):
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,dmg=1):
         # super().__init__(name,image,pos_x,pos_y,dir,speed,health=0,target=None,status={"walking":20,"standing":0},awareness=1)
-        super().__init__(name,image,pos_x,pos_y,rect,dir,speed,health,target,status,awareness)
+        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,status,awareness)
         # super().__init__(self,name,pos_x,pos_y,dir,speed,health,target,status,awareness)
         self.dmg = dmg
 
