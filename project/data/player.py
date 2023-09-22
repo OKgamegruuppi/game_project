@@ -16,24 +16,42 @@ class Player(Creature):
 
     def __str__(self):
         print(self.name)
-        
-    def movement(self):
+    
+    # Move player character if self.move == True
+    # Check if moving causes a collision, if so, don't move!
+    def movement(self,group):
         if self.move["right"] == True:
             self.pos_x += self.speed
             self.rect = self.rect.move(self.speed,0)
-            self.dir = (1,0)
+            if pygame.sprite.spritecollideany(self,group):
+                self.pos_x -= self.speed
+                self.rect = self.rect.move(-self.speed,0)
+            else:
+                self.dir = (1,0)
         if self.move["left"] == True:
             self.pos_x -= self.speed
             self.rect = self.rect.move(-self.speed,0)
-            self.dir = (-1,0)
+            if pygame.sprite.spritecollideany(self,group):
+                self.pos_x += self.speed
+                self.rect = self.rect.move(self.speed,0)
+            else:
+                self.dir = (-1,0)
         if self.move["up"] == True:
             self.pos_y -= self.speed
             self.rect = self.rect.move(0,-self.speed)
-            self.dir = (0,-1)
+            if pygame.sprite.spritecollideany(self,group):
+                self.pos_y += self.speed
+                self.rect = self.rect.move(0,self.speed)
+            else:
+                self.dir = (0,-1)
         if self.move["down"] == True:
             self.pos_y += self.speed
             self.rect = self.rect.move(0,self.speed)
-            self.dir = (0,1)
+            if pygame.sprite.spritecollideany(self,group):
+                self.pos_y -= self.speed
+                self.rect = self.rect.move(0,-self.speed)
+            else:
+                self.dir = (0,1)
 
     def attack(self,target):
         pass
@@ -44,7 +62,8 @@ class Player(Creature):
     def interact(self,target=None):
         print("Nothing to interact with!")
     
-    def update(self):
-        self.movement()        
+    # group = Group of sprites that the player might collide with
+    def update(self,group):
+        self.movement(group)        
         #pygame.draw.rect(screen,"#333333",self.hitbox)
         #screen.blit(self.image,(self.pos_x,self.pos_y))
