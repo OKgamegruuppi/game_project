@@ -1,12 +1,12 @@
 #Necessary libraries
-from data.player import Player
+from data.settings import windowsizeX, windowsizeY
 from data.creature import Creature, Enemy
+from data.player import Player
 from data.controls import game_event_observer
 import pygame
 
 background_image = "alpha_stage.png"
-windowsizeX = 1080
-windowsizeY = 700
+
 
 class Mainloop():
     def __init__(self):
