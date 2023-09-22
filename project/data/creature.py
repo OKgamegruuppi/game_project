@@ -1,27 +1,27 @@
 import math
-import pygame
+# import pygame
 from random import randint
-from player import *
 
 class Creature():
-    def __init__(self,name,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0):
+    # def __init__(self,name,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0):
+    def __init__(self,name,pos_x,pos_y,dir,speed,status={}):
         self.name = name
         self.pos_x = pos_x          #position X
         self.pos_y = pos_y          #position Y
         self.dir = dir              #direction
         self.speed = speed          #speed on negatiicinen jos käevelee takaperin
-        self.health = health
-        self.target = target        #another Creature or map object
-        self.awareness = awareness
+        # self.health = health
+        # self.target = target        #another Creature or map object
+        # self.awareness = awareness
         self.status = status
 
         ##status : dictionary, hostile, friendly,afraid, poisoned, running away etc
 
-    def movement(self,dir,target=None):
+    def movement(self,target=None):
 
-        if target is not None:
-            self.pos_x += dir * self.speed
-            self.pos_y += dir * self.speed
+        if not target:
+            self.pos_x += self.dir * self.speed
+            self.pos_y += self.dir * self.speed
         else:
             #define dir
             # target.pos_x
@@ -61,38 +61,50 @@ class Creature():
     def hp_change(self):
         pass
 
-    def __str__(self):
-        return f"{self.name}"
+    # def __str__(self):
+    #     return f"{self.name}"
 
         
 class Enemy(Creature):
-    def __init__(self,name,pos_x,pos_y,dir,speed,health,target,status,awareness,dmg):
-        super().__init__(self,name,pos_x,pos_y,dir,speed,health,target,status,awareness)
-        self.dmg = dmg
-        status.append = {"walking" : 120 }
+    def __init__(self,name,pos_x,pos_y,dir=(),speed=1,status={"walking":20,"cooldown":0}):
+    # def __init__(self,name,pos_x,pos_y,dir,speed,health,target,status={"walking":20},awareness,dmg):
+        super().__init__(name,pos_x,pos_y,dir,speed,status)
+        # super().__init__(self,name,pos_x,pos_y,dir,speed,health,target,status,awareness)
+        # self.dmg = dmg
 
 
-    def movement(self, dir, target=None):
-        if self.status.walking == 120:
-            dir = (randint(-1,1),randint(-1,1))
+    def movement(self, target=None):
+        if self.status["walking"] == 60:
+            self.dir = (randint(-1,1),randint(-1,1))
+            print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0]} ")
 
-        if self.status.walking > 0:
-            self.pos_x += dir(0) * self.speed
-            self.pos_y += dir(1) * self.speed
-            self.status.walking -= 1
-        else:
-            self.status.walking == 120
+        if self.status["walking"] > 0:
+            self.pos_x += self.dir[0] * self.speed
+            self.pos_y += self.dir[1] * self.speed
+            self.status["walking"] -= 1
+
+        elif self.status["walking"] == 0:
+            self.status["cooldown"] += 1
+            print(self.status["walking"])
+
+        elif self.status["cooldown"] >= 30:
+            self.status["walking"] =60
+            self.status["cooldown"] = 0
+            print(self.status["cooldown"])
+
+        else: self.status["walking"] =60
+        # print(self.status["walking"])
  
     def attack(target):
         pass
 
 class NPC(Creature):
     def __init__(self,name,pos_x,pos_y,dir,speed,health,target,job):
-        super().__init__(self,name,pos_x,pos_y,dir,speed,health,target)
+        super().__init__(name,pos_x,pos_y,dir,speed,health,target)
         self.job = job
 
     def interact(self,name,job,target,status):
         facing(target)
-        dialouge(name,like)
+        dialouge(name,status)
         ##UI elements
         
