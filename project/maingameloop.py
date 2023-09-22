@@ -1,5 +1,7 @@
 #Necessary libraries
 import pygame
+import data.player
+import data.controls
 
 background_image = "alpha_stage.png"
 windowsizeX = 1080
