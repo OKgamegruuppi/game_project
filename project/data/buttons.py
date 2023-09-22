@@ -33,7 +33,7 @@ class Button():
     def __str__(self):
             print("Hello, I am a Button!")
 
-    def process(self,screen):
+    def update(self,screen):
         # Get mouse position
         mousePos = pygame.mouse.get_pos()
         self.buttonSurface.fill(self.fillColors["normal"])
