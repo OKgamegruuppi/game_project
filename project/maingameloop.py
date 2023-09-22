@@ -2,13 +2,15 @@
 import pygame
 
 background_image = "alpha_stage.png"
+windowsizeX = 1080
+windowsizeY = 700
 
 class Mainloop():
     def __init__(self):
         pygame.init()
         self.background = pygame.image.load(background_image)
         self.clock = pygame.time.Clock()
-        self.display = pygame.display.set_mode((800, 800))
+        self.display = pygame.display.set_mode((windowsizeX, windowsizeY))
         pygame.display.set_caption("GAME WINDOW")
         self.gameEventLoop()
 
