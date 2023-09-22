@@ -25,13 +25,13 @@ def game_event_observer(player):
     for keyPress in pygame.event.get():
         if keyPress.type == pygame.KEYDOWN:
             # Movement
-            if keyPress.key == pygame.K_UP:
+            if keyPress.key == pygame.K_UP or keyPress.key == pygame.K_w:
                 player.move["up"] = True
-            if keyPress.key == pygame.K_DOWN:
+            if keyPress.key == pygame.K_DOWN or keyPress.key == pygame.K_s:
                 player.move["down"] = True
-            if keyPress.key == pygame.K_LEFT:
+            if keyPress.key == pygame.K_LEFT or keyPress.key == pygame.K_a:
                 player.move["left"] = True
-            if keyPress.key == pygame.K_RIGHT:
+            if keyPress.key == pygame.K_RIGHT or keyPress.key == pygame.K_d:
                 player.move["right"] = True
             # Interact
             if keyPress.key == pygame.K_SPACE:
@@ -47,13 +47,13 @@ def game_event_observer(player):
             # Etc
 
         if keyPress.type == pygame.KEYUP:
-            if keyPress.key == pygame.K_UP:
+            if keyPress.key == pygame.K_UP or keyPress.key == pygame.K_w:
                 player.move["up"] = False
-            if keyPress.key == pygame.K_DOWN:
+            if keyPress.key == pygame.K_DOWN or keyPress.key == pygame.K_s:
                 player.move["down"] = False
-            if keyPress.key == pygame.K_LEFT:
+            if keyPress.key == pygame.K_LEFT or keyPress.key == pygame.K_a:
                 player.move["left"] = False
-            if keyPress.key == pygame.K_RIGHT:
+            if keyPress.key == pygame.K_RIGHT or keyPress.key == pygame.K_d:
                 player.move["right"] = False
 
 
