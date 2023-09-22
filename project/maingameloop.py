@@ -6,6 +6,7 @@ background_image = "alpha_stage.png"
 class Mainloop():
     def __init__(self):
         pygame.init()
+        self.background = pygame.image.load(background_image)
         self.clock = pygame.time.Clock()
         self.display = pygame.display.set_mode((800, 800))
         pygame.display.set_caption("GAME WINDOW")
@@ -27,6 +28,7 @@ class Mainloop():
 #Refreshing the screen.
     def draw_screen(self):
         self.display.fill((250, 250, 250))
+        self.display.blit(self.background, (300, 300))
         pygame.display.flip()
         self.clock.tick(60)
 
