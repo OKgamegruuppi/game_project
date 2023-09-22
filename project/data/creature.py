@@ -10,8 +10,8 @@ class Creature():
         self.hitbox = hitbox
         self.pos_x = pos_x          #position X
         self.pos_y = pos_y          #position Y
-        self.dir = dir              #direction
-        self.speed = speed          #speed on negatiicinen jos käevelee takaperin
+        self.dir = dir              #direction 
+        self.speed = speed          #jos speed on negatiivinen niin käevelee takaperin
         self.health = health
         self.target = target        #another Creature or map object
         self.awareness = awareness
@@ -19,20 +19,54 @@ class Creature():
 
         ##status : dictionary, hostile, friendly,afraid, poisoned, running away etc
 
-    def movement(self,target=None):
 
-        if not target:
-            self.pos_x += self.dir * self.speed
-            self.pos_y += self.dir * self.speed
+        ## status walking pituus on 60 ticks
+    def movement(self, target=None):
+
+        #target on objektissa määritelty mutta VOI määritellä myös erikseen movement funktiossa jos haluat targetoida koordinaatteja
+        target = self.target if self.target else None
+
+        print(f"{self.name}, target {target}")
+        if not target: 
+            print(f"{self.name} is dumdum")   
+            # print(f"{self.name}, no target")   
+
+            if self.status["walking"] == 60:
+                #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
+                self.dir = (randint(-1,1),randint(-1,1))
+                print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0]} ")
+
+            #vähennä kävely-statuksen kestoa 1 per tick 
+            if self.status["walking"] > 0:
+                self.pos_x += self.dir[0] * self.speed
+                self.pos_y += self.dir[1] * self.speed
+                self.status["walking"] -= 1
+
+                #kun kävelystatus on 0, seiso status hetken aikaa
+            else:
+                self.status["standing"] += 1
+                print(self.status["standing"])
+
+            #kun seisonut 0.5s, määritä kävely taas 60 ticks
+            if self.status["standing"] >= 30:
+                self.status["walking"] =60
+                self.status["standing"] = 0
+                print(self.status["standing"])
+
         else:
-            #define dir
-            # target.pos_x
-            # target.pos_y
-            # # ....
+            # print(f"{self.name}, target {target}")   
 
-            # self.pos_x += dir * self.speed
-            # self.pos_y += dir * self.speed
-            pass
+            #valitse suunta sen perusteella onko kohteen x tai y koordinaatti eri ku sun oma
+
+            dir_x = 1 if target.pos_x > self.pos_x else\
+                0 if target.pos_x == self.pos_x else -1
+            
+            dir_y = 1 if target.pos_y > self.pos_y else\
+                0 if target.pos_y == self.pos_y else -1
+
+            self.pos_x += dir_x * self.speed
+            self.pos_y += dir_y * self.speed
+
     
     def notice(self,target):
         #awareness = 5 or something, in units of distance
@@ -75,38 +109,35 @@ class Enemy(Creature):
     #def __init__(self,name,pos_x,pos_y,dir=(),speed=1,status={"walking":20,"cooldown":0}):
                 
     def __init__(self,name,icon,hitbox,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,dmg=1):
-        super().__init__(name,icon,hitbox,pos_x,pos_y,dir,speed,health=0,target=None,status={"walking":20},awareness=1)
+        super().__init__(name,icon,hitbox,pos_x,pos_y,dir,speed,health=0,target=None,status={"walking":20,"standing":0},awareness=1)
         # super().__init__(self,name,pos_x,pos_y,dir,speed,health,target,status,awareness)
         # self.dmg = dmg
 
 
-    ## status walking pituus on 60 ticks
+## Exact sama kopio suoreaan creaturessa
 
-    def movement(self, target=None):
-        if self.status["walking"] == 60:
-            #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
-            self.dir = (randint(-1,1),randint(-1,1))
-            print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0]} ")
+    # def movement(self, target=None):
+    #     if self.status["walking"] == 60:
+    #         #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
+    #         self.dir = (randint(-1,1),randint(-1,1))
+    #         print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0]} ")
 
-        #vähennä kävely-statuksen kestoa 1 per tick 
-        if self.status["walking"] > 0:
-            self.pos_x += self.dir[0] * self.speed
-            self.pos_y += self.dir[1] * self.speed
-            self.status["walking"] -= 1
+    #     #vähennä kävely-statuksen kestoa 1 per tick 
+    #     if self.status["walking"] > 0:
+    #         self.pos_x += self.dir[0] * self.speed
+    #         self.pos_y += self.dir[1] * self.speed
+    #         self.status["walking"] -= 1
 
-        #kun kävelystatus on 0, seiso status hetken aikaa
-        elif self.status["walking"] == 0:
-            self.status["standing"] += 1
-            print(self.status["walking"])
+    #         #kun kävelystatus on 0, seiso status hetken aikaa
+    #     else:
+    #         self.status["standing"] += 1
+    #         print(self.status["standing"])
 
-        #kun seisonut 0.5s, määritä kävely taas 60 ticks
-        elif self.status["standing"] >= 30:
-            self.status["walking"] =60
-            self.status["standing"] = 0
-            print(self.status["standing"])
-
-        #should never reach this row
-        else: self.status["walking"] =60
+    #     #kun seisonut 0.5s, määritä kävely taas 60 ticks
+    #     if self.status["standing"] >= 30:
+    #         self.status["walking"] =60
+    #         self.status["standing"] = 0
+    #         print(self.status["standing"])
  
     def attack(target):
         pass
@@ -117,7 +148,8 @@ class NPC(Creature):
         self.job = job
 
     def interact(self,name,job,target,status):
-        facing(target)
-        dialouge(name,status)
+        #facing(target)
+        #dialouge(name,status)
+        pass
         ##UI elements
         
