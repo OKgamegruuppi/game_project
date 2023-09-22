@@ -3,16 +3,18 @@ import math
 from random import randint
 
 class Creature():
-    # def __init__(self,name,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0):
-    def __init__(self,name,pos_x,pos_y,dir,speed,status={}):
+    def __init__(self,name,icon,hitbox,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0):
+    #def __init__(self,name,pos_x,pos_y,dir,speed,status={}):
         self.name = name
+        self.icon = icon
+        self.hitbox = hitbox
         self.pos_x = pos_x          #position X
         self.pos_y = pos_y          #position Y
         self.dir = dir              #direction
         self.speed = speed          #speed on negatiicinen jos käevelee takaperin
-        # self.health = health
-        # self.target = target        #another Creature or map object
-        # self.awareness = awareness
+        self.health = health
+        self.target = target        #another Creature or map object
+        self.awareness = awareness
         self.status = status
 
         ##status : dictionary, hostile, friendly,afraid, poisoned, running away etc
@@ -64,11 +66,16 @@ class Creature():
     # def __str__(self):
     #     return f"{self.name}"
 
+    def update(self):
+        self.movement()
+        
+
         
 class Enemy(Creature):
-    def __init__(self,name,pos_x,pos_y,dir=(),speed=1,status={"walking":20,"cooldown":0}):
-    # def __init__(self,name,pos_x,pos_y,dir,speed,health,target,status={"walking":20},awareness,dmg):
-        super().__init__(name,pos_x,pos_y,dir,speed,status)
+    #def __init__(self,name,pos_x,pos_y,dir=(),speed=1,status={"walking":20,"cooldown":0}):
+                
+    def __init__(self,name,icon,hitbox,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,dmg=1):
+        super().__init__(name,icon,hitbox,pos_x,pos_y,dir,speed,health=0,target=None,status={"walking":20},awareness=1)
         # super().__init__(self,name,pos_x,pos_y,dir,speed,health,target,status,awareness)
         # self.dmg = dmg
 
@@ -105,8 +112,8 @@ class Enemy(Creature):
         pass
 
 class NPC(Creature):
-    def __init__(self,name,pos_x,pos_y,dir,speed,health,target,job):
-        super().__init__(name,pos_x,pos_y,dir,speed,health,target)
+    def __init__(self,name,icon,hitbox,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,job=None):
+        super().__init__(name,icon,hitbox,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1)
         self.job = job
 
     def interact(self,name,job,target,status):
