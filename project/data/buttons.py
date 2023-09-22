@@ -11,7 +11,9 @@ class Button():
         self.width = width
         self.height = height
         self.onclickFunction = onclickFunction
+        # if onePress == True -> If button pressed down, keep executing function
         self.onePress = onePress
+        # Stop function from executing if alreadyPressed == True
         self.alreadyPressed = False
         # Set button colors for different cases
         self.fillColors = {
