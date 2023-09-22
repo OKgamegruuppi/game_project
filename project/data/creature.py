@@ -73,27 +73,33 @@ class Enemy(Creature):
         # self.dmg = dmg
 
 
+    ## status walking pituus on 60 ticks
+
     def movement(self, target=None):
         if self.status["walking"] == 60:
+            #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
             self.dir = (randint(-1,1),randint(-1,1))
             print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0]} ")
 
+        #vähennä kävely-statuksen kestoa 1 per tick 
         if self.status["walking"] > 0:
             self.pos_x += self.dir[0] * self.speed
             self.pos_y += self.dir[1] * self.speed
             self.status["walking"] -= 1
 
+        #kun kävelystatus on 0, seiso status hetken aikaa
         elif self.status["walking"] == 0:
-            self.status["cooldown"] += 1
+            self.status["standing"] += 1
             print(self.status["walking"])
 
-        elif self.status["cooldown"] >= 30:
+        #kun seisonut 0.5s, määritä kävely taas 60 ticks
+        elif self.status["standing"] >= 30:
             self.status["walking"] =60
-            self.status["cooldown"] = 0
-            print(self.status["cooldown"])
+            self.status["standing"] = 0
+            print(self.status["standing"])
 
+        #should never reach this row
         else: self.status["walking"] =60
-        # print(self.status["walking"])
  
     def attack(target):
         pass
