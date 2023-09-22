@@ -1,9 +1,11 @@
 import math
+import pygame
 # import pygame
 from random import randint
 
-class Creature():
+class Creature(pygame.sprite.Sprite):
     def __init__(self,name,icon,hitbox,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0):
+        super().__init__()
     #def __init__(self,name,pos_x,pos_y,dir,speed,status={}):
         self.name = name
         self.icon = icon
