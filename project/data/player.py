@@ -1,8 +1,8 @@
 from creature import Creature
 
 class Player(Creature):
-    def __init__(self,name,pos_x,pos_y,speed,health,target,dmg):
-        super().__init__(self,name,pos_x,pos_y,speed,health,target)
+    def __init__(self,name,pos_x,pos_y,speed,health=0,target=None,status={},dmg=1):
+        super().__init__(self,name,pos_x,pos_y,speed,health,target,status={})
         self.dmg = dmg
 
     def movement(self,up,down,left,right):
