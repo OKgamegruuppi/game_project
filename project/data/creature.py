@@ -24,7 +24,7 @@ class Creature():
     def movement(self, target=None):
 
         #target on objektissa määritelty mutta VOI määritellä myös erikseen movement funktiossa jos haluat targetoida koordinaatteja
-        target = self.target if self.target else None
+        target = self.target if self.target else target
 
         print(f"{self.name}, target {target}")
         if not target: 
@@ -152,4 +152,29 @@ class NPC(Creature):
         #dialouge(name,status)
         pass
         ##UI elements
+
+
+class Pickup(Creature):
+    #technically not a creature, sue me
+
+    def __init__(self,name,icon,hitbox,pos_x,pos_y,timer=None):
+        super().__init__(name,icon,hitbox,pos_x,pos_y)
+        self.timer = timer
+
+    def spawn(self,timer=None):
+        #chooses a random location in bounds (-10 from the edges atm, needs to have 
+        # (10, display.width - 10 )
+
+        self.pos_x = randint(10,1070)
+        self.pos_y = randint(10,710)
+        self.timer = timer
+        #possible to set a timer when spawn() is called not just at init (for constantly appearing instances)
+
+    def update(self):
+        if self.timer and self.timer > 0:
+            self.timer -= 1 
+        else: self.spawn(60)       
+        #spawn a "new" pickup with (number) amount of ticks in timer
+        #visual effect only, actually teleports the same instance
+
         
