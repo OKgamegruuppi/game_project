@@ -5,6 +5,8 @@ from data.settings import windowsizeX, windowsizeY
 
 
 
+
+
 class Creature(pygame.sprite.Sprite):
     def __init__(self,name,image,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0):
         super().__init__()
@@ -52,39 +54,44 @@ class Creature(pygame.sprite.Sprite):
     # max x coordinate is windowsizeX, 
     #if your right, bottom coordinate is at or above max , set coordinate at max
     #rect.width/2 takes into account your image size
-
-                if (windowsizeX - self.rect.right) <= self.speed or self.rect.right >= windowsizeX:
-                    self.pos_x = windowsizeX - math.ceil(self.rect.width/2)
-                    self.dir[0] = choice((0,-self.dir[0]))
-                    print("new direction: ",self.dir[0])
-
-                    ##Bugi: jää jumiin reunalle koska direction automaattisesti vaihtuu jos oot liian lähellä reunaa vaikka olis menossa vastakkaiseeen suuntaan.
-
-                    #randomly choooses to bounce off or to stop moving in that direction
-
-                elif self.pos_x <= self.speed or self.pos_x <=0:
-                    self.pos_x = math.ceil(self.rect.width/2)
-                    self.dir[0] = choice((0,-self.dir[0]))
-                    print("new direction: ",self.dir[0])
-
-                else:                    
-                    self.pos_x += self.dir[0] * self.speed               
-
-                if (windowsizeY - self.rect.bottom) <= self.speed or self.rect.bottom >= windowsizeY:
-                    self.pos_y = windowsizeY - math.ceil(self.rect.height/2)
-                    self.dir[1] = choice((0,-self.dir[1]))
-                    print("new direction: ",self.dir[1])
+                future_pos_x= self.pos_x + self.dir[0] * self.speed
+                future_pos_y= self.pos_y + self.dir[0] * self.speed
 
 
-                elif self.pos_y <= self.speed or self.pos_y <=0:
-                    self.pos_y = math.ceil(self.rect.height/2)
-                    self.dir[1] = choice((0,-self.dir[1]))
-                    print("new direction: ",self.dir[1])
+                if future_pos_x >= windowsizeX - math.ceil(self.rect.width/2):
 
-                else:                    
-                    self.pos_y += self.dir[1] * self.speed  
+                    if (windowsizeX - self.rect.right) <= self.speed or self.rect.right >= windowsizeX:
+                        self.pos_x = windowsizeX - math.ceil(self.rect.width/2)
+                        self.dir[0] = choice((0,-self.dir[0]))
+                        print("new direction: ",self.dir[0])
 
-                self.status["walking"] -= 1
+                        ##Bugi: jää jumiin reunalle koska direction automaattisesti vaihtuu jos oot liian lähellä reunaa vaikka olis menossa vastakkaiseeen suuntaan.
+
+                        #randomly choooses to bounce off or to stop moving in that direction
+
+                    elif self.pos_x <= self.speed or self.pos_x <=0:
+                        self.pos_x = math.ceil(self.rect.width/2)
+                        self.dir[0] = choice((0,-self.dir[0]))
+                        print("new direction: ",self.dir[0])
+
+                    else:                    
+                        self.pos_x += self.dir[0] * self.speed               
+
+                    if (windowsizeY - self.rect.bottom) <= self.speed or self.rect.bottom >= windowsizeY:
+                        self.pos_y = windowsizeY - math.ceil(self.rect.height/2)
+                        self.dir[1] = choice((0,-self.dir[1]))
+                        print("new direction: ",self.dir[1])
+
+
+                    elif self.pos_y <= self.speed or self.pos_y <=0:
+                        self.pos_y = math.ceil(self.rect.height/2)
+                        self.dir[1] = choice((0,-self.dir[1]))
+                        print("new direction: ",self.dir[1])
+
+                    else:                    
+                        self.pos_y += self.dir[1] * self.speed  
+
+                    self.status["walking"] -= 1
 
 
 
