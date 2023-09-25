@@ -28,8 +28,8 @@ class Mainloop():
         cat1 = Creature("Cat",cat1_ico,400,300,[1,0],1,1,None,{"walking":40,"standing":0})
         defaultEnemy2 = Enemy("Green",defaultEnemy_icon2,280,260,[1,0],2,1)
         cat1.target = defaultEnemy2
-        self.objects = pygame.sprite.GroupSingle(self.player)
-        self.objects2 = pygame.sprite.Group(cat1,defaultEnemy2)
+        self.playergroup = pygame.sprite.GroupSingle(self.player)
+        self.enemies = pygame.sprite.Group(cat1,defaultEnemy2)
 
         self.gameEventLoop()
 

@@ -65,17 +65,17 @@ class Creature(pygame.sprite.Sprite):
                     self.dir[0] = choice((0,-self.dir[0]))
                     print("new direction: ",self.dir[0])
 
-                        ##Bugi: jää jumiin reunalle koska direction automaattisesti vaihtuu jos oot liian lähellä reunaa vaikka olis menossa vastakkaiseeen suuntaan.
+                    ##Bugi: jää jumiin reunalle koska direction automaattisesti vaihtuu jos oot liian lähellä reunaa vaikka olis menossa vastakkaiseeen suuntaan.
 
-                        #randomly choooses to bounce off or to stop moving in that direction
+                    #randomly choooses to bounce off or to stop moving in that direction
 
                 elif self.pos_x <= self.speed or self.pos_x <=0:
                     self.pos_x = math.ceil(self.rect.width/2)
                     self.dir[0] = choice((0,-self.dir[0]))
                     print("new direction: ",self.dir[0])
 
-                    else:                    
-                        self.pos_x += self.dir[0] * self.speed               
+                else:                    
+                    self.pos_x += self.dir[0] * self.speed               
 
                 if (windowsizeY - self.rect.bottom) <= self.speed or self.rect.bottom >= windowsizeY:
                     self.pos_y = windowsizeY - math.ceil(self.rect.height/2)
@@ -88,8 +88,8 @@ class Creature(pygame.sprite.Sprite):
                     self.dir[1] = choice((0,-self.dir[1]))
                     print("new direction: ",self.dir[1])
 
-                    else:                    
-                        self.pos_y += self.dir[1] * self.speed  
+                else:                    
+                    self.pos_y += self.dir[1] * self.speed  
 
                     self.status["walking"] -= 1
 
