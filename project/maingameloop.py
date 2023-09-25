@@ -7,7 +7,6 @@ import pygame
 
 background_image = "data/assets/ground.png"
 
-
 class Mainloop():
     def __init__(self):
         pygame.init()
@@ -31,7 +30,6 @@ class Mainloop():
             #camera_group.custom_draw(player)
             draw_on_screen(self)
             self.clock.tick(60)
-
 
 #Calling the main loop that creates the window and game
 if __name__ == "__main__":
