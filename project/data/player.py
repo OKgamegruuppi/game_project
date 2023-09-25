@@ -1,6 +1,6 @@
 import pygame
 from data.creature import Creature
-from data.settings import windowsizeX, windowsizeY
+from data.settings import fps
 
 class Player(Creature):
     def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=10,target=None,status={"attack_cooldown":0},awareness=0,dmg=1):
@@ -16,7 +16,7 @@ class Player(Creature):
         }
 
         # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)
-        self.attackspeed = 60
+        self.attackspeed = fps
         self.attackhitbox = pygame.sprite.Sprite()
         self.attackhitbox.rect = self.rect
 
@@ -69,8 +69,8 @@ class Player(Creature):
         if self.status["attack_cooldown"] == 0:
             # Determine attack hitbox based on player direction
             self.attackhitbox.rect = self.rect.move(self.dir.x*self.rect.width,self.dir.y*self.rect.height)
-            print(self.rect)
-            print(self.attackhitbox.rect)
+            #print(self.rect)
+            #print(self.attackhitbox.rect)
             # Check if any enemies in the attack hitbox
             self.targets = pygame.sprite.spritecollide(self.attackhitbox,group,False)
             # If targets found, deal damage to each, otherwise nothing happens

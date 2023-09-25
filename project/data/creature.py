@@ -1,7 +1,7 @@
 import math
 import pygame
 from random import randint,choice
-from data.settings import windowsizeX, windowsizeY
+from data.settings import windowsizeX, windowsizeY, fps
 
 
 
@@ -32,10 +32,10 @@ class Creature(pygame.sprite.Sprite):
             #if current group is a group that contains this sprite, test if more than 1 collision:
             # if sprite is in the same group the sprite itself counts as 1 collision to itself
             if group in self.groups() and len(pygame.sprite.spritecollide(self,group,False)) > 1:
-                print(f"{self.name} got hit by {group}!")
+                #print(f"{self.name} got hit by {group}!")
                 return True
             elif (group not in self.groups()) and pygame.sprite.spritecollideany(self,group):
-                print(f"{self.name} got hit by {group}!")
+                #print(f"{self.name} got hit by {group}!")
                 return True
             else:
                 continue
@@ -49,7 +49,7 @@ class Creature(pygame.sprite.Sprite):
 
         if not target: 
 
-            if self.status["walking"] == 60:
+            if self.status["walking"] == fps:
                 #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
                 self.dir.xy = randint(-1,1), randint(-1,1)
                 #print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0],self.dir[1]} ")
@@ -109,9 +109,9 @@ class Creature(pygame.sprite.Sprite):
                 #print(self.status["standing"])
 
             #kun seisonut 0.5s, määritä kävely taas 60 ticks
-            if self.status["standing"] >= 3:
+            if self.status["standing"] >= int(fps/20):
                 #print("stood for ",self.status["standing"])
-                self.status["walking"] =60
+                self.status["walking"] = fps
                 self.status["standing"] = 0
 
             
@@ -238,7 +238,7 @@ class Pickup(Creature):
     def update(self):
         if self.timer and self.timer > 0:
             self.timer -= 1 
-        else: self.spawn(60)       
+        else: self.spawn(fps)       
         #spawn a "new" pickup with (number) amount of ticks in timer
         #visual effect only, actually teleports the same instance
 
