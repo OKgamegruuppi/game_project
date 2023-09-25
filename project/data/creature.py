@@ -28,14 +28,19 @@ class Creature(pygame.sprite.Sprite):
         ##status : dictionary, hostile, friendly,afraid, poisoned, running away etc
 
 
-    def collisions(self,groups):
-        for spritegroup in groups:
-            if pygame.sprite.spritecollideany(self,spritegroup):
-                print(f"{self.name} got hit by {spritegroup}!")
+    def collisions(self,grouplist):
+        for group in grouplist:
+            #if current group is a group that contains this sprite, test if more than 1 collision:
+            # if sprite is in the same group the sprite itself counts as 1 collision to itself
+            if group in self.groups() and pygame.sprite.spritecollideany(self,group).len() > 1:
+                print(f"{self.name} got hit by {group}!")
+                return True
+            elif pygame.sprite.spritecollideany(self,group):
+                print(f"{self.name} got hit by {group}!")
                 return True
                 break
-        else:
-            return False
+            else:
+                return False
 
 
         ## status walking pituus on 60 ticks
