@@ -25,7 +25,7 @@ class Mainloop():
         ##(name,image,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0)
 
         self.player = Player("Marcos Petriades",marcos,0,0,(0,0))
-        cat1 = Creature("Cat",cat1_ico,400,300,[1,0],3,1,None,{"walking":40,"standing":0})
+        cat1 = Creature("Cat",cat1_ico,400,300,[1,0],1,1,None,{"walking":40,"standing":0})
         defaultEnemy2 = Enemy("Green",defaultEnemy_icon2,80,60,[1,0],2,1)
         cat1.target = defaultEnemy2
         self.objects = pygame.sprite.GroupSingle(self.player)

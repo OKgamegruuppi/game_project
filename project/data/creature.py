@@ -177,6 +177,8 @@ class Enemy(Creature):
  
     def attack(target):
         pass
+        #at least 0.5s cooldown after succesful hit
+        #this in player function
 
 
 
