@@ -1,7 +1,9 @@
 import math
 import pygame
 from random import randint,choice
-from data.settings import windowsizeX, windowsizeY, fps
+from data.settings import windowsizeX, windowsizeY
+from data.settings import fps as onesecond
+
 
 
 
@@ -32,86 +34,96 @@ class Creature(pygame.sprite.Sprite):
             #if current group is a group that contains this sprite, test if more than 1 collision:
             # if sprite is in the same group the sprite itself counts as 1 collision to itself
             if group in self.groups() and len(pygame.sprite.spritecollide(self,group,False)) > 1:
-                #print(f"{self.name} got hit by {group}!")
+                print(f"{self.name} got hit by {group}!")
                 return True
             elif (group not in self.groups()) and pygame.sprite.spritecollideany(self,group):
-                #print(f"{self.name} got hit by {group}!")
+                print(f"{self.name} got hit by {group}!")
                 return True
             else:
                 continue
 
 
         ## status walking pituus on 60 ticks
-    def movement(self, target=None):
+    def movement(self,groups, target=None):
 
         #target on objektissa määritelty mutta VOI määritellä myös erikseen movement funktiossa jos haluat targetoida koordinaatteja
         target = self.target if self.target else target
 
+        orig_pos_x = self.pos_x 
+        orig_pos_y = self.pos_y
+
+        #print(orig_pos_x,orig_pos_y)
+
+        # orig_pos_x= self.pos_x + self.dir.x * self.speed
+        # orig_pos_y= self.pos_y + self.dir.x * self.speed
+        
+        #colliding = self.collisions(groups)
         if not target: 
 
-            if self.status["walking"] == fps:
+            if self.status["walking"] == onesecond:
                 #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
                 self.dir.xy = randint(-1,1), randint(-1,1)
-                #print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0],self.dir[1]} ")
 
             #vähennä kävely-statuksen kestoa 1 per tick 
             if self.status["walking"] > 0:
-                            #old code
-                            # self.pos_x += self.dir[0] * self.speed
-                            # self.pos_y += self.dir[1] * self.speed
+                            
+                self.pos_x += self.dir.x * self.speed
+                self.pos_y += self.dir.y * self.speed  
 
-    #detecting window size to not let walking out of bounds
-    # max x coordinate is windowsizeX, 
-    #if your right, bottom coordinate is at or above max , set coordinate at max
-    #rect.width/2 takes into account your image size
-                future_pos_x= self.pos_x + self.dir.x * self.speed
-                future_pos_y= self.pos_y + self.dir.x * self.speed
-
+                if self.collisions(groups):
+                    self.pos_x = orig_pos_x
+                    self.pos_y = orig_pos_y
+                    self.dir.x = choice((0,-self.dir.x))
+                    self.dir.y = choice((0,-self.dir.y))
+                
+                #detecting window size to not let walking out of bounds
+                # max x coordinate is windowsizeX, 
+                #if your right, bottom coordinate is at or above max , set coordinate at max
+                #rect.width/2 takes into account your image size
 
                 # if future_pos_x >= windowsizeX - math.ceil(self.rect.width/2):
 
-                if (windowsizeX - self.rect.right) <= self.speed or self.rect.right >= windowsizeX:
-                    self.pos_x = windowsizeX - math.ceil(self.rect.width/2)
-                    self.dir.x = choice((0,-self.dir.x))
-                    print("new direction: ",self.dir.x)
+                # if (windowsizeX - self.rect.right) <= self.speed or self.rect.right >= windowsizeX:
+                #     self.pos_x = windowsizeX - math.ceil(self.rect.width/2)
+                #     self.dir.x = choice((0,-self.dir.x))
+                #     print("new direction: ",self.dir.x)
 
-                    ##Bugi: jää jumiin reunalle koska direction automaattisesti vaihtuu jos oot liian lähellä reunaa vaikka olis menossa vastakkaiseeen suuntaan.
+                #     ##Bugi: jää jumiin reunalle koska direction automaattisesti vaihtuu jos oot liian lähellä reunaa vaikka olis menossa vastakkaiseeen suuntaan.
 
-                    #randomly choooses to bounce off or to stop moving in that direction
+                #     #randomly choooses to bounce off or to stop moving in that direction
 
-                elif self.pos_x <= self.speed or self.pos_x <=0:
-                    self.pos_x = math.ceil(self.rect.width/2)
-                    self.dir.x = choice((0,-self.dir.x))
-                    print("new direction: ",self.dir.x)
+                # elif self.pos_x <= self.speed or self.pos_x <=0:
+                #     self.pos_x = math.ceil(self.rect.width/2)
+                #     self.dir.x = choice((0,-self.dir.x))
+                #     print("new direction: ",self.dir.x)
 
-                else:                    
-                    self.pos_x += self.dir.x * self.speed               
+                # else:                    
+                #     self.pos_x += self.dir.x * self.speed               
 
-                if (windowsizeY - self.rect.bottom) <= self.speed or self.rect.bottom >= windowsizeY:
-                    self.pos_y = windowsizeY - math.ceil(self.rect.height/2)
-                    self.dir.y = choice((0,-self.dir.y))
-                    print("new direction: ",self.dir.y)
+                # if (windowsizeY - self.rect.bottom) <= self.speed or self.rect.bottom >= windowsizeY:
+                #     self.pos_y = windowsizeY - math.ceil(self.rect.height/2)
+                #     self.dir.y = choice((0,-self.dir.y))
+                #     print("new direction: ",self.dir.y)
 
 
-                elif self.pos_y <= self.speed or self.pos_y <=0:
-                    self.pos_y = math.ceil(self.rect.height/2)
-                    self.dir.y = choice((0,-self.dir.y))
-                    print("new direction: ",self.dir.y)
-
-                else:                    
-                    self.pos_y += self.dir.y * self.speed  
+                # elif self.pos_y <= self.speed or self.pos_y <=0:
+                #     self.pos_y = math.ceil(self.rect.height/2)
+                #     self.dir.y = choice((0,-self.dir.y))
+                #     print("new direction: ",self.dir.y)
+                    
+                # else:                    
+                #     self.pos_y += self.dir.y * self.speed  
 
                 self.status["walking"] -= 1
 
-                #kun kävelystatus on 0, seiso status hetken aikaa
+                #kun walking on 0, status standing hetken aikaa
             else:
                 self.status["standing"] += 1
-                #print(self.status["standing"])
 
             #kun seisonut 0.5s, määritä kävely taas 60 ticks
-            if self.status["standing"] >= int(fps/20):
+            if self.status["standing"] >= 0.2*onesecond:
                 #print("stood for ",self.status["standing"])
-                self.status["walking"] = fps
+                self.status["walking"] = 1*onesecond
                 self.status["standing"] = 0
 
             
@@ -183,13 +195,13 @@ class Creature(pygame.sprite.Sprite):
 
     def update(self,groups):
         self.collisions(groups)
-        self.movement()
+        self.movement(groups)
         
 
         
 class Enemy(Creature):
                 
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,dmg=1):
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0,"attack_cooldown":0},awareness=1,dmg=1):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,status,awareness)
 
         self.dmg = dmg
@@ -199,11 +211,23 @@ class Enemy(Creature):
 
 
  
-    def attack(target):
-        pass
-        #at least 0.5s cooldown after succesful hit
-        #this in player function
+    def attack(self,target):
+        if pygame.sprite.collide_rect(self,self.target) and self.status["attack_cooldown"] == 0:
+            self.target.hp_change(-1)
+            self.status["attack_cooldown"] == 0.5*onesecond
+            print("attacked!")
+        self.status["attack_cooldown"] -= 1
 
+        ##target doesnt despawn just stops being rendered
+            
+        #target.kill()
+        #at least 0.5s cooldown after succesful hit
+        #enemy attack cooldown in player function??
+
+    def update(self,groups):
+        if self.collisions(groups) and self.target:
+            self.attack(self.target)
+        self.movement(groups)
 
 
 
@@ -238,7 +262,7 @@ class Pickup(Creature):
     def update(self):
         if self.timer and self.timer > 0:
             self.timer -= 1 
-        else: self.spawn(fps)       
+        else: self.spawn(onesecond)       
         #spawn a "new" pickup with (number) amount of ticks in timer
         #visual effect only, actually teleports the same instance
 

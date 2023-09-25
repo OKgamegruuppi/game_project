@@ -19,10 +19,10 @@ player = Player("Marcos Petriades",marcos,50,50,(0,0))
 
 cat1 = Creature("Cat",cat1_ico,400,300,[1,0],1,1,None,{"walking":40,"standing":0})
 cat2 = Creature("Cat",cat1_ico,500,300,[1,0],2,1,None,{"walking":60,"standing":0})
-cat3 = Creature("Cat",cat1_ico,500,300,[1,0],3,1,None,{"walking":60,"standing":0})
+cat3 = Creature("Cat",cat1_ico,500,350,[1,0],3,1,None,{"walking":60,"standing":0})
 
 defaultEnemy2 = Enemy("Green",defaultEnemy_icon2,280,260,[1,0],2,1)
-cat1.target = defaultEnemy2
+defaultEnemy2.target = cat1
 
 playergroup = pygame.sprite.GroupSingle(player)
 friendlies = pygame.sprite.Group(cat1,cat2,cat3)
