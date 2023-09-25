@@ -41,7 +41,7 @@ class Mainloop():
 #Updating loop
     def gameEventLoop(self):
         while True:
-            game_event_observer(self.player)
+            game_event_observer(self.player,self.enemies)
             #self.draw_screen()
             draw_on_screen(self)
             self.clock.tick(60)

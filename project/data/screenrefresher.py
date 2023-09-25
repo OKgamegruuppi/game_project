@@ -8,7 +8,7 @@ def draw_on_screen(self):
     self.borders.draw(self.display)
     self.playergroup.update(self.enemies)
     self.playergroup.draw(self.display)
-    self.enemies.update(self.borders,self.playergroup)
+    self.enemies.update([self.borders,self.playergroup])
     self.enemies.draw(self.display)
 
     pygame.display.flip()
