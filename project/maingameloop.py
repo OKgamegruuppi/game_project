@@ -6,13 +6,13 @@ from data.controls import game_event_observer
 from data.screenrefresher import draw_on_screen
 import pygame
 
-#background_image = "grass.png"
+background_image = "grass.png"
 
 
 class Mainloop():
     def __init__(self):
         pygame.init()
-        #self.background = pygame.image.load(background_image)
+        self.background = pygame.image.load(background_image)
         self.clock = pygame.time.Clock()
         self.display = pygame.display.set_mode((windowsizeX, windowsizeY))
         pygame.display.set_caption("GAME WINDOW")
