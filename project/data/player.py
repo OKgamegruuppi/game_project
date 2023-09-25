@@ -33,7 +33,8 @@ class Player(Creature):
                 self.pos_x -= self.speed
                 self.rect = self.rect.move(-self.speed,0)
             else:
-                self.dir.x = 1
+                self.dir.xy = 1,0
+                print(self.dir.x,self.dir.y)
         if self.move["left"] == True:
             self.pos_x -= self.speed
             self.rect = self.rect.move(-self.speed,0)
@@ -41,7 +42,8 @@ class Player(Creature):
                 self.pos_x += self.speed
                 self.rect = self.rect.move(self.speed,0)
             else:
-                self.dir.x = -1
+                self.dir.xy = -1,0
+                print(self.dir.x,self.dir.y)
         if self.move["up"] == True:
             self.pos_y -= self.speed
             self.rect = self.rect.move(0,-self.speed)
@@ -49,7 +51,8 @@ class Player(Creature):
                 self.pos_y += self.speed
                 self.rect = self.rect.move(0,self.speed)
             else:
-                self.dir.y = -1
+                self.dir.xy = 0,-1
+                print(self.dir.x,self.dir.y)
         if self.move["down"] == True:
             self.pos_y += self.speed
             self.rect = self.rect.move(0,self.speed)
@@ -57,7 +60,8 @@ class Player(Creature):
                 self.pos_y -= self.speed
                 self.rect = self.rect.move(0,-self.speed)
             else:
-                self.dir.y = 1
+                self.dir.xy = 0,1
+                print(self.dir.x,self.dir.y)
 
     # Attack all enemies in a hitbox in front of the player
     def attack(self,group):
@@ -65,8 +69,8 @@ class Player(Creature):
         if self.status["attack_cooldown"] == 0:
             # Determine attack hitbox based on player direction
             self.attackhitbox.rect = self.rect.move(self.dir.x*self.rect.width,self.dir.y*self.rect.height)
-            #print(self.rect)
-            #print(self.attackhitbox.rect)
+            print(self.rect)
+            print(self.attackhitbox.rect)
             # Check if any enemies in the attack hitbox
             self.targets = pygame.sprite.spritecollide(self.attackhitbox,group,False)
             # If targets found, deal damage to each, otherwise nothing happens

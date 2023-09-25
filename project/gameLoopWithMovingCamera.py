@@ -6,7 +6,7 @@ from random import randint
 class Tree(pygame.sprite.Sprite):
     def __init__(self,pos,group):
         super().__init__(group)
-        self.image = pygame.image.load('data/assets/Willow1.png').convert_alpha()
+        self.image = pygame.image.load('data/assets/edited_Willow.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
 
 class Player(pygame.sprite.Sprite):
