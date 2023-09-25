@@ -12,6 +12,7 @@ class Mainloop():
     def __init__(self):
         pygame.init()
         self.background = pygame.image.load(background_image)
+        self.display.fill('#71ddee')
         self.clock = pygame.time.Clock()
         self.display = pygame.display.set_mode((windowsizeX, windowsizeY))
         pygame.display.set_caption("GAME WINDOW")
