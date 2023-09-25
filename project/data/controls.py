@@ -21,7 +21,7 @@ def menu_event_observer():
                 # Choose current selection
 
 
-def game_event_observer(player):
+def game_event_observer(player,group):
     for keyPress in pygame.event.get():
         if keyPress.type == pygame.KEYDOWN:
             # Movement
@@ -33,8 +33,11 @@ def game_event_observer(player):
                 player.move["left"] = True
             if keyPress.key == pygame.K_RIGHT or keyPress.key == pygame.K_d:
                 player.move["right"] = True
-            # Interact
+            # Attack
             if keyPress.key == pygame.K_SPACE:
+                player.attack(group)
+            # Interact
+            if keyPress.key == pygame.K_f:
                 player.interact()
 
             # Pause Menu

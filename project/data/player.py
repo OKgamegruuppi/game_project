@@ -1,8 +1,9 @@
 import pygame
 from data.creature import Creature
+from data.settings import windowsizeX, windowsizeY
 
 class Player(Creature):
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=10,target=None,status={},awareness=0,dmg=1):
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=10,target=None,status={"attack_cooldown":0},awareness=0,dmg=1):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,status,awareness)     
         self.dmg = dmg
 
@@ -13,6 +14,11 @@ class Player(Creature):
             "left": False,
             "right": False
         }
+
+        # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)
+        self.attackspeed = 60
+        self.attackhitbox = pygame.sprite.Sprite()
+        self.attackhitbox.rect = self.rect
 
     def __str__(self):
         print(self.name)
@@ -27,7 +33,7 @@ class Player(Creature):
                 self.pos_x -= self.speed
                 self.rect = self.rect.move(-self.speed,0)
             else:
-                self.dir = (1,0)
+                self.dir = [1,0]
         if self.move["left"] == True:
             self.pos_x -= self.speed
             self.rect = self.rect.move(-self.speed,0)
@@ -35,7 +41,7 @@ class Player(Creature):
                 self.pos_x += self.speed
                 self.rect = self.rect.move(self.speed,0)
             else:
-                self.dir = (-1,0)
+                self.dir = [-1,0]
         if self.move["up"] == True:
             self.pos_y -= self.speed
             self.rect = self.rect.move(0,-self.speed)
@@ -43,7 +49,7 @@ class Player(Creature):
                 self.pos_y += self.speed
                 self.rect = self.rect.move(0,self.speed)
             else:
-                self.dir = (0,-1)
+                self.dir = [0,-1]
         if self.move["down"] == True:
             self.pos_y += self.speed
             self.rect = self.rect.move(0,self.speed)
@@ -51,10 +57,30 @@ class Player(Creature):
                 self.pos_y -= self.speed
                 self.rect = self.rect.move(0,-self.speed)
             else:
-                self.dir = (0,1)
+                self.dir = [0,1]
 
-    def attack(self,target):
-        pass
+    # Attack all enemies in a hitbox in front of the player
+    def attack(self,group):
+        # Check if attack on cooldown, if not, attack!
+        if self.status["attack_cooldown"] == 0:
+            # Determine attack hitbox based on player direction
+            self.attackhitbox.rect = self.rect.move(self.dir[0]*self.rect.width,self.dir[1]*self.rect.height)
+            #print(self.rect)
+            #print(self.attackhitbox.rect)
+            # Check if any enemies in the attack hitbox
+            self.targets = pygame.sprite.spritecollide(self.attackhitbox,group,False)
+            # If targets found, deal damage to each, otherwise nothing happens
+            if self.targets:
+                for target in self.targets:
+                    target.hp_change(-self.dmg)
+            else:
+                print("Nothing to attack!")
+            # Clear target list
+            self.targets = None
+            # Start attack cooldown
+            self.status["attack_cooldown"] += 1
+        else:
+            print("Attack on cooldown!")
 
     def itempickup(self,target):
         pass
@@ -64,6 +90,11 @@ class Player(Creature):
     
     # group = Group of sprites that the player might collide with
     def update(self,group):
-        self.movement(group)        
+        self.movement(group)
+        # Check attack_cooldown, and reset or increase it if needed      
+        if self.status["attack_cooldown"] == self.attackspeed:
+            self.status["attack_cooldown"] = 0
+        elif self.status["attack_cooldown"] > 0:
+            self.status["attack_cooldown"] += 1
         #pygame.draw.rect(screen,"#333333",self.hitbox)
         #screen.blit(self.image,(self.pos_x,self.pos_y))
