@@ -17,8 +17,7 @@ class Creature(pygame.sprite.Sprite):
         self.pos_y = pos_y          #position Y
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))     #this draws the image and works as a hitbox
         self.dir = pygame.math.Vector2()              #direction 
-        self.dir.x = dir[0]
-        self.dir.y = dir[1]
+        self.dir.xy = dir[0], dir[1]
         self.speed = speed          #jos speed on negatiivinen niin käevelee takaperin
         self.health = health
         self.target = target        #another Creature or map object
@@ -53,8 +52,7 @@ class Creature(pygame.sprite.Sprite):
 
             if self.status["walking"] == 60:
                 #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
-                self.dir.x = randint(-1,1)
-                self.dir.y = randint(-1,1)
+                self.dir.xy = randint(-1,1), randint(-1,1)
                 #print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0],self.dir[1]} ")
 
             #vähennä kävely-statuksen kestoa 1 per tick 
@@ -177,6 +175,7 @@ class Creature(pygame.sprite.Sprite):
         self.health += change
         if self.health <= 0:
             print("Oops, I died!")
+            self.kill()
             # Add a function to remove self from "alive" groups
             # And or completely remove Creature
         else:
