@@ -1,5 +1,7 @@
 import pygame
 
+#screenrefresher.py blitzes, fills, draws, updates etc. the display.
+
 def draw_on_screen(self):
     self.display.fill((250, 250, 250))
     self.display.blit(self.background, (300, 300))
