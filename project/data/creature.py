@@ -31,15 +31,14 @@ class Creature(pygame.sprite.Sprite):
         for group in grouplist:
             #if current group is a group that contains this sprite, test if more than 1 collision:
             # if sprite is in the same group the sprite itself counts as 1 collision to itself
-            if group in self.groups() and pygame.sprite.spritecollideany(self,group).len() > 1:
+            if group in self.groups() and len(pygame.sprite.spritecollide(self,group,False)) > 1:
                 print(f"{self.name} got hit by {group}!")
                 return True
-            elif pygame.sprite.spritecollideany(self,group):
+            elif (group not in self.groups()) and pygame.sprite.spritecollideany(self,group):
                 print(f"{self.name} got hit by {group}!")
                 return True
-                break
             else:
-                return False
+                continue
 
 
         ## status walking pituus on 60 ticks
@@ -47,13 +46,8 @@ class Creature(pygame.sprite.Sprite):
 
         #target on objektissa määritelty mutta VOI määritellä myös erikseen movement funktiossa jos haluat targetoida koordinaatteja
         target = self.target if self.target else target
-        # print(self.name,self.pos_x, self.pos_y)  
 
-
-        # print(f"{self.name}, target {target}")
         if not target: 
-            # print(f"{self.name} is dumdum")   
-            # print(f"{self.name}, no target") 
 
             if self.status["walking"] == 60:
                 #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
@@ -108,8 +102,6 @@ class Creature(pygame.sprite.Sprite):
                     self.pos_y += self.dir.y * self.speed  
 
                 self.status["walking"] -= 1
-
-
 
                 #kun kävelystatus on 0, seiso status hetken aikaa
             else:

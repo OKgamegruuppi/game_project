@@ -34,7 +34,7 @@ class Player(Creature):
                 self.rect = self.rect.move(-self.speed,0)
             else:
                 self.dir.xy = 1,0
-                print(self.dir.x,self.dir.y)
+                # print(self.dir.x,self.dir.y)
         if self.move["left"] == True:
             self.pos_x -= self.speed
             self.rect = self.rect.move(-self.speed,0)
@@ -43,7 +43,7 @@ class Player(Creature):
                 self.rect = self.rect.move(self.speed,0)
             else:
                 self.dir.xy = -1,0
-                print(self.dir.x,self.dir.y)
+                # print(self.dir.x,self.dir.y)
         if self.move["up"] == True:
             self.pos_y -= self.speed
             self.rect = self.rect.move(0,-self.speed)
@@ -52,7 +52,7 @@ class Player(Creature):
                 self.rect = self.rect.move(0,self.speed)
             else:
                 self.dir.xy = 0,-1
-                print(self.dir.x,self.dir.y)
+                # print(self.dir.x,self.dir.y)
         if self.move["down"] == True:
             self.pos_y += self.speed
             self.rect = self.rect.move(0,self.speed)
@@ -61,7 +61,7 @@ class Player(Creature):
                 self.rect = self.rect.move(0,-self.speed)
             else:
                 self.dir.xy = 0,1
-                print(self.dir.x,self.dir.y)
+                # print(self.dir.x,self.dir.y)
 
     # Attack all enemies in a hitbox in front of the player
     def attack(self,group):
