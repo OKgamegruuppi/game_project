@@ -12,7 +12,7 @@ class Tree(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos,group):
         super().__init__(group)
-        self.image = pygame.image.load('data/assets/slime_monster.png').convert_alpha()
+        self.image = pygame.image.load('data/assets/slime_monster_mid.png').convert_alpha()
         self.rect = self.image.get_rect(center = pos)
         self.direction = pygame.math.Vector2()
         self.speed = 5
