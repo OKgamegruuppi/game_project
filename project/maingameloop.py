@@ -27,20 +27,11 @@ class Mainloop():
     def gameEventLoop(self):
         while True:
             game_event_observer(self.player,self.enemies)
-            #self.draw_screen()
+            #camera_group.update()
+            #camera_group.custom_draw(player)
             draw_on_screen(self)
             self.clock.tick(60)
-'''
-#Refreshing the screen.
-    def draw_screen(self):
-        self.display.fill('#71ddee')
-        self.display.blit(self.background, (300, 300))
-        self.objects.update(self.objects2)
-        self.objects.draw(self.display)
-        self.objects2.update()
-        self.objects2.draw(self.display)
-        pygame.display.flip()
-'''
+
 
 #Calling the main loop that creates the window and game
 if __name__ == "__main__":
