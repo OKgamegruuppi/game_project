@@ -1,6 +1,6 @@
 import math
 import pygame
-from random import randint
+from random import randint,choice
 from data.settings import windowsizeX, windowsizeY
 
 
@@ -39,8 +39,8 @@ class Creature(pygame.sprite.Sprite):
 
             if self.status["walking"] == 60:
                 #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
-                self.dir = (randint(-1,1),randint(-1,1))
-                print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0]} ")
+                self.dir = [randint(-1,1),randint(-1,1)]
+                print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0],self.dir[1]} ")
 
             #vähennä kävely-statuksen kestoa 1 per tick 
             if self.status["walking"] > 0:
@@ -53,23 +53,34 @@ class Creature(pygame.sprite.Sprite):
     #if your right, bottom coordinate is at or above max , set coordinate at max
     #rect.width/2 takes into account your image size
 
-                if windowsizeX - self.rect.right < self.speed or self.rect.right >= windowsizeX:
-                    self.pos_x = windowsizeX - (self.rect.width/2)
-                    self.dir[0] = 0
+                if (windowsizeX - self.rect.right) <= self.speed or self.rect.right >= windowsizeX:
+                    self.pos_x = windowsizeX - math.ceil(self.rect.width/2)
+                    self.dir[0] = choice((0,-self.dir[0]))
+                    print("new direction: ",self.dir[0])
 
-                elif self.pos_x < self.speed or self.pos_x <=0:
-                    self.pos_x = self.rect.width/2
-                    self.dir[0] = 0
+                    ##Bugi: jää jumiin reunalle koska direction automaattisesti vaihtuu jos oot liian lähellä reunaa vaikka olis menossa vastakkaiseeen suuntaan.
+
+                    #randomly choooses to bounce off or to stop moving in that direction
+
+                elif self.pos_x <= self.speed or self.pos_x <=0:
+                    self.pos_x = math.ceil(self.rect.width/2)
+                    self.dir[0] = choice((0,-self.dir[0]))
+                    print("new direction: ",self.dir[0])
+
                 else:                    
                     self.pos_x += self.dir[0] * self.speed               
 
-                if windowsizeY - self.rect.right < self.speed or self.rect.right >= windowsizeY:
-                    self.pos_y = windowsizeY - (self.rect.width/2)
-                    self.dir[1] = 0
+                if (windowsizeY - self.rect.bottom) <= self.speed or self.rect.bottom >= windowsizeY:
+                    self.pos_y = windowsizeY - math.ceil(self.rect.height/2)
+                    self.dir[1] = choice((0,-self.dir[1]))
+                    print("new direction: ",self.dir[1])
 
-                elif self.pos_y < self.speed or self.pos_y <=0:
-                    self.pos_y = self.rect.width/2
-                    self.dir[1] = 0
+
+                elif self.pos_y <= self.speed or self.pos_y <=0:
+                    self.pos_y = math.ceil(self.rect.height/2)
+                    self.dir[1] = choice((0,-self.dir[1]))
+                    print("new direction: ",self.dir[1])
+
                 else:                    
                     self.pos_y += self.dir[1] * self.speed  
 
@@ -80,13 +91,13 @@ class Creature(pygame.sprite.Sprite):
                 #kun kävelystatus on 0, seiso status hetken aikaa
             else:
                 self.status["standing"] += 1
-                print(self.status["standing"])
+                #print(self.status["standing"])
 
             #kun seisonut 0.5s, määritä kävely taas 60 ticks
-            if self.status["standing"] >= 30:
+            if self.status["standing"] >= 3:
+                print("stood for ",self.status["standing"])
                 self.status["walking"] =60
                 self.status["standing"] = 0
-                print(self.status["standing"])
 
             
 
