@@ -27,11 +27,11 @@ class Location(Map_object):
 # (startX,startY,sizeX,sizeY, starts from top left corner)
 
 
-bord_x0 = Map_object(0,0,pygame.image.load("data\\assets\\x-border-width.jpg"))
-bord_x100 = Map_object(0,windowsizeY-7,pygame.image.load("data\\assets\\x-border-width.jpg"))
+bord_x0 = Map_object(0,0,pygame.image.load("data/assets/x-border-width.jpg"))
+bord_x100 = Map_object(0,windowsizeY-7,pygame.image.load("data/assets/x-border-width.jpg"))
 
-bord_y0 = Map_object(0,0,pygame.image.load("data\\assets\\y-border-height.jpg"))
-bord_y100 = Map_object(windowsizeX-7,0,pygame.image.load("data\\assets\\y-border-height.jpg"))
+bord_y0 = Map_object(0,0,pygame.image.load("data/assets/y-border-height.jpg"))
+bord_y100 = Map_object(windowsizeX-7,0,pygame.image.load("data/assets/y-border-height.jpg"))
 
 # bord_x0 = Map_object(0,0,windowsizeX,7,pygame.image.load("data\\assets\\x-border-width.jpg"))
 # bord_x100 = Map_object(0,windowsizeY-7,windowsizeX,7,pygame.image.load("data\\assets\\x-border-width.jpg"))
