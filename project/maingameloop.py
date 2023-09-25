@@ -3,6 +3,7 @@ from data.settings import windowsizeX, windowsizeY
 from data.creature import Creature, Enemy
 from data.player import Player
 from data.controls import game_event_observer
+from data.screenrefresher import draw_on_screen
 import pygame
 
 background_image = "alpha_stage.png"
@@ -33,9 +34,10 @@ class Mainloop():
     def gameEventLoop(self):
         while True:
             game_event_observer(self.player)
-            self.draw_screen()
+            #self.draw_screen()
+            draw_on_screen(self)
             self.clock.tick(60)
-
+'''
 #Refreshing the screen.
     def draw_screen(self):
         self.display.fill((250, 250, 250))
@@ -45,6 +47,7 @@ class Mainloop():
         self.objects2.update()
         self.objects2.draw(self.display)
         pygame.display.flip()
+'''
 
 #Calling the main loop that creates the window and game
 if __name__ == "__main__":
