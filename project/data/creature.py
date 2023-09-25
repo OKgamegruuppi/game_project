@@ -26,6 +26,12 @@ class Creature(pygame.sprite.Sprite):
         ##status : dictionary, hostile, friendly,afraid, poisoned, running away etc
 
 
+    def collisions(self,groups):
+        for spritegroup in groups:
+            if pygame.sprite.spritecollideany(self,spritegroup):
+                print(f"{self.name} got hit by {spritegroup}!")
+
+
         ## status walking pituus on 60 ticks
     def movement(self, target=None):
 
@@ -58,7 +64,7 @@ class Creature(pygame.sprite.Sprite):
                 future_pos_y= self.pos_y + self.dir[0] * self.speed
 
 
-                if future_pos_x >= windowsizeX - math.ceil(self.rect.width/2):
+                # if future_pos_x >= windowsizeX - math.ceil(self.rect.width/2):
 
                 if (windowsizeX - self.rect.right) <= self.speed or self.rect.right >= windowsizeX:
                     self.pos_x = windowsizeX - math.ceil(self.rect.width/2)
@@ -91,7 +97,7 @@ class Creature(pygame.sprite.Sprite):
                 else:                    
                     self.pos_y += self.dir[1] * self.speed  
 
-                    self.status["walking"] -= 1
+                self.status["walking"] -= 1
 
 
 
@@ -172,7 +178,8 @@ class Creature(pygame.sprite.Sprite):
     # def __str__(self):
     #     return f"{self.name}"
 
-    def update(self):
+    def update(self,groups):
+        self.collisions(groups)
         self.movement()
         
 

@@ -8,7 +8,7 @@ class Map_object(pygame.sprite.Sprite):
         self.pos_x = x
         self.pos_y = y
         self.image = image
-        self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))     #this draws the image and works as a hitbox
+        self.rect = self.image.get_rect(topleft=(self.pos_x,self.pos_y))     #this draws the image and works as a hitbox
 
 # class Border(Map_object):
 #     def __init__(self,x,y,width,height,image):
