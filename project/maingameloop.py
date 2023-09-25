@@ -6,7 +6,7 @@ from data.controls import game_event_observer
 from data.screenrefresher import draw_on_screen
 import pygame
 
-background_image = "alpha_stage.png"
+background_image = "grass.png"
 
 
 class Mainloop():
