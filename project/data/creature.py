@@ -16,7 +16,9 @@ class Creature(pygame.sprite.Sprite):
         self.pos_x = pos_x          #position X
         self.pos_y = pos_y          #position Y
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))     #this draws the image and works as a hitbox
-        self.dir = dir              #direction 
+        self.dir = pygame.math.Vector2()              #direction 
+        self.dir.x = dir[0]
+        self.dir.y = dir[1]
         self.speed = speed          #jos speed on negatiivinen niin käevelee takaperin
         self.health = health
         self.target = target        #another Creature or map object
@@ -30,6 +32,10 @@ class Creature(pygame.sprite.Sprite):
         for spritegroup in groups:
             if pygame.sprite.spritecollideany(self,spritegroup):
                 print(f"{self.name} got hit by {spritegroup}!")
+                return True
+                break
+        else:
+            return False
 
 
         ## status walking pituus on 60 ticks
@@ -47,7 +53,8 @@ class Creature(pygame.sprite.Sprite):
 
             if self.status["walking"] == 60:
                 #valitse satunnainen suunta vain sillon kun ensimmäisen kerran alkaa liikkumaan
-                self.dir = [randint(-1,1),randint(-1,1)]
+                self.dir.x = randint(-1,1)
+                self.dir.y = randint(-1,1)
                 #print(f"x {self.pos_x} y {self.pos_y} direction {self.dir[0],self.dir[1]} ")
 
             #vähennä kävely-statuksen kestoa 1 per tick 
@@ -60,16 +67,16 @@ class Creature(pygame.sprite.Sprite):
     # max x coordinate is windowsizeX, 
     #if your right, bottom coordinate is at or above max , set coordinate at max
     #rect.width/2 takes into account your image size
-                future_pos_x= self.pos_x + self.dir[0] * self.speed
-                future_pos_y= self.pos_y + self.dir[0] * self.speed
+                future_pos_x= self.pos_x + self.dir.x * self.speed
+                future_pos_y= self.pos_y + self.dir.x * self.speed
 
 
                 # if future_pos_x >= windowsizeX - math.ceil(self.rect.width/2):
 
                 if (windowsizeX - self.rect.right) <= self.speed or self.rect.right >= windowsizeX:
                     self.pos_x = windowsizeX - math.ceil(self.rect.width/2)
-                    self.dir[0] = choice((0,-self.dir[0]))
-                    print("new direction: ",self.dir[0])
+                    self.dir.x = choice((0,-self.dir.x))
+                    print("new direction: ",self.dir.x)
 
                     ##Bugi: jää jumiin reunalle koska direction automaattisesti vaihtuu jos oot liian lähellä reunaa vaikka olis menossa vastakkaiseeen suuntaan.
 
@@ -77,25 +84,25 @@ class Creature(pygame.sprite.Sprite):
 
                 elif self.pos_x <= self.speed or self.pos_x <=0:
                     self.pos_x = math.ceil(self.rect.width/2)
-                    self.dir[0] = choice((0,-self.dir[0]))
-                    print("new direction: ",self.dir[0])
+                    self.dir.x = choice((0,-self.dir.x))
+                    print("new direction: ",self.dir.x)
 
                 else:                    
-                    self.pos_x += self.dir[0] * self.speed               
+                    self.pos_x += self.dir.x * self.speed               
 
                 if (windowsizeY - self.rect.bottom) <= self.speed or self.rect.bottom >= windowsizeY:
                     self.pos_y = windowsizeY - math.ceil(self.rect.height/2)
-                    self.dir[1] = choice((0,-self.dir[1]))
-                    print("new direction: ",self.dir[1])
+                    self.dir.y = choice((0,-self.dir.y))
+                    print("new direction: ",self.dir.y)
 
 
                 elif self.pos_y <= self.speed or self.pos_y <=0:
                     self.pos_y = math.ceil(self.rect.height/2)
-                    self.dir[1] = choice((0,-self.dir[1]))
-                    print("new direction: ",self.dir[1])
+                    self.dir.y = choice((0,-self.dir.y))
+                    print("new direction: ",self.dir.y)
 
                 else:                    
-                    self.pos_y += self.dir[1] * self.speed  
+                    self.pos_y += self.dir.y * self.speed  
 
                 self.status["walking"] -= 1
 
@@ -119,22 +126,22 @@ class Creature(pygame.sprite.Sprite):
 
             #valitse suunta sen perusteella onko kohteen x tai y koordinaatti eri ku sun oma
 
-            dir_x = 1 if target.pos_x > self.pos_x else\
+            self.dir.x = 1 if target.pos_x > self.pos_x else\
                 0 if target.pos_x == self.pos_x else -1
             
-            dir_y = 1 if target.pos_y > self.pos_y else\
+            self.dir.y = 1 if target.pos_y > self.pos_y else\
                 0 if target.pos_y == self.pos_y else -1
             
             #IF distance from target is less than speed, only move the required distance
             #ELSE move speed amount of pixels in the directionof target
             if abs(target.pos_x - self.pos_x) < self.speed:
-                self.pos_x += dir_x * abs(target.pos_x - self.pos_x)
-            else: self.pos_x += dir_x * self.speed
+                self.pos_x += self.dir.x * abs(target.pos_x - self.pos_x)
+            else: self.pos_x += self.dir.x * self.speed
             
 
             if abs(target.pos_y - self.pos_y) < self.speed:
-                self.pos_y += dir_y * abs(target.pos_y - self.pos_y)
-            else: self.pos_y += dir_y * self.speed
+                self.pos_y += self.dir.y * abs(target.pos_y - self.pos_y)
+            else: self.pos_y += self.dir.y * self.speed
 
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
         ##muista päivittää self.rect joka hoitaa kuvan piirtämisen ja hitboxit

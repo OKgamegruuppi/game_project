@@ -22,14 +22,14 @@ class Player(Creature):
 
     def __str__(self):
         print(self.name)
-    
+        
     # Move player character if self.move == True
     # Check if moving causes a collision, if so, don't move!
-    def movement(self,group):
+    def movement(self,groups):
         if self.move["right"] == True:
             self.pos_x += self.speed
             self.rect = self.rect.move(self.speed,0)
-            if pygame.sprite.spritecollideany(self,group):
+            if self.collisions(groups):
                 self.pos_x -= self.speed
                 self.rect = self.rect.move(-self.speed,0)
             else:
@@ -37,7 +37,7 @@ class Player(Creature):
         if self.move["left"] == True:
             self.pos_x -= self.speed
             self.rect = self.rect.move(-self.speed,0)
-            if pygame.sprite.spritecollideany(self,group):
+            if self.collisions(groups):
                 self.pos_x += self.speed
                 self.rect = self.rect.move(self.speed,0)
             else:
@@ -45,7 +45,7 @@ class Player(Creature):
         if self.move["up"] == True:
             self.pos_y -= self.speed
             self.rect = self.rect.move(0,-self.speed)
-            if pygame.sprite.spritecollideany(self,group):
+            if self.collisions(groups):
                 self.pos_y += self.speed
                 self.rect = self.rect.move(0,self.speed)
             else:
@@ -53,7 +53,7 @@ class Player(Creature):
         if self.move["down"] == True:
             self.pos_y += self.speed
             self.rect = self.rect.move(0,self.speed)
-            if pygame.sprite.spritecollideany(self,group):
+            if self.collisions(groups):
                 self.pos_y -= self.speed
                 self.rect = self.rect.move(0,-self.speed)
             else:
@@ -88,9 +88,9 @@ class Player(Creature):
     def interact(self,target=None):
         print("Nothing to interact with!")
     
-    # group = Group of sprites that the player might collide with
-    def update(self,group):
-        self.movement(group)
+    # group = Groups of sprites that the player might collide with
+    def update(self,groups):
+        self.movement(groups)
         # Check attack_cooldown, and reset or increase it if needed      
         if self.status["attack_cooldown"] == self.attackspeed:
             self.status["attack_cooldown"] = 0
