@@ -33,7 +33,7 @@ class Player(Creature):
                 self.pos_x -= self.speed
                 self.rect = self.rect.move(-self.speed,0)
             else:
-                self.dir = [1,0]
+                self.dir.x = 1
         if self.move["left"] == True:
             self.pos_x -= self.speed
             self.rect = self.rect.move(-self.speed,0)
@@ -41,7 +41,7 @@ class Player(Creature):
                 self.pos_x += self.speed
                 self.rect = self.rect.move(self.speed,0)
             else:
-                self.dir = [-1,0]
+                self.dir.x = -1
         if self.move["up"] == True:
             self.pos_y -= self.speed
             self.rect = self.rect.move(0,-self.speed)
@@ -49,7 +49,7 @@ class Player(Creature):
                 self.pos_y += self.speed
                 self.rect = self.rect.move(0,self.speed)
             else:
-                self.dir = [0,-1]
+                self.dir.y = -1
         if self.move["down"] == True:
             self.pos_y += self.speed
             self.rect = self.rect.move(0,self.speed)
@@ -57,14 +57,14 @@ class Player(Creature):
                 self.pos_y -= self.speed
                 self.rect = self.rect.move(0,-self.speed)
             else:
-                self.dir = [0,1]
+                self.dir.y = 1
 
     # Attack all enemies in a hitbox in front of the player
     def attack(self,group):
         # Check if attack on cooldown, if not, attack!
         if self.status["attack_cooldown"] == 0:
             # Determine attack hitbox based on player direction
-            self.attackhitbox.rect = self.rect.move(self.dir[0]*self.rect.width,self.dir[1]*self.rect.height)
+            self.attackhitbox.rect = self.rect.move(self.dir.x*self.rect.width,self.dir.y*self.rect.height)
             #print(self.rect)
             #print(self.attackhitbox.rect)
             # Check if any enemies in the attack hitbox
