@@ -1,6 +1,6 @@
 #Necessary libraries
 from data.settings import windowsizeX, windowsizeY
-from map.init_map import grouplist,enemies,player
+from map.init_map import grouplist,enemies,player,effects
 from data.controls import game_event_observer
 from data.screenrefresher import draw_on_screen
 import pygame
@@ -19,13 +19,14 @@ class Mainloop():
         self.enemies = enemies
         self.player = player
         self.grouplist = grouplist
+        self.effects = effects
 
         self.gameEventLoop()
 
 #Updating loop
     def gameEventLoop(self):
         while True:
-            game_event_observer(self.player,self.enemies)
+            game_event_observer(self.player,self.enemies,self.effects)
             #camera_group.update()
             #camera_group.custom_draw(player)
             draw_on_screen(self)

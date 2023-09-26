@@ -18,7 +18,7 @@ class Player(Creature):
 
         # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)        
         self.attackspeed = fps
-        self.attackhitbox = pygame.sprite.Sprite()
+        self.attackhitbox = pygame.sprite.Sprite().convert_alpha()
         self.attackimage = pygame.image.load("data/assets/blood_red1.png")
         #self.attackhitbox = Effect("Attack",hiticon,0,0,int(fps/3))
         self.attackhitbox.rect = self.rect
