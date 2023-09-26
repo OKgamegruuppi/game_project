@@ -2,8 +2,7 @@
 import pygame, sys
 from random import randint
 from data.settings import windowsizeX, windowsizeY
-from map.init_map import grouplist,enemies,player
-from map.camera import camera_group
+from map.init_map import grouplist,enemies,camera_group,player
 from data.controls import game_event_observer
 from data.screenrefresher import draw_on_screen
 
