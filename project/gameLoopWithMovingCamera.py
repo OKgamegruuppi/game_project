@@ -76,7 +76,7 @@ class CameraGroup(pygame.sprite.Group):
 
 #initializing pygame, the screen and the clock.
 pygame.init()
-screen = pygame.display.set_mode((800,620))
+screen = pygame.display.set_mode((windowsizeX,windowsizeY))
 clock = pygame.time.Clock()
 
 #camera setup
