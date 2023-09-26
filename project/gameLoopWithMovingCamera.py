@@ -1,114 +1,44 @@
 #libraries
-import pygame, sys
+import pygame
 from random import randint
-from data.settings import windowsizeX, windowsizeY
+from data.settings import windowsizeX, windowsizeY,fps
 from map.camera import CameraGroup
-from map.init_map import grouplist,enemies,player,add_to_camera
+from map.init_map import grouplist,enemies,player,effects,add_to_camera
 from data.controls import game_event_observer
 from data.screenrefresher import draw_on_screen
 
-'''
-#classes (Tree, Player, CameraGroup)
-class Tree(pygame.sprite.Sprite):
-    def __init__(self,pos,group):
-        super().__init__(group)
-        self.image = pygame.image.load('data/assets/edited_Willow.png').convert_alpha()
-        self.rect = self.image.get_rect(topleft = pos)
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self,pos,group):
-        super().__init__(group)
-        self.image = pygame.image.load('data/assets/slime_monster_mid.png').convert_alpha()
-        self.rect = self.image.get_rect(center = pos)
-        self.direction = pygame.math.Vector2()
-        self.speed = 5
-
-    #los functiones des playerinos
-    def input(self):
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_UP]:
-            self.direction.y = -1
-        elif keys[pygame.K_DOWN]:
-            self.direction.y = 1
-        else:
-            self.direction.y = 0
-
-        if keys[pygame.K_RIGHT]:
-            self.direction.x = 1
-        elif keys[pygame.K_LEFT]:
-            self.direction.x = -1
-        else:
-            self.direction.x = 0
-
-    def update(self):
-        self.input()
-        self.rect.center += self.direction * self.speed
-'''
-#####################################################################################
-'''
-class CameraGroup(pygame.sprite.Group):
+class Mainloop():
     def __init__(self):
-        super().__init__()
-        self.display_surface = pygame.display.get_surface()
-       
-        # camera offset
-        self.offset = pygame.math.Vector2(300,100)
-        self.half_w = self.display_surface.get_size()[0] // 2
-        self.half_h = self.display_surface.get_size()[1] // 2
+        pygame.init()
 
-        #ground
-        self.ground_surf = pygame.image.load('data/assets/ground.png').convert_alpha()
-        self.ground_rect = self.ground_surf.get_rect(topleft = (0,0)) 
+        #initializing pygame, the screen and the clock.
+        self.screen = pygame.display.set_mode((windowsizeX,windowsizeY))
+        self.clock = pygame.time.Clock()
+        pygame.display.set_caption("GAME WINDOW")
 
-    def center_target_camera(self, target):
-        self.offset.x = target.rect.centerx - self.half_w
-        self.offset.y = target.rect.centery - self.half_h
+        self.enemies = enemies
+        self.player = player
+        self.grouplist = grouplist
+        self.effects = effects
 
-
-    def custom_draw(self, player):
-        self.center_target_camera(player)
-
-        #ground
-        ground_offset = self.ground_rect.topleft - self.offset
-        self.display_surface.blit(self.ground_surf,ground_offset)
-        
-        #active elements (player, etc)
-        for sprite in sorted(self.sprites(),key = lambda sprite: sprite.rect.centery):
-            offset_pos = sprite.rect.topleft - self.offset
-            self.display_surface.blit(sprite.image,offset_pos)
-
-'''
-    #initializing pygame, the screen and the clock.
-pygame.init()
-screen = pygame.display.set_mode((windowsizeX,windowsizeY))
-clock = pygame.time.Clock()
-
-
-    #camera setup
-camera_group = CameraGroup()
-add_to_camera(camera_group)
-'''   
-    #spawn player
-player = Player((640, 360), camera_group)
+            #camera setup
+        self.camera_group = CameraGroup()
+        add_to_camera(self.camera_group)
+        self.gameEventLoop()
     
-    #spawning trees
-for i in range(20):
-    random_x = randint(0,1000)
-    random_y = randint(0,1000)
-    Tree((random_x,random_y), camera_group)
-'''    
-#main loop execution
+    #main loop execution
+    def gameEventLoop(self):
+        while True:
+            game_event_observer(self.player,self.enemies,self.effects)
+            
+            self.screen.fill('#71ddee')
+            
+            self.camera_group.update(self.grouplist)
+            self.camera_group.custom_draw(player)
+            pygame.display.update()
+            self.clock.tick(fps)
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-    screen.fill('#71ddee')
-    camera_group.update()
-    camera_group.custom_draw(player)
-    pygame.display.update()
-    clock.tick(60)
-
-
+#Calling the main loop that creates the window and game
+if __name__ == "__main__":
+    Mainloop()
