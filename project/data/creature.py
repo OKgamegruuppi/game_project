@@ -175,18 +175,18 @@ class Creature(pygame.sprite.Sprite):
         else: 
             return False
         
-        #add a targeting status that gets set to maximum value every time the target enters the awareness radius 
-        #"memory" of targeting is stored as a status effect
-        if self.awareness - distance > 0:
-            self.status["targeting"] = 10*self.awareness
-            return True
-        elif "targeting" in self.status:
-            self.status["targeting"] -= 1
-            if self.status["targeting"] == 0:
-                del self.status["targeting"]        #clear status effect
-            return True
-        else: 
-            return False
+        # #add a targeting status that gets set to maximum value every time the target enters the awareness radius 
+        # #"memory" of targeting is stored as a status effect
+        # if self.awareness - distance > 0:
+        #     self.status["targeting"] = 10*self.awareness
+        #     return True
+        # elif "targeting" in self.status:
+        #     self.status["targeting"] -= 1
+        #     if self.status["targeting"] == 0:
+        #         del self.status["targeting"]        #clear status effect
+        #     return True
+        # else: 
+        #     return False
 
     ##bonus 1 
     def facing(self,pos_x,pos_y,target):
