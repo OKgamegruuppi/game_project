@@ -4,9 +4,7 @@ from random import randint,choice
 from data.settings import windowsizeX, windowsizeY
 from data.settings import fps as onesecond
 import data.effects as effectmod
-
-
-
+from data.init_groups import *
 
 
 
@@ -24,10 +22,16 @@ class Creature(pygame.sprite.Sprite):
         self.speed = speed          #jos speed on negatiivinen niin käevelee takaperin
         self.health = health
         self.target = target        #another Creature or map object
-        self.awareness = awareness
+        self.awareness = awareness      
         self.status = status
 
         ##status : dictionary, hostile, friendly,afraid, poisoned, running away etc
+
+
+
+    def info(self):
+        print(f"{self.name} targeting {self.target.name if self.target else None}")
+        pass
 
 
     def collisions(self,grouplist,mode="y/n"):
@@ -38,12 +42,12 @@ class Creature(pygame.sprite.Sprite):
             #if current group is a group that contains this sprite, test if more than 1 collision:
             # if sprite is in the same group the sprite itself counts as 1 collision to itself
             if group in self.groups() and len(pygame.sprite.spritecollide(self,group,False)) > 1:
-                print(f"{self.name} got hit by {group}!")
+                #print(f"{self.name} got hit by {group}!")
 
                 return True if mode=="y/n" else group #returns either a boolean or the group that was hit
             
             elif (group not in self.groups()) and pygame.sprite.spritecollideany(self,group):
-                print(f"{self.name} got hit by {group}!")
+                #print(f"{self.name} got hit by {group}!")
 
                 return True if mode=="y/n" else group
             else:
@@ -56,7 +60,7 @@ class Creature(pygame.sprite.Sprite):
         for sprite in group:
             # if sprite is in the same group the sprite itself counts as 1 collision to itself
             if self != sprite and pygame.sprite.collide_rect(self,sprite):
-                print(f"{self.name} got hit by {sprite}!")
+                #print(f"{self.name} got hit by {sprite}!")
                 return sprite
             else:
                 continue
@@ -76,7 +80,7 @@ class Creature(pygame.sprite.Sprite):
             if pygame.sprite.collide_rect(self,self.target):
                 #target is caught, do not move
                 self.interact(target,groups)
-                return print(f"caught {target.name}")
+                return      #print(f"caught {target.name}")
             
             #valitse suunta sen perusteella onko kohteen x tai y koordinaatti eri ku sun oma
             #self dir is 1, 0 or -1
@@ -100,7 +104,7 @@ class Creature(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
             if pygame.sprite.collide_rect(self,target):
                 self.interact(target,groups)
-                return print(f"caught {target.name}")
+                return              #print(f"caught {target.name}")
             elif self.collisions(groups):
 
                 self.dir.x = choice((0,-self.dir.x))
@@ -157,11 +161,20 @@ class Creature(pygame.sprite.Sprite):
 
 
     def notice(self,target):
-        #awareness = 5 or something, in units of distance
-        dist_x = abs(target.pos_x - self.pos_x)
-        dist_y = abs(target.pos_y - self.pos_y)
-        distance = math.hypot(dist_x,dist_y)
 
+        '  Notice returns a tuple of, was it noticed and how far was it  '
+
+        #awareness = 5 or something, in units of distance
+        if target.alive == False:
+            return False
+        
+        distance= math.dist( (target.pos_x,target.pos_y) , (self.pos_x,self.pos_y) )
+        
+        if self.awareness > distance:
+            return True
+        else: 
+            return False
+        
         #add a targeting status that gets set to maximum value every time the target enters the awareness radius 
         #"memory" of targeting is stored as a status effect
         if self.awareness - distance > 0:
@@ -215,61 +228,6 @@ class Creature(pygame.sprite.Sprite):
         self.movement(groups)
         
 
-        
-class Enemy(Creature):
-                
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0,"attack_cooldown":0},awareness=1,dmg=1):
-        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,status,awareness)
-
-        self.dmg = dmg
-
-        # super().__init__(name,image,pos_x,pos_y,dir,speed,health=0,target=None,status={"walking":20,"standing":0},awareness=1)
-        # super().__init__(self,name,pos_x,pos_y,dir,speed,health,target,status,awareness)
-
-
-    def select_target(self,groups):
-        #target on objektissa määritelty mutta VOI määritellä myös erikseen movement funktiossa jos haluat targetoida koordinaatteja
-        target = self.target if self.target and self.target.alive else None
-
-        #find the closest friendly, groups[1] is friendlies rn
-        if target == None:
-            #Smallestdist has 0: the distance, 1: the creature
-            smallestdist = [windowsizeX,None]
-
-            #friendl_i = potential target
-            for friendl_i in groups[1]:
-                dist_x = abs(friendl_i.pos_x - self.pos_x)
-                dist_y = abs(friendl_i.pos_y - self.pos_y)
-                if smallestdist[0] > math.hypot(dist_x,dist_y):
-                    smallestdist[0:1] = [math.hypot(dist_x,dist_y),friendl_i]
-
-            # make the closest friendly the new target
-            self.target = smallestdist[1]
-            print(f"{self.name} started targeting {self.target}!")
-        
-    def interact(self, target,groups):
-        self.attack(target,groups) #SIKE
-
-    def attack(self,target,groups):
-        effects = groups[-1]
-        if pygame.sprite.collide_rect(self,target) and self.status["attack_cooldown"] == 0:
-            target.hp_change(-1,effects)
-            self.status["attack_cooldown"] = int(0.5*onesecond)
-            print(f"{self.name} attacked {target}!")
-        self.status["attack_cooldown"] -= 1
-
-        ##target doesnt despawn just stops being rendered
-            
-        #target.kill()
-        #at least 0.5s cooldown after succesful hit
-        #enemy attack cooldown in player function??
-
-    def update(self,groups):
-        self.select_target(groups)
-        # if self.collisions(groups) and self.target:
-        #     self.attack(self.target)
-        self.movement(groups)
-
 
 
 class NPC(Creature):
@@ -283,6 +241,8 @@ class NPC(Creature):
         pass
 
         ##UI elements
+
+
 
 
 class Pickup(Creature):
