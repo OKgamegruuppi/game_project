@@ -3,6 +3,7 @@ import pygame
 from random import randint,choice
 from data.settings import windowsizeX, windowsizeY
 from data.settings import fps as onesecond
+import data.effects as effectmod
 
 
 
@@ -74,7 +75,7 @@ class Creature(pygame.sprite.Sprite):
             
             if pygame.sprite.collide_rect(self,self.target):
                 #target is caught, do not move
-                self.interact(target)
+                self.interact(target,groups)
                 return print(f"caught {target.name}")
             
             #valitse suunta sen perusteella onko kohteen x tai y koordinaatti eri ku sun oma
@@ -98,7 +99,7 @@ class Creature(pygame.sprite.Sprite):
 
             self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
             if pygame.sprite.collide_rect(self,target):
-                self.interact(target)
+                self.interact(target,groups)
                 return print(f"caught {target.name}")
             elif self.collisions(groups):
 
@@ -190,8 +191,11 @@ class Creature(pygame.sprite.Sprite):
         ## target yleensä pelaaja
 
     # Change HP of the Creature
-    def hp_change(self,change):
+    def hp_change(self,change,effects):
         self.health += change
+        if change < 0:
+            damage = effectmod.Effect("Ouchie",effectmod.blood_red,self.pos_x,self.pos_y,int(onesecond/2))
+            damage.add(effects)
         if self.health <= 0:
             self.kill()
             print("Oops, I died!")
@@ -203,7 +207,7 @@ class Creature(pygame.sprite.Sprite):
 
     # def __str__(self):
     #     return f"{self.name}"
-    def interact(self,target):
+    def interact(self,target,groups):
         print(f"{self.name}interacted with {self.target}")
 
     def update(self,groups):
@@ -243,12 +247,13 @@ class Enemy(Creature):
             self.target = smallestdist[1]
             print(f"{self.name} started targeting {self.target}!")
         
-    def interact(self, target):
-        self.attack(target) #SIKE
+    def interact(self, target,groups):
+        self.attack(target,groups) #SIKE
 
-    def attack(self,target):
+    def attack(self,target,groups):
+        effects = groups[-1]
         if pygame.sprite.collide_rect(self,target) and self.status["attack_cooldown"] == 0:
-            target.hp_change(-1)
+            target.hp_change(-1,effects)
             self.status["attack_cooldown"] = int(0.5*onesecond)
             print(f"{self.name} attacked {target}!")
         self.status["attack_cooldown"] -= 1

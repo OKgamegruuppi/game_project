@@ -1,7 +1,7 @@
 import pygame
 from data.creature import Creature
 from data.settings import fps
-from data.effects import Effect
+import data.effects as effectmod
 
 class Player(Creature):
     def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=10,target=None,status={"attack_cooldown":0},awareness=0,dmg=1):
@@ -17,9 +17,9 @@ class Player(Creature):
         }
 
         # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)        
-        self.attackspeed = fps
-        self.attackhitbox = pygame.sprite.Sprite().convert_alpha()
-        self.attackimage = pygame.image.load("data/assets/blood_red1.png")
+        self.attackspeed = int(fps/3)
+        self.attackhitbox = pygame.sprite.Sprite()
+        #self.attackimage = pygame.image.load("data/assets/blood_red1.png").convert_alpha()
         #self.attackhitbox = Effect("Attack",hiticon,0,0,int(fps/3))
         self.attackhitbox.rect = self.rect
 
@@ -79,11 +79,15 @@ class Player(Creature):
             # If targets found, deal damage to each, otherwise nothing happens
             if self.targets:
                 for target in self.targets:
-                    target.hp_change(-self.dmg)
-                    attack = Effect("Player Attack",self.attackimage,target.pos_x,target.pos_y,int(fps/2))
+                    target.hp_change(-self.dmg,effects)
+                    attack = effectmod.Effect("Player Attack",effectmod.player_attack,target.pos_x,target.pos_y,self.attackspeed)
                     attack.add(effects)
             else:
                 print("Nothing to attack!")
+                attack_x = self.pos_x + self.dir.x*self.rect.width
+                attack_y = self.pos_y + self.dir.y*self.rect.height
+                attack = effectmod.Effect("Player Attack",effectmod.player_attack,attack_x,attack_y,self.attackspeed)
+                attack.add(effects)
             # Clear target list
             self.targets = None
             # Start attack cooldown
@@ -99,11 +103,12 @@ class Player(Creature):
     
     # group = Groups of sprites that the player might collide with
     def update(self,groups):
-        self.movement(groups)
-        # Check attack_cooldown, and reset or increase it if needed      
+        # Check attack_cooldown, and reset or increase it if needed
         if self.status["attack_cooldown"] == self.attackspeed:
             self.status["attack_cooldown"] = 0
         elif self.status["attack_cooldown"] > 0:
             self.status["attack_cooldown"] += 1
+        if self.status["attack_cooldown"] == 0:
+            self.movement(groups)      
         #pygame.draw.rect(screen,"#333333",self.hitbox)
         #screen.blit(self.image,(self.pos_x,self.pos_y))

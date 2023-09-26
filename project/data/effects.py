@@ -1,6 +1,8 @@
 import pygame
-from data.creature import Creature
 from data.settings import fps as onesecond
+
+player_attack = pygame.image.load("data/assets/attack.png")
+blood_red = pygame.image.load("data/assets/blood_red1.png")
 
 class Effect(pygame.sprite.Sprite):
     # Class containing special effects
