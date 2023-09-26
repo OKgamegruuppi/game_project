@@ -2,10 +2,12 @@
 import pygame, sys
 from random import randint
 from data.settings import windowsizeX, windowsizeY
-from map.init_map import grouplist,enemies,player
+from map.camera import CameraGroup
+from map.init_map import grouplist,enemies,player,add_to_camera
 from data.controls import game_event_observer
 from data.screenrefresher import draw_on_screen
 
+'''
 #classes (Tree, Player, CameraGroup)
 class Tree(pygame.sprite.Sprite):
     def __init__(self,pos,group):
@@ -42,7 +44,9 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.input()
         self.rect.center += self.direction * self.speed
+'''
 #####################################################################################
+'''
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
@@ -74,15 +78,17 @@ class CameraGroup(pygame.sprite.Group):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image,offset_pos)
 
-
+'''
     #initializing pygame, the screen and the clock.
 pygame.init()
 screen = pygame.display.set_mode((windowsizeX,windowsizeY))
 clock = pygame.time.Clock()
 
+
     #camera setup
 camera_group = CameraGroup()
-    
+add_to_camera(camera_group)
+'''   
     #spawn player
 player = Player((640, 360), camera_group)
     
@@ -91,7 +97,7 @@ for i in range(20):
     random_x = randint(0,1000)
     random_y = randint(0,1000)
     Tree((random_x,random_y), camera_group)
-    
+'''    
 #main loop execution
 
 while True:
