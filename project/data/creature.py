@@ -145,6 +145,7 @@ class Creature(pygame.sprite.Sprite):
 
             #kun seisonut 0.5s, määritä kävely taas 60 ticks
             if self.status["standing"] >= 0.2*onesecond:
+                            #0.2*onesec is a float, remember this for later
                 #print("stood for ",self.status["standing"])
                 self.status["walking"] = 1*onesecond
                 self.status["standing"] = 0
@@ -223,7 +224,7 @@ class Enemy(Creature):
 
     def select_target(self,groups):
         #target on objektissa määritelty mutta VOI määritellä myös erikseen movement funktiossa jos haluat targetoida koordinaatteja
-        target = self.target if self.target else None
+        target = self.target if self.target and self.target.alive else None
 
         #find the closest friendly, groups[1] is friendlies rn
         if target == None:

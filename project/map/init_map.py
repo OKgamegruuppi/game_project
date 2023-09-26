@@ -21,9 +21,13 @@ player = Player("Marcos Petriades",marcos,50,50,(0,0))
 
 
 playergroup = pygame.sprite.GroupSingle(player)
+playergroup.name = "Playergroup"
 collidables =pygame.sprite.Group()
+collidables.name = "Collidables"
 friendlies = pygame.sprite.Group()
+friendlies.name = "Friendlies"
 enemies = pygame.sprite.Group()
+enemies.name = "Enemies"
 
 cats = []
 trees = []
