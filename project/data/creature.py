@@ -193,8 +193,9 @@ class Creature(pygame.sprite.Sprite):
     def hp_change(self,change):
         self.health += change
         if self.health <= 0:
-            print("Oops, I died!")
             self.kill()
+            print("Oops, I died!")
+            print(self.groups)
             # Add a function to remove self from "alive" groups
             # And or completely remove Creature
         else:
@@ -231,6 +232,7 @@ class Enemy(Creature):
             #Smallestdist has 0: the distance, 1: the creature
             smallestdist = [windowsizeX,None]
 
+            #friendl_i = potential target
             for friendl_i in groups[1]:
                 dist_x = abs(friendl_i.pos_x - self.pos_x)
                 dist_y = abs(friendl_i.pos_y - self.pos_y)
@@ -247,7 +249,7 @@ class Enemy(Creature):
     def attack(self,target):
         if pygame.sprite.collide_rect(self,target) and self.status["attack_cooldown"] == 0:
             target.hp_change(-1)
-            self.status["attack_cooldown"] = 0.5*onesecond
+            self.status["attack_cooldown"] = int(0.5*onesecond)
             print(f"{self.name} attacked {target}!")
         self.status["attack_cooldown"] -= 1
 
