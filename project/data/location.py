@@ -45,7 +45,7 @@ bord_y100 = Map_object(mapsizeX+150,-120,pygame.image.load("data/assets/y-border
 borders = pygame.sprite.Group(bord_x0,bord_x100,bord_y0,bord_y100)
 decor = pygame.sprite.Group()
 
-for i in range(20):
+for i in range(200):
     
     random_x = randint(50,mapsizeX-50)
     random_y = randint(50,mapsizeY-50)
