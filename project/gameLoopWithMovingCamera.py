@@ -74,36 +74,35 @@ class CameraGroup(pygame.sprite.Group):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image,offset_pos)
 
-#initializing pygame, the screen and the clock.
+
+    #initializing pygame, the screen and the clock.
 pygame.init()
 screen = pygame.display.set_mode((windowsizeX,windowsizeY))
 clock = pygame.time.Clock()
 
-def gameEventLoop(self):
     #camera setup
-    camera_group = CameraGroup()
+camera_group = CameraGroup()
     
     #spawn player
-    player = Player((640, 360), camera_group)
+player = Player((640, 360), camera_group)
     
     #spawning trees
-    for i in range(20):
-        random_x = randint(0,1000)
-        random_y = randint(0,1000)
-        Tree((random_x,random_y), camera_group)
+for i in range(20):
+    random_x = randint(0,1000)
+    random_y = randint(0,1000)
+    Tree((random_x,random_y), camera_group)
     
-        #main loop execution
+#main loop execution
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-        screen.fill('#71ddee')
-        camera_group.update()
-        camera_group.custom_draw(player)
-        pygame.display.update()
-        clock.tick(60)
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    screen.fill('#71ddee')
+    camera_group.update()
+    camera_group.custom_draw(player)
+    pygame.display.update()
+    clock.tick(60)
 
-if __name__ == "__main__":
-    gameEventLoop()
+
