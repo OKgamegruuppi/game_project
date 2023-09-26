@@ -1,10 +1,12 @@
 from random import randint
 from data.settings import windowsizeX as X
 from data.settings import windowsizeY as Y
+from map.camera import camera_group
 from data.creature import Creature,Enemy, Pickup
 from data.player import Player
 from data.location import Location
 from data.location import Map_object,borders
+
 
 import pygame
 
@@ -35,6 +37,13 @@ for i in range(1,10):
     friendlies.add(Creature("Cat",cat1_ico,randint(20,X-20),randint(20,Y-20),[1,0],randint(1,4),1,None,{"walking":40,"standing":0}))    #make 9
     if i % 3 == 0 : enemies.add(Enemy("Green",defaultEnemy_icon2,randint(20,X-20),randint(20,Y-20),[1,0],2,1,awareness=50))             #make 3
 
+#####add all creatures to camera_group
+
+for i in enemies:
+    camera_group.add(i)
+for i in friendlies:
+    camera_group.add(i)
+camera_group.add(player)
 
 grouplist = [borders,friendlies,enemies,playergroup]
 for list in grouplist:
