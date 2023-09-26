@@ -1,9 +1,10 @@
 #libraries
 import pygame
-from random import randint
 from data.settings import windowsizeX, windowsizeY,fps
+from data.game_update import game_update
 from map.camera import CameraGroup
-from map.init_map import grouplist,enemies,player,effects,add_to_camera
+from data.init_groups import *
+from map.init_map import *
 from data.controls import game_event_observer
 
 
@@ -16,10 +17,15 @@ class Mainloop():
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("GAME WINDOW")
 
+        ##initing the variables brought from init_map
         self.enemies = enemies
+        self.friendlies = friendlies
         self.player = player
-        self.grouplist = grouplist
+        self.playergroup = playergroup
         self.effects = effects
+
+        self.collidables = collidables
+        self.grouplist = grouplist
 
             #camera setup
         self.camera_group = CameraGroup()
@@ -29,11 +35,14 @@ class Mainloop():
     #main loop execution
     def gameEventLoop(self):
         while True:
-            game_event_observer(self.player,self.enemies,self.effects)
+            game_event_observer(self)
             
             self.screen.fill('#71ddee')
             
-            self.camera_group.update(self.grouplist)
+            #self.camera_group.update(self.grouplist)
+            game_update(self)
+
+            ##custom draw keeps player in the middle of the screen and draw all elements in camera group
             self.camera_group.custom_draw(player)
             pygame.display.update()
             self.clock.tick(fps)

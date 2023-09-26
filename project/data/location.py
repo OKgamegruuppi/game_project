@@ -1,6 +1,7 @@
 import pygame
 from random import randint
 from data.settings import *
+from data.init_groups import borders,decor
 
 
 class Map_object(pygame.sprite.Sprite):
@@ -42,8 +43,7 @@ bord_y100 = Map_object(mapsizeX+150,-120,pygame.image.load("data/assets/y-border
 # bord_y0 = Map_object(0,0,7,windowsizeY,pygame.image.load("data\\assets\\y-border-height.jpg"))
 # bord_y100 = Map_object(windowsizeX-7,0,7,windowsizeY,pygame.image.load("data\\assets\\y-border-height.jpg"))
 
-borders = pygame.sprite.Group(bord_x0,bord_x100,bord_y0,bord_y100)
-decor = pygame.sprite.Group()
+borders.add(bord_x0,bord_x100,bord_y0,bord_y100)
 
 for i in range(200):
     
