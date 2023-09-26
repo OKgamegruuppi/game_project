@@ -20,6 +20,7 @@ class Player(Creature):
         self.image_left = pygame.transform.flip(self.image.subsurface(pygame.Rect(0,24,24,24)),True,False)
         self.image_right = self.image.subsurface(pygame.Rect(0,24,24,24))
         self.image = self.image_down
+        self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
         # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)        
         self.attackspeed = int(fps/3)
         self.attackhitbox = pygame.sprite.Sprite()
