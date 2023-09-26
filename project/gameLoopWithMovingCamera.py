@@ -79,26 +79,31 @@ pygame.init()
 screen = pygame.display.set_mode((windowsizeX,windowsizeY))
 clock = pygame.time.Clock()
 
-#camera setup
-camera_group = CameraGroup()
+def gameEventLoop(self):
+    #camera setup
+    camera_group = CameraGroup()
+    
+    #spawn player
+    player = Player((640, 360), camera_group)
+    
+    #spawning trees
+    for i in range(20):
+        random_x = randint(0,1000)
+        random_y = randint(0,1000)
+        Tree((random_x,random_y), camera_group)
+    
+        #main loop execution
 
-#spawn player
-player = Player((640, 360), camera_group)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        screen.fill('#71ddee')
+        camera_group.update()
+        camera_group.custom_draw(player)
+        pygame.display.update()
+        clock.tick(60)
 
-#spawning trees
-for i in range(20):
-    random_x = randint(0,1000)
-    random_y = randint(0,1000)
-    Tree((random_x,random_y), camera_group)
-
-#main loop execution
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-    screen.fill('#71ddee')
-    camera_group.update()
-    camera_group.custom_draw(player)
-    pygame.display.update()
-    clock.tick(60)
+if __name__ == "__main__":
+    Mainloop()
