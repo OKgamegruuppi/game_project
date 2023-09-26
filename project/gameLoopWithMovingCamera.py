@@ -2,7 +2,8 @@
 import pygame, sys
 from random import randint
 from data.settings import windowsizeX, windowsizeY
-from map.init_map import grouplist,enemies,camera_group,player
+from map.camera import CameraGroup
+from map.init_map import grouplist,enemies,player,add_to_camera
 from data.controls import game_event_observer
 from data.screenrefresher import draw_on_screen
 
@@ -83,10 +84,11 @@ pygame.init()
 screen = pygame.display.set_mode((windowsizeX,windowsizeY))
 clock = pygame.time.Clock()
 
-'''
+
     #camera setup
 camera_group = CameraGroup()
-   
+add_to_camera(camera_group)
+'''   
     #spawn player
 player = Player((640, 360), camera_group)
     
