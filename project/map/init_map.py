@@ -2,6 +2,7 @@ from random import randint
 from data.settings import windowsizeX as X
 from data.settings import windowsizeY as Y
 from data.settings import show_hitboxes
+from data.location import borders,decor
 from data.creature import Creature,Pickup
 from data.enemies import Enemy
 from data.player import Player
