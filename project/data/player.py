@@ -1,6 +1,7 @@
 import pygame
 from data.creature import Creature
 from data.settings import fps
+from data.effects import Effect
 
 class Player(Creature):
     def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=10,target=None,status={"attack_cooldown":0},awareness=0,dmg=1):
@@ -15,9 +16,11 @@ class Player(Creature):
             "right": False
         }
 
-        # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)
+        # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)        
         self.attackspeed = fps
         self.attackhitbox = pygame.sprite.Sprite()
+        self.attackimage = pygame.image.load("data/assets/blood_red1.png")
+        #self.attackhitbox = Effect("Attack",hiticon,0,0,int(fps/3))
         self.attackhitbox.rect = self.rect
 
     def __str__(self):
@@ -64,7 +67,7 @@ class Player(Creature):
                 # print(self.dir.x,self.dir.y)
 
     # Attack all enemies in a hitbox in front of the player
-    def attack(self,group):
+    def attack(self,enemies,effects):
         # Check if attack on cooldown, if not, attack!
         if self.status["attack_cooldown"] == 0:
             # Determine attack hitbox based on player direction
@@ -72,11 +75,13 @@ class Player(Creature):
             #print(self.rect)
             #print(self.attackhitbox.rect)
             # Check if any enemies in the attack hitbox
-            self.targets = pygame.sprite.spritecollide(self.attackhitbox,group,False)
+            self.targets = pygame.sprite.spritecollide(self.attackhitbox,enemies,False)
             # If targets found, deal damage to each, otherwise nothing happens
             if self.targets:
                 for target in self.targets:
                     target.hp_change(-self.dmg)
+                    attack = Effect("Player Attack",self.attackimage,target.pos_x,target.pos_y,int(fps/2))
+                    attack.add(effects)
             else:
                 print("Nothing to attack!")
             # Clear target list

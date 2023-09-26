@@ -10,8 +10,12 @@ def draw_on_screen(self):
 #grouplist is configured in map/init_map
 
     for group in self.grouplist:
-        group.update(self.grouplist)
-        group.draw(self.display)
+        if group:
+            group.update(self.grouplist)
+            group.draw(self.display)
+
+
+    
     
     #OLD CODE
     # self.borders.draw(self.display)

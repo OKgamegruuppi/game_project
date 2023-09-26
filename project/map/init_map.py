@@ -28,6 +28,9 @@ friendlies = pygame.sprite.Group()
 friendlies.name = "Friendlies"
 enemies = pygame.sprite.Group()
 enemies.name = "Enemies"
+effects = pygame.sprite.Group()
+effects.name = "Effects"
+
 
 cats = []
 trees = []
@@ -40,3 +43,4 @@ grouplist = [borders,friendlies,enemies,playergroup]
 for list in grouplist:
     for sprite in list:
         collidables.add(sprite)
+grouplist.append(effects)

@@ -21,7 +21,7 @@ def menu_event_observer():
                 # Choose current selection
 
 # Arguments are player Sprite, and a Group of enemies to attack
-def game_event_observer(player,enemies):
+def game_event_observer(player,enemies,effects):
     for keyPress in pygame.event.get():
         if keyPress.type == pygame.KEYDOWN:
             # Movement
@@ -35,7 +35,7 @@ def game_event_observer(player,enemies):
                 player.move["right"] = True
             # Attack
             if keyPress.key == pygame.K_SPACE:
-                player.attack(enemies)
+                player.attack(enemies,effects)
             # Interact
             if keyPress.key == pygame.K_f:
                 player.interact()
