@@ -1,5 +1,10 @@
 import pygame
 
+'''
+DO NOT IMPORT ANY OTHER MODULES HERE
+spritegroup initialisation for easy access
+'''
+
 grouplist = []
 
 playergroup = pygame.sprite.GroupSingle()
