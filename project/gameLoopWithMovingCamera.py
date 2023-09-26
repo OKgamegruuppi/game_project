@@ -5,7 +5,6 @@ from data.settings import windowsizeX, windowsizeY,fps
 from map.camera import CameraGroup
 from map.init_map import grouplist,enemies,player,effects,add_to_camera
 from data.controls import game_event_observer
-from data.screenrefresher import draw_on_screen
 
 
 class Mainloop():
