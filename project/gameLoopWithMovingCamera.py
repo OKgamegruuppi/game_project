@@ -1,6 +1,10 @@
 #libraries
 import pygame, sys
 from random import randint
+from data.settings import windowsizeX, windowsizeY
+from map.init_map import grouplist,enemies,player
+from data.controls import game_event_observer
+from data.screenrefresher import draw_on_screen
 
 #classes (Tree, Player, CameraGroup)
 class Tree(pygame.sprite.Sprite):
