@@ -11,7 +11,7 @@ import pygame
 
 
 # Load test images
-marcos = pygame.image.load("data/assets/slime_monster_mid.png")
+marcos = pygame.image.load("data/assets/slime_monster_spritesheet.png")
 cat1_ico = pygame.image.load("data/assets/Cat-sprite-stand.png")
 defaultEnemy_icon2 = pygame.image.load("data/assets/TEST_Light_balls_tree1.png")
 

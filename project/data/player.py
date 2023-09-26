@@ -15,7 +15,11 @@ class Player(Creature):
             "left": False,
             "right": False
         }
-
+        self.image_up = self.image.subsurface(pygame.Rect(0,0,24,24))
+        self.image_down = self.image.subsurface(pygame.Rect(0,48,24,24))
+        self.image_left = pygame.transform.flip(self.image.subsurface(pygame.Rect(0,24,24,24)),True,False)
+        self.image_right = self.image.subsurface(pygame.Rect(0,24,24,24))
+        self.image = self.image_down
         # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)        
         self.attackspeed = int(fps/3)
         self.attackhitbox = pygame.sprite.Sprite()
@@ -37,6 +41,7 @@ class Player(Creature):
                 self.rect = self.rect.move(-self.speed,0)
             else:
                 self.dir.xy = 1,0
+                self.image = self.image_right
                 # print(self.dir.x,self.dir.y)
         if self.move["left"] == True:
             self.pos_x -= self.speed
@@ -46,6 +51,7 @@ class Player(Creature):
                 self.rect = self.rect.move(self.speed,0)
             else:
                 self.dir.xy = -1,0
+                self.image = self.image_left
                 # print(self.dir.x,self.dir.y)
         if self.move["up"] == True:
             self.pos_y -= self.speed
@@ -55,6 +61,7 @@ class Player(Creature):
                 self.rect = self.rect.move(0,self.speed)
             else:
                 self.dir.xy = 0,-1
+                self.image = self.image_up
                 # print(self.dir.x,self.dir.y)
         if self.move["down"] == True:
             self.pos_y += self.speed
@@ -64,6 +71,7 @@ class Player(Creature):
                 self.rect = self.rect.move(0,-self.speed)
             else:
                 self.dir.xy = 0,1
+                self.image = self.image_down
                 # print(self.dir.x,self.dir.y)
 
     # Attack all enemies in a hitbox in front of the player
