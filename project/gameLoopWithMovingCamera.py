@@ -31,6 +31,9 @@ class Mainloop():
     #main loop execution
     def gameEventLoop(self):
         while True:
+            #INSERT WAY TO CHANGE self.game_pause_check value HERE
+            
+            
             if self.game_pause_check == False:
                 game_event_observer(self)
                 print(f'GAME IS PAUSED? {self.game_pause_check}')
@@ -42,7 +45,7 @@ class Mainloop():
                 pygame.display.update()
                 self.clock.tick(fps)
                 
-            #IF game_paused == True, then the game is paused
+            #IF game_pause_check == True ==> PAUSE THE GAME
             else:
                 game_event_observer(self)
                 pygame.display.update()
