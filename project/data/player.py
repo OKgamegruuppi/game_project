@@ -52,49 +52,71 @@ class Player(Creature):
     def __str__(self):
         print(self.name)
         
+    #Function to determine which element of walking to display.
+    def walk_animation(self,direction):
+        element = int((self.walking//(fps/3) % 2)+1)
+        return direction[element]
+    
     # Move player character if self.move == True
     # Check if moving causes a collision, if so, don't move!
     def movement(self):
-        if self.move["right"] == True:
-            self.pos_x += self.speed
-            self.rect = self.rect.move(self.speed,0)
-            if self.collisions():
-                self.pos_x -= self.speed
-                self.rect = self.rect.move(-self.speed,0)
-            else:
-                self.dir.xy = 1,0
+        # If all movements are False, set self.walking  to 0
+        # Also reset the sprite to standing frame depending on dir
+        if all(value == False for value in self.move.values()):
+            self.walking = 0
+            if self.dir.x == 1 and self.dir.y == 0:
                 self.image = self.image_right[0]
-                # print(self.dir.x,self.dir.y)
-        if self.move["left"] == True:
-            self.pos_x -= self.speed
-            self.rect = self.rect.move(-self.speed,0)
-            if self.collisions():
+            if self.dir.x == -1 and self.dir.y == 0:
+                self.image = self.image_left[0]
+            if self.dir.x == 0 and self.dir.y == -1:
+                self.image = self.image_up[0]
+            if self.dir.x == 0 and self.dir.y == 1:
+                self.image = self.image_down[0]   
+        # If even one of hte movements is true, check for collision,
+        # move if able, and change the sprite to walking frame
+        else:
+            if self.move["right"] == True:
                 self.pos_x += self.speed
                 self.rect = self.rect.move(self.speed,0)
-            else:
-                self.dir.xy = -1,0
-                self.image = self.image_left[0]
-                # print(self.dir.x,self.dir.y)
-        if self.move["up"] == True:
-            self.pos_y -= self.speed
-            self.rect = self.rect.move(0,-self.speed)
-            if self.collisions():
-                self.pos_y += self.speed
-                self.rect = self.rect.move(0,self.speed)
-            else:
-                self.dir.xy = 0,-1
-                self.image = self.image_up[0]
-                # print(self.dir.x,self.dir.y)
-        if self.move["down"] == True:
-            self.pos_y += self.speed
-            self.rect = self.rect.move(0,self.speed)
-            if self.collisions():
+                if self.collisions():
+                    self.pos_x -= self.speed
+                    self.rect = self.rect.move(-self.speed,0)
+                else:
+                    self.dir.xy = 1,0
+                    self.image = self.walk_animation(self.image_right)
+                    # print(self.dir.x,self.dir.y)
+            if self.move["left"] == True:
+                self.pos_x -= self.speed
+                self.rect = self.rect.move(-self.speed,0)
+                if self.collisions():
+                    self.pos_x += self.speed
+                    self.rect = self.rect.move(self.speed,0)
+                else:
+                    self.dir.xy = -1,0
+                    self.image = self.walk_animation(self.image_left)
+                    # print(self.dir.x,self.dir.y)
+            if self.move["up"] == True:
                 self.pos_y -= self.speed
                 self.rect = self.rect.move(0,-self.speed)
-            else:
-                self.dir.xy = 0,1
-                self.image = self.image_down[0]
-                # print(self.dir.x,self.dir.y)
+                if self.collisions():
+                    self.pos_y += self.speed
+                    self.rect = self.rect.move(0,self.speed)
+                else:
+                    self.dir.xy = 0,-1
+                    self.image = self.walk_animation(self.image_up)
+                    # print(self.dir.x,self.dir.y)
+            if self.move["down"] == True:
+                self.pos_y += self.speed
+                self.rect = self.rect.move(0,self.speed)
+                if  self.collisions():
+                    self.pos_y -= self.speed
+                    self.rect = self.rect.move(0,-self.speed)
+                else:
+                    self.dir.xy = 0,1
+                    self.image = self.walk_animation(self.image_down)
+                    # print(self.dir.x,self.dir.y)
+            # Increase self.walking, so that frames change!
+            self.walking += 1
 
     # Attack all enemies in a hitbox in front of the player
     def attack(self):
