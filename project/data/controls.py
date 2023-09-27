@@ -1,18 +1,6 @@
 import pygame
 
-global game_paused
-game_paused = False
 
-def pause():
-    while True:
-        print("paused")
-        for keyPress in pygame.event.get():
-            if keyPress.type == pygame.KEYDOWN:
-                if keyPress.key == pygame.K_p:
-                    print("pressing pause")
-                    return
-            else:
-                pass
 
 # Event observer for main menu(?)
 def menu_event_observer():
@@ -34,8 +22,12 @@ def menu_event_observer():
                 pass
                 # Choose current selection
 
+
+######NEW
+game_turned_on = True
 # Arguments are player Sprite, and a Group of enemies to attack
 def game_event_observer(game):
+    global game_turned_on #######NEW
     for keyPress in pygame.event.get():
         if keyPress.type == pygame.KEYDOWN:
             # Movement
@@ -63,8 +55,15 @@ def game_event_observer(game):
             # Inventory    
             if keyPress.key == pygame.K_i:
                 pass
+            #######NEW
             if keyPress.key == pygame.K_p:
-                pause()
+                if game_turned_on == False:
+                    game_turned_on = True
+                    return game_turned_on
+                else:
+                    game_turned_on = False
+                    return game_turned_on
+            #######################
             # Etc
 
         if keyPress.type == pygame.KEYUP:
