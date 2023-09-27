@@ -5,14 +5,14 @@ from data.game_update import game_update
 from map.camera import CameraGroup
 from data.init_groups import *
 from map.init_map import *
-from data.controls import game_event_observer
-
-game_paused = False
-
+from data.controls import game_event_observer, game_paused
 
 class Mainloop():
     def __init__(self):
         pygame.init()
+
+        self.game_pause_check = game_paused
+
 
         #initializing pygame, the screen and the clock.
         self.screen = pygame.display.set_mode((windowsizeX,windowsizeY))
@@ -32,8 +32,8 @@ class Mainloop():
     def gameEventLoop(self):
         while True:
             game_event_observer(self)
-            print(f'GAME IS PAUSED {game_paused}')
-            if game_paused == False:
+            print(f'GAME IS PAUSED {self.game_pause_check}')
+            if self.game_pause_check == False:
                 self.screen.fill('#71ddee')
                 #self.camera_group.update(self.grouplist)
                 game_update(self)
@@ -46,7 +46,7 @@ class Mainloop():
             else:
                 game_event_observer(self)
                 pygame.display.update()
-                print(f'GAME IS PAUSED {game_paused}')
+                print(f'GAME IS PAUSED {self.game_pause_check}')
                 self.clock.tick(fps)
 
 
