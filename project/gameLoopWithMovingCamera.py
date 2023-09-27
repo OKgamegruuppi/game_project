@@ -5,14 +5,12 @@ from data.game_update import game_update
 from map.camera import CameraGroup
 from data.init_groups import *
 from map.init_map import *
-from data.controls import game_event_observer
+from data.controls import game_event_observer, game_paused
 
 
 class Mainloop():
     def __init__(self):
         pygame.init()
-
-        self.game_pause_check = False
 
         #initializing pygame, the screen and the clock.
         self.screen = pygame.display.set_mode((windowsizeX,windowsizeY))
@@ -30,18 +28,9 @@ class Mainloop():
 
     #main loop execution
     def gameEventLoop(self):
-        while True:
-            #INSERT WAY TO CHANGE self.game_pause_check value HERE
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p:
-                        if self.game_pause_check == False:
-                            self.game_pause_check = True
-                        else:
-                            self.game_pause_check = False
+        self.game_pause_check = False
 
+        while True:
             if self.game_pause_check == False:
                 game_event_observer(self)
                 print(f'GAME IS PAUSED? {self.game_pause_check}')
