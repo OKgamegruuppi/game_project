@@ -22,7 +22,7 @@ class Mainloop():
 
         #camera setup
         camera_group.append(CameraGroup())
-        add_to_camera(camera_group[0])
+        add_to_camera()
         self.gameEventLoop()
 
 
