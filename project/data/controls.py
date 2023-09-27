@@ -8,8 +8,8 @@ def pause():
         print("paused")
         for keyPress in pygame.event.get():
             if keyPress.type == pygame.KEYDOWN:
-                if keyPress.key == pygame.K_i:
-                    print("pressing i")
+                if keyPress.key == pygame.K_p:
+                    print("pressing pause")
                     return
             else:
                 pass
