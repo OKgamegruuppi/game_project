@@ -8,6 +8,7 @@ def game_update(game):
     enemies.update(game.player)
     # game.enemies.update(game.player,game.friendlies,game.grouplist,game.camera_group)
     friendlies.update()
+    itemgroup.update()
     playergroup.update()
     effectsgroup.update()
 
@@ -17,4 +18,6 @@ def game_update(game):
     if info_freq > 60:
         for enemy in enemies:
             enemy.info()
+        for item in itemgroup:
+            item.info()
         info_freq = 0

@@ -3,9 +3,10 @@ from data.settings import windowsizeX as X
 from data.settings import windowsizeY as Y
 from data.settings import show_hitboxes
 from data.location import borders,decor
-from data.creature import Creature,Pickup
+from data.creature import Creature
 from data.enemies import Enemy
 from data.player import Player
+from data.items import Item
 from data.init_groups import *
 
 
@@ -16,6 +17,7 @@ import pygame
 marcos = pygame.image.load("data/assets/slime_monster_spritesheet.png")
 cat1_ico = pygame.image.load("data/assets/Cat-sprite-stand.png")
 defaultEnemy_icon2 = pygame.image.load("data/assets/TEST_Light_balls_tree1.png")
+testitem = pygame.image.load("data/assets/gold_pile.png")
 
 player = Player("Marcos Petriades",marcos,int(X/2),int(Y/2),(0,0))
 playergroup.add(player)
@@ -27,6 +29,7 @@ for i in range(1,10):
     friendlies.add(Creature("Cat"+str(i),cat1_ico,randint(20,X-20),randint(20,Y-20),[1,0],randint(1,4),1,None,{"walking":40,"standing":0}))           #make 9
     if i % 3 == 0 : enemies.add(Enemy("Green"+str(int(i/3)),defaultEnemy_icon2,randint(20,X-20),randint(20,Y-20),[1,0],2,1,awareness=50))             #make 3
 
+itemgroup.add(Item("Moneybags",testitem,randint(20,X-20),randint(20,Y-20),20))
 
 # for list in grouplist[0:3]:     #skips grouplist[4]: effects
 #     for sprite in list:
@@ -42,6 +45,8 @@ def add_to_camera():
     for i in enemies:
         camera_group[0].add(i)
     for i in friendlies:
+        camera_group[0].add(i)
+    for i in itemgroup:
         camera_group[0].add(i)
     camera_group[0].add(player)
 

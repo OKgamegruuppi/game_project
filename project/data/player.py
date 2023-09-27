@@ -29,6 +29,7 @@ class Player(Creature):
             "left": False,
             "right": False
         }
+
         # Turn spritesheet into individual list for each direction
         self.sheet = spritesheet(self.image,3,3)
         self.image_up = self.sheet[:3]
@@ -43,11 +44,19 @@ class Player(Creature):
         self.image = self.image_down[0]
         # Walking counter for animation
         self.walking = 0
+
+        # Build hitbox for player
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
-        # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)        
+
+        # Attackspeed tells how long the attack cooldown is 
+        # (using game loop fps as clock)     
         self.attackspeed = int(fps/3)
         self.attackhitbox = pygame.sprite.Sprite()
         self.attackhitbox.rect = self.rect
+
+        # Player has an inventory, which is a list containing
+        # Item objects. Starts empty.
+        self.inventory = []
 
     def __str__(self):
         print(self.name)
@@ -133,7 +142,7 @@ class Player(Creature):
             attack_y = self.pos_y + self.dir.y*self.rect.height
             if self.targets:
                 for target in self.targets:
-                    target.hp_change(-self.dmg)
+                    target.hp_change(-self.dmg,self)
                     attack = effectmod.Effect("Player Attack",effectmod.player_attack,attack_x,attack_y,self.attackspeed)
                     attack.add(effectsgroup)
                     attack.add(camera_group[0])
@@ -148,6 +157,13 @@ class Player(Creature):
             self.status["attack_cooldown"] += 1
         else:
             print("Attack on cooldown!")
+
+    def check_inventory(self):
+        if self.inventory:
+            for item in self.inventory:
+                print(item.name)
+        else:
+            print("Your Inventory is empty")
 
     def itempickup(self,target):
         pass

@@ -41,12 +41,12 @@ def game_event_observer(game):
             # Interact
             if keyPress.key == pygame.K_f:
                 game.player.interact()
+            # Inventory
+            if keyPress.key == pygame.K_i:
+                game.player.check_inventory()
 
             # Pause Menu
             if keyPress.key == pygame.K_ESCAPE:
-                pass
-            # Inventory    
-            if keyPress.key == pygame.K_i:
                 pass
                 
             # Etc

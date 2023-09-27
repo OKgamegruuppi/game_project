@@ -14,7 +14,8 @@ friendlies = pygame.sprite.Group()
 friendlies.name = "Friendlies"
 enemies = pygame.sprite.Group()
 enemies.name = "Enemies"
-
+itemgroup = pygame.sprite.Group()
+itemgroup.name = "Items"
 borders = pygame.sprite.Group()
 
 # collidables.name = "Collidables"
@@ -37,5 +38,6 @@ camera_group = []
 collidables.append(borders)
 collidables.append(friendlies)
 collidables.append(enemies)
+collidables.append(itemgroup)
 collidables.append(playergroup)
 #collidables.append(effectsgroup)

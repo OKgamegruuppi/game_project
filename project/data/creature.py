@@ -202,7 +202,7 @@ class Creature(pygame.sprite.Sprite):
         ## target yleensä pelaaja
 
     # Change HP of the Creature
-    def hp_change(self,change):
+    def hp_change(self,change,source=None):
         self.health += change
         if change < 0:
             damage = effectmod.Effect("Ouchie",effectmod.blood_red,self.pos_x,self.pos_y,int(onesecond/2))
@@ -240,30 +240,5 @@ class NPC(Creature):
         pass
 
         ##UI elements
-
-
-
-
-class Pickup(Creature):
-    #technically not a creature, sue me
-
-    def __init__(self,name,image,pos_x,pos_y,timer=None):
-        super().__init__(name,image,pos_x,pos_y)
-        self.timer = timer
-
-    def spawn(self,timer=None):
-        #chooses a random location in bounds (-10 from the edges atm)
-
-        self.pos_x = randint(10,windowsizeX-10)
-        self.pos_y = randint(10,windowsizeY-10)
-        self.timer = timer
-        #possible to set a timer when spawn() is called not just at init (for constantly appearing instances)
-
-    def update(self):
-        if self.timer and self.timer > 0:
-            self.timer -= 1 
-        else: self.spawn(onesecond)       
-        #spawn a "new" pickup with (number) amount of ticks in timer
-        #visual effect only, actually teleports the same instance
 
         
