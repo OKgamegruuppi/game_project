@@ -24,9 +24,9 @@ playergroup.add(player)
 
 
 # Make objects, and add them to the Group    
-                        ##(name,image,pos_x,pos_y,dir,speed,health=0,target=None,status={},awareness=0)
+                        ##(name,image,pos_x,pos_y,dir,speed,health=0,target=None,awareness=0)
 for i in range(1,10):
-    friendlies.add(Creature("Cat"+str(i),cat1_ico,randint(20,X-20),randint(20,Y-20),[1,0],randint(1,4),1,None,{"walking":40,"standing":0}))           #make 9
+    friendlies.add(Creature("Cat"+str(i),cat1_ico,randint(20,X-20),randint(20,Y-20),[1,0],randint(1,4),1))           #make 9
     if i % 3 == 0 : enemies.add(Enemy("Green"+str(int(i/3)),defaultEnemy_icon2,randint(20,X-20),randint(20,Y-20),[1,0],2,1,awareness=50))             #make 3
 
 itemgroup.add(Item("Moneybags",testitem,randint(20,X-20),randint(20,Y-20),20))

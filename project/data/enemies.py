@@ -10,9 +10,9 @@ from data.init_groups import *
 
 class Enemy(Creature):
                 
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0,"attack_cooldown":0},awareness=1,dmg=1):
-        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,status,awareness)
-
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,awareness=1,dmg=1):
+        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)
+        self.status = {"walking":20, "standing":0, "attack_cooldown":0}
         self.dmg = dmg
 
 
@@ -45,21 +45,21 @@ class Enemy(Creature):
             if self.target: print(f"{self.name} started targeting {self.target.name}!")
     ######### end select target ##########
 
-    def targeting(self):
-        if self.target is None:
-            if "targeting" in self.status: del self.status["targeting"]         #delete targeting status if target was removed elsewhere
-            return
+    # def targeting(self):
+    #     if (self.target is None) or (self.target.alive == False):
+    #         if "targeting" in self.status: del self.status["targeting"]         #delete targeting status if target was removed elsewhere
+    #         return
 
 
-        if self.notice(self.target):
-            self.status["targeting"] = math.floor(0.1 * self.awareness * onesecond)       #refresh targeting status if in notice range
-            #better awareness = longer memory
+    #     if self.notice(self.target):
+    #         self.status["targeting"] = math.floor(0.1 * self.awareness * onesecond)       #refresh targeting status if in notice range
+    #         #better awareness = longer memory
 
-        elif "targeting" in self.status:
-            self.status["targeting"] -= 1
-            if self.status["targeting"] == 0:
-                del self.status["targeting"]       #clear status effect
-                self.target = None                  #target is forgot
+    #     elif "targeting" in self.status:
+    #         self.status["targeting"] -= 1
+    #         if self.status["targeting"] == 0:
+    #             del self.status["targeting"]       #clear status effect
+    #             self.target = None                  #target is forgot
 
 
     def collisions(self):
@@ -84,9 +84,9 @@ class Enemy(Creature):
 
     def attack(self,target):
         if pygame.sprite.collide_rect(self,target) and self.status["attack_cooldown"] == 0:
+            print(f"{self.name} attacked {target.name}!")
             target.hp_change(-1)
             self.status["attack_cooldown"] = int(0.5*onesecond)
-            print(f"{self.name} attacked {target.name}!")
 
             #effects
             attack = effectmod.Effect("Enemy Attack",effectmod.player_attack,target.pos_x,target.pos_y,int(0.5*onesecond))

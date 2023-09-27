@@ -33,7 +33,7 @@ class Mainloop():
         while True:
             if self.game_pause_check == False:
                 game_event_observer(self)
-                print(f'GAME IS PAUSED? {self.game_pause_check}')
+                #print(f'GAME IS PAUSED? {self.game_pause_check}')
                 self.screen.fill('#71ddee')
                 #self.camera_group.update(self.grouplist)
                 game_update(self)
@@ -44,7 +44,8 @@ class Mainloop():
 
             #IF game_pause_check == True ==> PAUSE THE GAME
             else:
-                print(f'GAME IS PAUSED? {self.game_pause_check}')
+                #print(f'GAME IS PAUSED? {self.game_pause_check}')
+                pass
 
 
 
