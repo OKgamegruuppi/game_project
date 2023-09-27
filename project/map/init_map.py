@@ -33,17 +33,17 @@ for i in range(1,10):
 #         collidables.add(sprite)
 
 
-def add_to_camera(camera_group):
+def add_to_camera():
 #####add all creatures to camera_group
     for i in borders:
-        camera_group.add(i)
+        camera_group[0].add(i)
     for i in decor:
-        camera_group.add(i)
+        camera_group[0].add(i)
     for i in enemies:
-        camera_group.add(i)
+        camera_group[0].add(i)
     for i in friendlies:
-        camera_group.add(i)
-    camera_group.add(player)
+        camera_group[0].add(i)
+    camera_group[0].add(player)
 
 
 ######TBD

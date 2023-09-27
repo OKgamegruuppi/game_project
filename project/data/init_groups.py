@@ -26,6 +26,9 @@ decor = pygame.sprite.Group()
 effectsgroup = pygame.sprite.Group()
 effectsgroup.name = "Effects"
 
+# Create camera_group list
+# IMPORTANT! When using camera_group, in other 
+# modules add stuff to camera_group[0]
 camera_group = []
 
 

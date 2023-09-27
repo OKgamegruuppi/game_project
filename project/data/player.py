@@ -4,9 +4,22 @@ from data.settings import fps
 import data.effects as effectmod
 from data.init_groups import *
 
+# Function to split a spritesheet into a list of individual images
+def spritesheet(img,sprite_rows,sprite_cols):
+    sheet = []
+    sheetwidth = int(img.get_width())
+    sheetheight = int(img.get_height())
+    sheet_x = int(sheetwidth/sprite_cols)
+    sheet_y = int(sheetheight/sprite_rows)
+    for y in range(0,sheetheight,sheet_y):
+        for x in range(0,sheetwidth,sheet_y):
+            sheet.append(img.subsurface(pygame.Rect(x,y,sheet_x,sheet_y)))
+    return sheet
+
 class Player(Creature):
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=10,target=None,status={"attack_cooldown":0},awareness=0,dmg=1):
-        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,status,awareness)     
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=10,target=None,awareness=0,dmg=1):
+        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)     
+        self.status={"attack_cooldown":0}
         self.dmg = dmg
 
         # Determine if player is moving in any direction
@@ -16,17 +29,24 @@ class Player(Creature):
             "left": False,
             "right": False
         }
-        self.image_up = self.image.subsurface(pygame.Rect(0,0,24,24))
-        self.image_down = self.image.subsurface(pygame.Rect(0,48,24,24))
-        self.image_left = pygame.transform.flip(self.image.subsurface(pygame.Rect(0,24,24,24)),True,False)
-        self.image_right = self.image.subsurface(pygame.Rect(0,24,24,24))
-        self.image = self.image_down
+        # Turn spritesheet into individual list for each direction
+        self.sheet = spritesheet(self.image,3,3)
+        self.image_up = self.sheet[:3]
+        self.image_down = self.sheet[6:]
+        self.image_right = self.sheet[3:6]
+        # For left direction, need to flip images
+        self.image_left = []
+        templeft = self.sheet[3:6]
+        for element in templeft:
+            self.image_left.append(pygame.transform.flip(element,True,False))
+        # Set starting image
+        self.image = self.image_down[0]
+        # Walking counter for animation
+        self.walking = 0
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
         # Attackspeed tells how long the attack cooldown is (using game loop fps as clock)        
         self.attackspeed = int(fps/3)
         self.attackhitbox = pygame.sprite.Sprite()
-        #self.attackimage = pygame.image.load("data/assets/blood_red1.png").convert_alpha()
-        #self.attackhitbox = Effect("Attack",hiticon,0,0,int(fps/3))
         self.attackhitbox.rect = self.rect
 
     def __str__(self):
@@ -43,7 +63,7 @@ class Player(Creature):
                 self.rect = self.rect.move(-self.speed,0)
             else:
                 self.dir.xy = 1,0
-                self.image = self.image_right
+                self.image = self.image_right[0]
                 # print(self.dir.x,self.dir.y)
         if self.move["left"] == True:
             self.pos_x -= self.speed
@@ -53,7 +73,7 @@ class Player(Creature):
                 self.rect = self.rect.move(self.speed,0)
             else:
                 self.dir.xy = -1,0
-                self.image = self.image_left
+                self.image = self.image_left[0]
                 # print(self.dir.x,self.dir.y)
         if self.move["up"] == True:
             self.pos_y -= self.speed
@@ -63,7 +83,7 @@ class Player(Creature):
                 self.rect = self.rect.move(0,self.speed)
             else:
                 self.dir.xy = 0,-1
-                self.image = self.image_up
+                self.image = self.image_up[0]
                 # print(self.dir.x,self.dir.y)
         if self.move["down"] == True:
             self.pos_y += self.speed
@@ -73,7 +93,7 @@ class Player(Creature):
                 self.rect = self.rect.move(0,-self.speed)
             else:
                 self.dir.xy = 0,1
-                self.image = self.image_down
+                self.image = self.image_down[0]
                 # print(self.dir.x,self.dir.y)
 
     # Attack all enemies in a hitbox in front of the player
@@ -87,16 +107,16 @@ class Player(Creature):
             # Check if any enemies in the attack hitbox
             self.targets = pygame.sprite.spritecollide(self.attackhitbox,enemies,False)
             # If targets found, deal damage to each, otherwise nothing happens
+            attack_x = self.pos_x + self.dir.x*self.rect.width
+            attack_y = self.pos_y + self.dir.y*self.rect.height
             if self.targets:
                 for target in self.targets:
                     target.hp_change(-self.dmg)
-                    attack = effectmod.Effect("Player Attack",effectmod.player_attack,target.pos_x,target.pos_y,self.attackspeed)
+                    attack = effectmod.Effect("Player Attack",effectmod.player_attack,attack_x,attack_y,self.attackspeed)
                     attack.add(effectsgroup)
                     attack.add(camera_group[0])
             else:
                 print("Nothing to attack!")
-                attack_x = self.pos_x + self.dir.x*self.rect.width
-                attack_y = self.pos_y + self.dir.y*self.rect.height
                 attack = effectmod.Effect("Player Attack",effectmod.player_attack,attack_x,attack_y,self.attackspeed)
                 attack.add(effectsgroup)
                 attack.add(camera_group[0])
