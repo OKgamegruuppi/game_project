@@ -34,11 +34,11 @@ class Creature(pygame.sprite.Sprite):
         pass
 
 
-    def collisions(self,grouplist,mode="y/n"):
+    def collisions(self,mode="y/n"):
         #muista päivittää hitbox ennen ku testaat collisionit
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
         
-        for group in grouplist:
+        for group in collidables:
             #if current group is a group that contains this sprite, test if more than 1 collision:
             # if sprite is in the same group the sprite itself counts as 1 collision to itself
             if group in self.groups() and len(pygame.sprite.spritecollide(self,group,False)) > 1:
@@ -67,7 +67,7 @@ class Creature(pygame.sprite.Sprite):
 
 
         ## status walking pituus on 60 ticks
-    def movement(self,groups, target=None):
+    def movement(self,target=None):
 
         #target on objektissa määritelty mutta VOI määritellä myös erikseen movement funktiossa jos haluat targetoida koordinaatteja
         target = self.target if self.target else target
@@ -79,7 +79,7 @@ class Creature(pygame.sprite.Sprite):
             
             if pygame.sprite.collide_rect(self,self.target):
                 #target is caught, do not move
-                self.interact(target,groups)
+                self.interact(target)
                 return      #print(f"caught {target.name}")
             
             #valitse suunta sen perusteella onko kohteen x tai y koordinaatti eri ku sun oma
@@ -103,9 +103,9 @@ class Creature(pygame.sprite.Sprite):
 
             self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
             if pygame.sprite.collide_rect(self,target):
-                self.interact(target,groups)
+                self.interact(target)
                 return              #print(f"caught {target.name}")
-            elif self.collisions(groups):
+            elif self.collisions():
 
                 self.dir.x = choice((0,-self.dir.x))
                 self.dir.y = choice((0,-self.dir.y))
@@ -113,7 +113,7 @@ class Creature(pygame.sprite.Sprite):
                 self.pos_y = orig_pos_y + self.dir.y * self.speed
                 
                 #if still got collisions, stay still
-                if self.collisions(groups):
+                if self.collisions():
                     self.pos_x = orig_pos_x 
                     self.pos_y = orig_pos_y
 
@@ -129,7 +129,7 @@ class Creature(pygame.sprite.Sprite):
                 self.pos_x += self.dir.x * self.speed
                 self.pos_y += self.dir.y * self.speed  
 
-                if self.collisions(groups):
+                if self.collisions():
 
                     self.dir.x = choice((0,-self.dir.x))
                     self.dir.y = choice((0,-self.dir.y))
@@ -137,7 +137,7 @@ class Creature(pygame.sprite.Sprite):
                     self.pos_x = orig_pos_x + self.dir.x * self.speed
                     self.pos_y = orig_pos_y + self.dir.y * self.speed
                     #if still got collisions, stay still
-                    if self.collisions(groups):
+                    if self.collisions():
                         self.pos_x = orig_pos_x
                         self.pos_y = orig_pos_y
                  
@@ -202,11 +202,13 @@ class Creature(pygame.sprite.Sprite):
         ## target yleensä pelaaja
 
     # Change HP of the Creature
-    def hp_change(self,change,effects):
+    def hp_change(self,change,camera=None):
         self.health += change
         if change < 0:
             damage = effectmod.Effect("Ouchie",effectmod.blood_red,self.pos_x,self.pos_y,int(onesecond/2))
-            damage.add(effects)
+            damage.add(effectsgroup)
+            if camera:
+                damage.add(camera)
         if self.health <= 0:
             self.kill()
             print("Oops, I died!")
@@ -218,12 +220,12 @@ class Creature(pygame.sprite.Sprite):
 
     # def __str__(self):
     #     return f"{self.name}"
-    def interact(self,target,groups):
+    def interact(self,target):
         print(f"{self.name}interacted with {self.target}")
 
-    def update(self,groups):
-        self.collisions(groups)
-        self.movement(groups)
+    def update(self):
+        self.collisions()
+        self.movement()
         
 
 

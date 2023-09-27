@@ -23,8 +23,8 @@ borders = pygame.sprite.Group()
 
 decor = pygame.sprite.Group()
 
-effects = pygame.sprite.Group()
-effects.name = "Effects"
+effectsgroup = pygame.sprite.Group()
+effectsgroup.name = "Effects"
 
 
 '''collidables= a list of all collidable groups'''
@@ -33,4 +33,4 @@ collidables.append(borders)
 collidables.append(friendlies)
 collidables.append(enemies)
 collidables.append(playergroup)
-#collidables.append(effects)
+#collidables.append(effectsgroup)

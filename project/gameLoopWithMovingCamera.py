@@ -20,16 +20,9 @@ class Mainloop():
         pygame.display.set_caption("GAME WINDOW")
 
         ##initing the variables brought from init_map
-        self.enemies = enemies
-        self.friendlies = friendlies
         self.player = player
-        self.playergroup = playergroup
-        self.effects = effects
 
-        self.collidables = collidables
-        self.grouplist = grouplist
-
-            #camera setup
+        #camera setup
         self.camera_group = CameraGroup()
         add_to_camera(self.camera_group)
         self.gameEventLoop()
@@ -45,7 +38,7 @@ class Mainloop():
                 #self.camera_group.update(self.grouplist)
                 game_update(self)
                 ##custom draw keeps player in the middle of the screen and draw all elements in camera group
-                self.camera_group.custom_draw(player)
+                self.camera_group.custom_draw(self.player)
                 pygame.display.update()
                 self.clock.tick(fps)
                 

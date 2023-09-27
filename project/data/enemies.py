@@ -62,11 +62,11 @@ class Enemy(Creature):
                 self.target = None                  #target is forgot
 
 
-    def collisions(self,groups):
+    def collisions(self):
         #muista päivittää hitbox ennen ku testaat collisionit
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
         
-        for group in grouplist:
+        for group in collidables:
 
             if group == enemies:
                 continue
@@ -79,18 +79,18 @@ class Enemy(Creature):
                 continue
 
         
-    def interact(self,target,groups):
+    def interact(self,target):
         self.attack(target) #SIKE
 
     def attack(self,target):
         if pygame.sprite.collide_rect(self,target) and self.status["attack_cooldown"] == 0:
-            target.hp_change(-1,effects)
+            target.hp_change(-1)
             self.status["attack_cooldown"] = int(0.5*onesecond)
             print(f"{self.name} attacked {target.name}!")
 
             #effects
             attack = effectmod.Effect("Enemy Attack",effectmod.player_attack,target.pos_x,target.pos_y,int(0.5*onesecond))
-            attack.add(effects)
+            attack.add(effectsgroup)
             'attack.add(camera_group)'
 
         self.status["attack_cooldown"] -= 1
@@ -101,11 +101,11 @@ class Enemy(Creature):
         #at least 0.5s cooldown after succesful hit
         #enemy attack cooldown in player function??
 
-    def update(self,player,groups):
+    def update(self,player):
         self.select_target(player)
         # if self.collisions(groups) and self.target:
         #     self.attack(self.target)
-        self.movement(groups)
+        self.movement()
         #self.attack(camera_group)
         
 
