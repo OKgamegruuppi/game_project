@@ -5,7 +5,7 @@ from data.game_update import game_update
 from map.camera import CameraGroup
 from data.init_groups import *
 from map.init_map import *
-from data.controls import game_event_observer, game_paused
+from data.controls import game_event_observer
 
 
 class Mainloop():
@@ -28,11 +28,11 @@ class Mainloop():
 
     #main loop execution
     def gameEventLoop(self):
-        self.game_pause_check = False
 
         while True:
-            if self.game_pause_check == False:
-                game_event_observer(self)
+            game_event_observer(self)
+            is_game_paused = data.controls.game_turned_on
+            if is_game_paused == True:
                 #print(f'GAME IS PAUSED? {self.game_pause_check}')
                 self.screen.fill('#71ddee')
                 #self.camera_group.update(self.grouplist)
@@ -44,10 +44,10 @@ class Mainloop():
 
             #IF game_pause_check == True ==> PAUSE THE GAME
             else:
-                #print(f'GAME IS PAUSED? {self.game_pause_check}')
-                pass
-
-
+                style_of_font = pygame.font.SysFont("Arial", 24)
+                displayed_text = style_of_font.render("PAUSED ||", True, (255, 250, 0))
+                self.screen.blit(displayed_text, (10, 5))
+                pygame.display.update()
 
 
 #Calling the main loop that creates the window and game
