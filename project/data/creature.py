@@ -162,8 +162,6 @@ class Creature(pygame.sprite.Sprite):
 
     def notice(self,target):
 
-        '  Notice returns a tuple of, was it noticed and how far was it  '
-
         #awareness = 5 or something, in units of distance
         if target.alive == False:
             return False

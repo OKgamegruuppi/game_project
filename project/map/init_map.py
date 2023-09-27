@@ -28,9 +28,9 @@ for i in range(1,10):
     if i % 3 == 0 : enemies.add(Enemy("Green"+str(int(i/3)),defaultEnemy_icon2,randint(20,X-20),randint(20,Y-20),[1,0],2,1,awareness=50))             #make 3
 
 
-for list in grouplist[0:3]:     #skips grouplist[4]: effects
-    for sprite in list:
-        collidables.add(sprite)
+# for list in grouplist[0:3]:     #skips grouplist[4]: effects
+#     for sprite in list:
+#         collidables.add(sprite)
 
 
 def add_to_camera(camera_group):

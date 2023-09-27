@@ -5,7 +5,8 @@ DO NOT IMPORT ANY OTHER MODULES HERE
 spritegroup initialisation for easy access
 '''
 
-grouplist = []
+#grouplist = []
+collidables = []
 
 playergroup = pygame.sprite.GroupSingle()
 playergroup.name = "Playergroup"
@@ -16,8 +17,7 @@ enemies.name = "Enemies"
 
 borders = pygame.sprite.Group()
 
-collidables =pygame.sprite.Group()
-collidables.name = "Collidables"
+# collidables.name = "Collidables"
 
 
 
@@ -27,9 +27,10 @@ effects = pygame.sprite.Group()
 effects.name = "Effects"
 
 
+'''collidables= a list of all collidable groups'''
 
-grouplist.append(borders)
-grouplist.append(friendlies)
-grouplist.append(enemies)
-grouplist.append(playergroup)
-grouplist.append(effects)
+collidables.append(borders)
+collidables.append(friendlies)
+collidables.append(enemies)
+collidables.append(playergroup)
+#collidables.append(effects)
