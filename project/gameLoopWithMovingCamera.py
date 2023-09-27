@@ -5,7 +5,7 @@ from data.game_update import game_update
 from map.camera import CameraGroup
 from data.init_groups import *
 from map.init_map import *
-from data.controls import game_event_observer, game_paused
+from data.controls import game_event_observer, menu_event_observer, game_paused
 
 class Mainloop():
     def __init__(self):
@@ -47,7 +47,7 @@ class Mainloop():
                 
             #IF game_pause_check == True ==> PAUSE THE GAME
             else:
-                game_event_observer(self)
+                menu_event_observer(self)
                 pygame.display.update()
                 print(f'GAME IS PAUSED? {self.game_pause_check}')
                 self.clock.tick(fps)
