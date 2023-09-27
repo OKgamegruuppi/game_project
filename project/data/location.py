@@ -11,6 +11,8 @@ class Map_object(pygame.sprite.Sprite):
         self.pos_y = y
         self.image = image
         self.rect = self.image.get_rect(topleft=(self.pos_x,self.pos_y))     #this draws the image and works as a hitbox
+####TOPLEFT
+
 
 # class Border(Map_object):
 #     def __init__(self,x,y,width,height,image):
@@ -19,12 +21,21 @@ class Map_object(pygame.sprite.Sprite):
 #         self.pos_y = y
 #         self.rect = pygame.Rect(x,y,width,height)
 
+class Decor(Map_object):
+    def __init__(self,x,y,image): 
+        super().__init__(x,y,image)
+        self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
+    
+
 
 class Location(Map_object):
     def __init__(self,name,x,y,image):
         super().__init__(x,y,image)
         self.name = name
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))     #this draws the image and works as a hitbox
+###CENTER
+
+
 
 # (startX,startY,sizeX,sizeY, starts from top left corner)
 willow = pygame.image.load('data/assets/edited_Willow.png')
@@ -49,4 +60,4 @@ for i in range(200):
     
     random_x = randint(50,mapsizeX-50)
     random_y = randint(50,mapsizeY-50)
-    decor.add(Map_object(random_x,random_y,willow))
+    decor.add(Decor(random_x,random_y,willow))
