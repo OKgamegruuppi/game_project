@@ -77,7 +77,7 @@ class Player(Creature):
                 # print(self.dir.x,self.dir.y)
 
     # Attack all enemies in a hitbox in front of the player
-    def attack(self,camera):
+    def attack(self):
         # Check if attack on cooldown, if not, attack!
         if self.status["attack_cooldown"] == 0:
             # Determine attack hitbox based on player direction
@@ -89,17 +89,17 @@ class Player(Creature):
             # If targets found, deal damage to each, otherwise nothing happens
             if self.targets:
                 for target in self.targets:
-                    target.hp_change(-self.dmg,camera)
+                    target.hp_change(-self.dmg)
                     attack = effectmod.Effect("Player Attack",effectmod.player_attack,target.pos_x,target.pos_y,self.attackspeed)
                     attack.add(effectsgroup)
-                    attack.add(camera)
+                    attack.add(camera_group[0])
             else:
                 print("Nothing to attack!")
                 attack_x = self.pos_x + self.dir.x*self.rect.width
                 attack_y = self.pos_y + self.dir.y*self.rect.height
                 attack = effectmod.Effect("Player Attack",effectmod.player_attack,attack_x,attack_y,self.attackspeed)
                 attack.add(effectsgroup)
-                attack.add(camera)
+                attack.add(camera_group[0])
             # Clear target list
             self.targets = None
             # Start attack cooldown

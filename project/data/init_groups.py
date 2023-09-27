@@ -26,6 +26,8 @@ decor = pygame.sprite.Group()
 effectsgroup = pygame.sprite.Group()
 effectsgroup.name = "Effects"
 
+camera_group = []
+
 
 '''collidables= a list of all collidable groups'''
 

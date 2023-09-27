@@ -35,7 +35,7 @@ def game_event_observer(game):
                 game.player.move["right"] = True
             # Attack
             if keyPress.key == pygame.K_SPACE:
-                game.player.attack(game.camera_group)
+                game.player.attack()
             # Interact
             if keyPress.key == pygame.K_f:
                 game.player.interact()

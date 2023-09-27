@@ -202,13 +202,12 @@ class Creature(pygame.sprite.Sprite):
         ## target yleensä pelaaja
 
     # Change HP of the Creature
-    def hp_change(self,change,camera=None):
+    def hp_change(self,change):
         self.health += change
         if change < 0:
             damage = effectmod.Effect("Ouchie",effectmod.blood_red,self.pos_x,self.pos_y,int(onesecond/2))
             damage.add(effectsgroup)
-            if camera:
-                damage.add(camera)
+            damage.add(camera_group)
         if self.health <= 0:
             self.kill()
             print("Oops, I died!")

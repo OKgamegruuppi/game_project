@@ -91,7 +91,7 @@ class Enemy(Creature):
             #effects
             attack = effectmod.Effect("Enemy Attack",effectmod.player_attack,target.pos_x,target.pos_y,int(0.5*onesecond))
             attack.add(effectsgroup)
-            'attack.add(camera_group)'
+            attack.add(camera_group[0])
 
         self.status["attack_cooldown"] -= 1
 
