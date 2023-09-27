@@ -31,10 +31,11 @@ class Mainloop():
         self.camera_group = CameraGroup()
         add_to_camera(self.camera_group)
         self.gameEventLoop()
-    
+
+game_paused = False
+
     #main loop execution
     def gameEventLoop(self):
-        game_paused = False
         while True:
             game_event_observer(self)
             print(game_paused)
