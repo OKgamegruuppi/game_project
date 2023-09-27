@@ -23,8 +23,8 @@ class Mainloop():
         self.player = player
 
         #camera setup
-        self.camera_group = CameraGroup()
-        add_to_camera(self.camera_group)
+        camera_group.append(CameraGroup())
+        add_to_camera(camera_group[0])
         self.gameEventLoop()
 
 
@@ -38,7 +38,7 @@ class Mainloop():
                 #self.camera_group.update(self.grouplist)
                 game_update(self)
                 ##custom draw keeps player in the middle of the screen and draw all elements in camera group
-                self.camera_group.custom_draw(self.player)
+                camera_group[0].custom_draw(self.player)
                 pygame.display.update()
                 self.clock.tick(fps)
                 
