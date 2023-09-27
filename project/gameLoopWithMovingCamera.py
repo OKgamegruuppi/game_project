@@ -1,5 +1,6 @@
 #libraries
 import pygame
+import data.controls
 from data.settings import windowsizeX, windowsizeY,fps
 from data.game_update import game_update
 from map.camera import CameraGroup
