@@ -7,6 +7,8 @@ from data.init_groups import *
 from map.init_map import *
 from data.controls import game_event_observer
 
+game_paused = False
+
 
 class Mainloop():
     def __init__(self):
@@ -32,7 +34,6 @@ class Mainloop():
         add_to_camera(self.camera_group)
         self.gameEventLoop()
 
-game_paused = False
 
     #main loop execution
     def gameEventLoop(self):
