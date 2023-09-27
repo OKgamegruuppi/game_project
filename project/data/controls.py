@@ -1,5 +1,8 @@
 import pygame
 
+global game_paused
+game_paused = False
+
 # Event observer for main menu(?)
 def menu_event_observer():
     for keyPress in pygame.event.get():
