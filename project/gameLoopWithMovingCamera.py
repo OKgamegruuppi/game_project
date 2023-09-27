@@ -47,10 +47,13 @@ class Mainloop():
             #Draw the pause menu stuff inside the else
             else:
                 style_of_font = pygame.font.SysFont("Arial", 24)
-                displayed_text = style_of_font.render("PAUSED ||", True, (255, 250, 0))
-                self.screen.blit(displayed_text, (10, 5))
-                pygame.display.update()
+                displayed_text = style_of_font.render("PAUSED", True, (250, 100, 0))
+                pygame.draw.rect(self.screen, "green", [230, 230, 640, 340])
+                pygame.draw.rect(self.screen, "orange", [240, 240, 620, 320])
+                self.screen.blit(displayed_text, (430, 250))
 
+                pygame.display.flip()
+                pygame.display.update()
 
 #Calling the main loop that creates the window and game
 if __name__ == "__main__":
