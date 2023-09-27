@@ -38,6 +38,5 @@ camera_group = []
 collidables.append(borders)
 collidables.append(friendlies)
 collidables.append(enemies)
-collidables.append(itemgroup)
 collidables.append(playergroup)
 #collidables.append(effectsgroup)

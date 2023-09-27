@@ -1,24 +1,25 @@
-import math
 import pygame
-from random import randint,choice
-from data.settings import windowsizeX, windowsizeY, mapsizeX, mapsizeY
+from random import randint
+from data.settings import mapsizeX, mapsizeY
 from data.settings import fps as onesecond
-import data.effects as effectmod
 from data.init_groups import *
 
 class Item(pygame.sprite.Sprite):
-    def __init__(self,name,image,pos_x,pos_y,timer=None):
+    def __init__(self,name,image,pos_x,pos_y,timer=None,tangible=False):
         super().__init__()
         self.name = name
         self.image = image
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.timer = timer
+        # Determine if the item goes into the inventory or not
+        self.tangible = tangible
 
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
 
     def info(self):
-        print(f"{self.name} has {int(self.timer/onesecond)} seconds left.")
+        if self.timer:
+            print(f"{self.name} has {int(self.timer/onesecond)} seconds left.")
 
     def spawn(self,x=None,y=None,timer=None):
         # If no position is given, choose randomly
@@ -40,7 +41,12 @@ class Item(pygame.sprite.Sprite):
         # init (for constantly appearing instances)
         self.timer = timer
 
+    # Function that applies an effect on pickup
+    def on_pick_up(self,target=None):
+        pass
+
     def update(self):
+        # If no timer, do nothing, else reduce timer and relocate
         if self.timer == None:
             pass
         elif self.timer > 0:
@@ -49,3 +55,28 @@ class Item(pygame.sprite.Sprite):
             self.spawn(None,None,20*onesecond)  
         #spawn a "new" pickup with (number) amount of ticks in timer
         #visual effect only, actually teleports the same instance
+
+# Class for Currency Items
+class Currency(Item):
+    def __init__(self,name,image,pos_x,pos_y,value=None,timer=None,tangible=None):
+        super().__init__(name,image,pos_x,pos_y,timer,tangible)
+        if value:
+            self.value = value
+        else:
+            self.value = randint(1,100)
+
+        self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
+
+    def on_pick_up(self,target=None):
+        target.currency += self.value
+
+# Class for Healing Items
+class Healing(Item):
+    def __init__(self,name,image,pos_x,pos_y,value=1,timer=None,tangible=None):
+        super().__init__(name,image,pos_x,pos_y,timer,tangible)
+        self.value = value
+
+        self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
+
+    def on_pick_up(self,target=None):
+        target.hp_change(self.value,self)

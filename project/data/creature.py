@@ -21,6 +21,7 @@ class Creature(pygame.sprite.Sprite):
         self.dir.xy = dir[0], dir[1]
         self.speed = speed          #jos speed on negatiivinen niin käevelee takaperin
         self.health = health
+        self.maxhealth = health
         self.target = target        #another Creature or map object
         self.awareness = awareness      
         self.status = status
@@ -64,6 +65,8 @@ class Creature(pygame.sprite.Sprite):
                 return sprite
             else:
                 continue
+        else:
+            return None
 
 
         ## status walking pituus on 60 ticks
@@ -203,19 +206,29 @@ class Creature(pygame.sprite.Sprite):
 
     # Change HP of the Creature
     def hp_change(self,change,source=None):
-        self.health += change
-        if change < 0:
+        self.health = min(self.maxhealth,self.health+change)
+        if change > 0:
+            damage = effectmod.Effect("Heal",effectmod.small_heart,self.pos_x,self.pos_y,int(onesecond/3))
+            damage.add(effectsgroup)
+            damage.add(camera_group)
+            if source:
+                print(f"{self.name} was healed {change}hp by {source.name}.")
+            else:
+                print(f"{self.name} was healed {change}hp.")
+        elif change < 0:
             damage = effectmod.Effect("Ouchie",effectmod.blood_red,self.pos_x,self.pos_y,int(onesecond/2))
             damage.add(effectsgroup)
             damage.add(camera_group)
-        if self.health <= 0:
-            self.kill()
-            print("Oops, I died!")
-            print(self.groups)
-            # Add a function to remove self from "alive" groups
-            # And or completely remove Creature
-        else:
-            print(f"Current HP: {self.health}")
+            if source:
+                print(f"{self.name} was dealt {-change} damage by {source.name}.")
+            else:
+                print(f"{self.name} was dealt {-change} damage.")
+            if self.health <= 0:
+                self.kill()
+                print("Oops, I died!")
+                print(self.groups)
+
+        print(f"Current HP: {self.health}")
 
     # def __str__(self):
     #     return f"{self.name}"

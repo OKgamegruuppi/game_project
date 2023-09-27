@@ -1,5 +1,6 @@
 import pygame
 from data.creature import Creature
+from data.items import Currency
 from data.settings import fps
 import data.effects as effectmod
 from data.init_groups import *
@@ -57,13 +58,14 @@ class Player(Creature):
         # Player has an inventory, which is a list containing
         # Item objects. Starts empty.
         self.inventory = []
+        self.currency = 0
 
     def __str__(self):
         print(self.name)
         
     #Function to determine which element of walking to display.
     def walk_animation(self,direction):
-        element = int((self.walking//(fps/3) % 2)+1)
+        element = int((self.walking//(fps/4) % 2)+1)
         return direction[element]
     
     # Move player character if self.move == True
@@ -81,7 +83,7 @@ class Player(Creature):
                 self.image = self.image_up[0]
             if self.dir.x == 0 and self.dir.y == 1:
                 self.image = self.image_down[0]   
-        # If even one of hte movements is true, check for collision,
+        # If even one of the movements is true, check for collision,
         # move if able, and change the sprite to walking frame
         else:
             if self.move["right"] == True:
@@ -124,6 +126,11 @@ class Player(Creature):
                     self.dir.xy = 0,1
                     self.image = self.walk_animation(self.image_down)
                     # print(self.dir.x,self.dir.y)
+            # Check if player moved on top of item, if so, 
+            # pick it up!
+            tempitem = self.collisions_individual(itemgroup)
+            if tempitem:
+                self.itempickup(tempitem)
             # Increase self.walking, so that frames change!
             self.walking += 1
 
@@ -159,14 +166,19 @@ class Player(Creature):
             print("Attack on cooldown!")
 
     def check_inventory(self):
+        print(f"You have {self.currency} rupees/gil/gp/credits/moneys?")
         if self.inventory:
             for item in self.inventory:
                 print(item.name)
         else:
-            print("Your Inventory is empty")
+            print("Your Inventory is empty.")
 
     def itempickup(self,target):
-        pass
+        target.on_pick_up(self)
+        if target.tangible:
+            self.inventory.append(target)
+            self.inventory[-1].timer = None
+        target.kill()
 
     def interact(self,target=None):
         print("Nothing to interact with!")
