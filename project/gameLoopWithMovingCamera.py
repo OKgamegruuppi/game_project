@@ -32,7 +32,7 @@ class Mainloop():
     def gameEventLoop(self):
         while True:
             game_event_observer(self)
-            print(f'GAME IS PAUSED {self.game_pause_check}')
+            print(f'GAME IS PAUSED? {self.game_pause_check}')
             if self.game_pause_check == False:
                 self.screen.fill('#71ddee')
                 #self.camera_group.update(self.grouplist)
@@ -46,7 +46,7 @@ class Mainloop():
             else:
                 game_event_observer(self)
                 pygame.display.update()
-                print(f'GAME IS PAUSED {self.game_pause_check}')
+                print(f'GAME IS PAUSED? {self.game_pause_check}')
                 self.clock.tick(fps)
 
 
