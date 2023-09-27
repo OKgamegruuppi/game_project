@@ -44,6 +44,7 @@ class Mainloop():
                 self.clock.tick(fps)
 
             #IF game_pause_check == True ==> PAUSE THE GAME
+            #Draw the pause menu stuff inside the else
             else:
                 style_of_font = pygame.font.SysFont("Arial", 24)
                 displayed_text = style_of_font.render("PAUSED ||", True, (255, 250, 0))
