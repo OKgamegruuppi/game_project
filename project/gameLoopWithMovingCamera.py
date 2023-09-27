@@ -34,18 +34,26 @@ class Mainloop():
     
     #main loop execution
     def gameEventLoop(self):
+        game_paused = False
         while True:
             game_event_observer(self)
-            
-            self.screen.fill('#71ddee')
-            
-            #self.camera_group.update(self.grouplist)
-            game_update(self)
+            print(game_paused)
+            if game_paused == False:
+                self.screen.fill('#71ddee')
+                #self.camera_group.update(self.grouplist)
+                game_update(self)
+                ##custom draw keeps player in the middle of the screen and draw all elements in camera group
+                self.camera_group.custom_draw(player)
+                pygame.display.update()
+                self.clock.tick(fps)
+                
+            #IF game_paused == True, then the game is paused
+            else:
+                game_event_observer(self)
+                pygame.display.update()
+                print("The game is paused")
+                self.clock.tick(fps)
 
-            ##custom draw keeps player in the middle of the screen and draw all elements in camera group
-            self.camera_group.custom_draw(player)
-            pygame.display.update()
-            self.clock.tick(fps)
 
 #Calling the main loop that creates the window and game
 if __name__ == "__main__":
