@@ -1,5 +1,7 @@
 import pygame
-from data.assets.images import health_anim_icon
+from data.assets.images import health_anim_icon,cat_HUD_icon
+from data.init_groups import found_cats
+from data.settings import quest_length
 
 def hellobutton():
     print("Hello, I am a Button!")
@@ -41,6 +43,43 @@ class HealthBar(pygame.sprite.Sprite):
         # Blit everything to the screen
         screen.blit(self.bar_surface, self.rect)
         #screen.blit(self.image, self.rect)
+
+class CatHUD(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height):
+        super().__init__()
+        self.pos_x = x
+        self.pos_y = y
+        self.width = width
+        self.height = height
+        self.questprogress = found_cats
+        self.quest_length = quest_length
+
+        self.fill_color = "#00000000"
+        self.image = cat_HUD_icon
+        self.cat_bar = pygame.Surface((width, height),pygame.SRCALPHA)
+        self.rect = self.image.get_rect(topleft=(self.pos_x,self.pos_y))
+
+    def quest_progression(self,catname):
+        self.questprogress = len(found_cats)
+        
+
+    def update(self,screen):
+        # Color the box
+        self.cat_bar.fill(self.fill_color)
+        self.font = pygame.font.SysFont("Arial", 14)
+        # Blit the surface containing the button text
+        for i in range(len(self.questprogress)):
+            self.cat_bar.blit(self.image,[i*28,0])
+
+        # self.bar_surface.blit(self.image, [
+        #     self.rect.width/2 - self.image.get_rect().width/2,
+        #     self.rect.height/2 - self.image.get_rect().height/2
+        # ])
+        
+        # Blit everything to the screen
+        screen.blit(self.cat_bar, self.rect)
+        #screen.blit(self.image, self.rect)
+
 
 class TextBox():
     def __init__(self,x,y,width,height,box_text="TextBox",font_val="default",fill_colors="#ffffff",
