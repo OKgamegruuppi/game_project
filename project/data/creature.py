@@ -137,7 +137,7 @@ class Creature(pygame.sprite.Sprite):
             
             if self.target in self.collidedwith:
                 #target is caught, do not move
-                print(self.name,"caught the target")
+                #print(self.name,"caught the target")
                 return
             
             # if pygame.sprite.collide_rect(self,self.target):
@@ -268,7 +268,7 @@ class Creature(pygame.sprite.Sprite):
                 self.kill()
                 print(f"{self.name}: Oops, I was killed by {source.name}")
 
-        print(f"Current HP: {self.health}")
+        print(f"{self.name}: Current HP: {self.health}")
 
 
     '''Call interact() funcion from other creatures for NPC interaction, opening doors etc'''

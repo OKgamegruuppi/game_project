@@ -110,7 +110,6 @@ class Enemy(Creature):
         self.targeting()
         self.movement()
 
-        print(self.collidedwith)
         if self.target in self.collidedwith:
             self.attack(self.target)
         # if self.collisions(groups) and self.target:

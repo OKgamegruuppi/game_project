@@ -34,7 +34,7 @@ for i in range(1,10):
     itemgroup.add(Currency("Pile-o-Gold"+str(i),testitem,randint(20,mapX-20),randint(20,mapY-20)))
     if i % 3 == 0 : 
         ####################    name,                   image           pos_x           pos_y       dir,speed,health
-        enemies.add(Enemy("Green"+str(int(i/3)),defaultEnemy_icon2,randint(20,X-20),randint(20,Y-20),[1,0],speed=2,health=3,awareness=150))             #make 3
+        enemies.add(Enemy("Green"+str(int(i/3)),defaultEnemy_icon2,randint(20,X-20),randint(20,Y-20),[1,0],speed=1,health=2,awareness=50))             #make 3
         itemgroup.add(Healing("Small Heal"+str(int(i/3)),testheart,randint(20,mapX-20),randint(20,mapY-20)))
 
 
