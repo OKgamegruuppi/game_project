@@ -4,6 +4,7 @@ import pygame
 marcos_icon = pygame.image.load("data/assets/slime_monster_spritesheet.png")
 cat1_icon = pygame.image.load("data/assets/Cat-sprite-stand.png")
 defaultEnemy_icon2 = pygame.image.load("data/assets/TEST_Light_balls_tree1.png")
+spywillow_icon = pygame.image.load("data/assets/Spy_Willow.png")
 
 # Item assets
 testitem_icon = pygame.image.load("data/assets/gold_pile.png")
@@ -13,6 +14,9 @@ testheart_icon = pygame.image.load("data/assets/heart.png")
 player_attack_icon = pygame.image.load("data/assets/attack.png")
 blood_red_icon = pygame.image.load("data/assets/blood_red1.png")
 small_heart_icon = pygame.image.load("data/assets/small_heart.png")
+
+# Map assets
+willow_icon = pygame.image.load('data/assets/edited_Willow.png')
 
 # UI assets 
 health_anim_icon = [pygame.image.load("data/assets/hp/0.png"), pygame.image.load("data/assets/hp/1.png"),
