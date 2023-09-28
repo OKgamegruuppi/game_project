@@ -266,7 +266,7 @@ class Creature(pygame.sprite.Sprite):
                 print(f"{self.name} was dealt {-change} damage.")
             if self.health <= 0:
                 self.kill()
-                print(self.name,": Oops, I was killed by", source)
+                print(f"{self.name}: Oops, I was killed by {source.name}")
 
         print(f"Current HP: {self.health}")
 
@@ -280,7 +280,7 @@ class Creature(pygame.sprite.Sprite):
         self.collisions()
         self.targeting()
         self.movement()
-        print(self.status)
+        #print(self.status)
 
         #movement checks if your target's hitbox was reached and adds the target to the list self.collidedwith
         if self.target in self.collidedwith:
