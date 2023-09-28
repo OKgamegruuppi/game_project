@@ -21,3 +21,8 @@ def game_update(game):
         for item in itemgroup:
             item.info()
         info_freq = 0
+
+def ui_update(game):
+    # Update all UI elements that are visible:
+    for element in uigroup:
+        element.update(game.screen)

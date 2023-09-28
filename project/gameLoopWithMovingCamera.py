@@ -2,7 +2,7 @@
 import pygame
 import data.controls
 from data.settings import windowsizeX, windowsizeY,fps
-from data.game_update import game_update
+from data.game_update import game_update, ui_update
 from map.camera import CameraGroup
 from data.init_groups import *
 from map.init_map import *
@@ -39,6 +39,7 @@ class Mainloop():
                 game_update(self)
                 ##custom draw keeps player in the middle of the screen and draw all elements in camera group
                 camera_group[0].custom_draw(self.player)
+                ui_update(self)
                 pygame.display.update()
                 self.clock.tick(fps)
 
