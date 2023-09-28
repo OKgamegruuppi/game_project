@@ -4,11 +4,13 @@ def hellobutton():
     print("Hello, I am a Button!")
 
 class TextBox():
-    def __init__(self, x, y, width, height, box_text="TextBox", font_val="default", fill_colors = "#ffffff"):
+    def __init__(self,x,y,width,height,box_text="TextBox",font_val="default",fill_colors="#ffffff",transparent=False):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+        # Is box transparent?
+        self.transparent = transparent
         # Set button colors for different cases
         self.fill_colors = fill_colors
         # Define the Surface and Rect for the button, and the surface for the button text
@@ -25,7 +27,8 @@ class TextBox():
 
     def update(self,screen):
         # Color the box
-        self.box_surface.fill(self.fill_colors)
+        if not self.transparent:
+            self.box_surface.fill(self.fill_colors)
             
         # Blit the surface containing the button text
         self.box_surface.blit(self.box_text_surf, [
@@ -36,9 +39,9 @@ class TextBox():
         screen.blit(self.box_surface, self.box_rect)
 
 class Button(TextBox):
-    def __init__(self, x, y, width, height, box_text="Button", onclick_function=hellobutton, one_press=False, font_val="default",
-                 fill_colors = ["#ffffff","#666666","#333333"]):
-        super().__init__(x, y, width, height, box_text, font_val, fill_colors)    
+    def __init__(self,x,y,width,height,box_text="Button",onclick_function=hellobutton,one_press=False,font_val="default",
+                 fill_colors=["#ffffff","#666666","#333333"],transparent=False):
+        super().__init__(x,y,width,height,box_text,font_val,fill_colors,transparent)    
         self.onclick_function = onclick_function
         # if onePress == True -> If button pressed down, keep executing function
         self.onePress = one_press
@@ -57,13 +60,16 @@ class Button(TextBox):
     def update(self,screen):
         # Get mouse position
         mouse_pos = pygame.mouse.get_pos()
-        self.box_surface.fill(self.fill_colors["normal"])
+        if not self.transparent:
+            self.box_surface.fill(self.fill_colors["normal"])
         # If mouse is on Button, change color of button
         if self.box_rect.collidepoint(mouse_pos):
-            self.box_surface.fill(self.fill_colors["hover"])
+            if not self.transparent:
+                self.box_surface.fill(self.fill_colors["hover"])
             # If mousebutton 1 (left-click) is pressed, change color, and run onclickfunction
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
-                self.box_surface.fill(self.fill_colors["pressed"])
+                if not self.transparent:
+                    self.box_surface.fill(self.fill_colors["pressed"])
                 # If onePress True, keeping button held keeps executing the function over and over
                 if self.one_press:
                     self.onclick_function()
