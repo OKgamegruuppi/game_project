@@ -51,12 +51,12 @@ class TextBox():
         screen.blit(self.box_surface, self.box_rect)
 
 class Button(TextBox):
-    def __init__(self,x,y,width,height,box_text="Button",onclick_function=hellobutton,one_press=False,font_val="default",
+    def __init__(self,x,y,width,height,box_text="Button",onclick_function=hellobutton,onePress=False,font_val="default",
                  fill_colors=["#ffffff","#666666","#333333"],transparent=False,border=False,border_thickness=0,border_color="#333333"):
         super().__init__(x,y,width,height,box_text,font_val,fill_colors,transparent,border,border_thickness,border_color)    
         self.onclick_function = onclick_function
         # if onePress == True -> If button pressed down, keep executing function
-        self.onePress = one_press
+        self.onePress = onePress
         # Stop function from executing if alreadyPressed == True
         self.already_pressed = False
         # Set button colors for different cases
@@ -83,7 +83,7 @@ class Button(TextBox):
                 if not self.transparent:
                     self.box_surface.fill(self.fill_colors["pressed"])
                 # If onePress True, keeping button held keeps executing the function over and over
-                if self.one_press:
+                if self.onePress:
                     self.onclick_function()
                 elif not self.already_pressed:
                     self.onclick_function()
