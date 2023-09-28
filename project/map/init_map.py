@@ -10,19 +10,13 @@ from data.enemies import Enemy
 from data.player import Player
 from data.items import Currency, Healing
 from data.init_groups import *
+from data.assets.images import *
 
 
 import pygame
 
 
-# Load test images
-marcos = pygame.image.load("data/assets/slime_monster_spritesheet.png")
-cat1_ico = pygame.image.load("data/assets/Cat-sprite-stand.png")
-defaultEnemy_icon2 = pygame.image.load("data/assets/TEST_Light_balls_tree1.png")
-testitem = pygame.image.load("data/assets/gold_pile.png")
-testheart = pygame.image.load("data/assets/heart.png")
-
-player = Player("Marcos Petriades",marcos,int(X/2),int(Y/2),(0,0))
+player = Player("Marcos Petriades",marcos_icon,int(X/2),int(Y/2),(0,0))
 playergroup.add(player)
 
 
@@ -30,12 +24,12 @@ playergroup.add(player)
                         ##(name,image,pos_x,pos_y,dir,speed,health=0,target=None,awareness=0)
 for i in range(1,10):
     ########################    name,      image    pos_x           pos_y           dir     speed   health
-    friendlies.add(Creature("Cat"+str(i),cat1_ico,randint(20,X-20),randint(20,Y-20),[1,0],randint(2,4),2))           #make 9
-    itemgroup.add(Currency("Pile-o-Gold"+str(i),testitem,randint(20,mapX-20),randint(20,mapY-20)))
+    friendlies.add(Creature("Cat"+str(i),cat1_icon,randint(20,X-20),randint(20,Y-20),[1,0],randint(2,4),2))           #make 9
+    itemgroup.add(Currency("Pile-o-Gold"+str(i),testitem_icon,randint(20,mapX-20),randint(20,mapY-20)))
     if i % 3 == 0 : 
         ####################    name,                   image           pos_x           pos_y       dir,speed,health
         enemies.add(Enemy("Green"+str(int(i/3)),defaultEnemy_icon2,randint(20,X-20),randint(20,Y-20),[1,0],speed=2,health=3,awareness=150))             #make 3
-        itemgroup.add(Healing("Small Heal"+str(int(i/3)),testheart,randint(20,mapX-20),randint(20,mapY-20)))
+        itemgroup.add(Healing("Small Heal"+str(int(i/3)),testheart_icon,randint(20,mapX-20),randint(20,mapY-20)))
 
 
 # for list in grouplist[0:3]:     #skips grouplist[4]: effects

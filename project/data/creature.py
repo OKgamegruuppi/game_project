@@ -3,10 +3,9 @@ import pygame
 from random import randint,choice
 from data.settings import windowsizeX, windowsizeY
 from data.settings import fps as onesecond
-import data.effects as effectmod
+from data.effects import Effect
 from data.init_groups import *
-
-
+from data.assets.images import *
 
 class Creature(pygame.sprite.Sprite):
     def __init__(self,name,image,pos_x,pos_y,dir,speed,health=0,target=None,awareness=0):
@@ -249,7 +248,7 @@ class Creature(pygame.sprite.Sprite):
     def hp_change(self,change,source=None):
         self.health = min(self.maxhealth,self.health+change)
         if change > 0:
-            damage = effectmod.Effect("Heal",effectmod.small_heart,self.pos_x,self.pos_y,int(onesecond/3))
+            damage = Effect("Heal",small_heart_icon,self.pos_x,self.pos_y,int(onesecond/3))
             damage.add(effectsgroup)
             damage.add(camera_group[0])
             if source:
@@ -257,7 +256,7 @@ class Creature(pygame.sprite.Sprite):
             else:
                 print(f"{self.name} was healed {change}hp.")
         elif change < 0:
-            damage = effectmod.Effect("Ouchie",effectmod.blood_red,self.pos_x,self.pos_y,int(onesecond/2))
+            damage = Effect("Ouchie",blood_red_icon,self.pos_x,self.pos_y,int(onesecond/2))
             damage.add(effectsgroup)
             damage.add(camera_group[0])
             if self in friendlies: self.speed += 1

@@ -1,10 +1,6 @@
 import pygame
 from data.settings import fps as onesecond
 
-player_attack = pygame.image.load("data/assets/attack.png")
-blood_red = pygame.image.load("data/assets/blood_red1.png")
-small_heart = pygame.image.load("data/assets/small_heart.png")
-
 class Effect(pygame.sprite.Sprite):
     # Class containing special effects
 

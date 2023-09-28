@@ -72,7 +72,7 @@ class Currency(Item):
 
 # Class for Healing Items
 class Healing(Item):
-    def __init__(self,name,image,pos_x,pos_y,heal=1,timer=None,tangible=None):
+    def __init__(self,name,image,pos_x,pos_y,heal=3,timer=None,tangible=None):
         super().__init__(name,image,pos_x,pos_y,timer,tangible)
         self.heal = heal
 

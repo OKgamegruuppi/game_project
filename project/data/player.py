@@ -2,20 +2,9 @@ import pygame
 from data.creature import Creature
 from data.items import Currency
 from data.settings import fps
-import data.effects as effectmod
+from data.effects import Effect
 from data.init_groups import *
-
-# Function to split a spritesheet into a list of individual images
-def spritesheet(img,sprite_rows,sprite_cols):
-    sheet = []
-    sheetwidth = int(img.get_width())
-    sheetheight = int(img.get_height())
-    sheet_x = int(sheetwidth/sprite_cols)
-    sheet_y = int(sheetheight/sprite_rows)
-    for y in range(0,sheetheight,sheet_y):
-        for x in range(0,sheetwidth,sheet_y):
-            sheet.append(img.subsurface(pygame.Rect(x,y,sheet_x,sheet_y)))
-    return sheet
+from data.assets.images import *
 
 class Player(Creature):
     def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=20,target=None,awareness=0,dmg=1):
@@ -150,12 +139,12 @@ class Player(Creature):
             if self.targets:
                 for target in self.targets:
                     target.hp_change(-self.dmg,self)
-                    attack = effectmod.Effect("Player Attack",effectmod.player_attack,attack_x,attack_y,self.attackspeed)
+                    attack = Effect("Player Attack",player_attack_icon,attack_x,attack_y,self.attackspeed)
                     attack.add(effectsgroup)
                     attack.add(camera_group[0])
             else:
                 print("Nothing to attack!")
-                attack = effectmod.Effect("Player Attack",effectmod.player_attack,attack_x,attack_y,self.attackspeed)
+                attack = Effect("Player Attack",player_attack_icon,attack_x,attack_y,self.attackspeed)
                 attack.add(effectsgroup)
                 attack.add(camera_group[0])
             # Clear target list

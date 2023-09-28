@@ -5,8 +5,9 @@ from data.settings import windowsizeX, windowsizeY
 from data.settings import fps as onesecond
 from data.creature import Creature
 from data.items import Currency, Healing
-import data.effects as effectmod
+from data.effects import Effect
 from data.init_groups import *
+from data.assets.images import *
 
 
 class Enemy(Creature):               
@@ -15,7 +16,7 @@ class Enemy(Creature):
         self.status = {"walking":self.wander_dur, "standing":0, "attack_cooldown":0}
         self.dmg = dmg
         # Add loot table to creature: item and chance to drop!
-        self.loot_table = {"heart":50,"gold":50}
+        self.loot_table = {"heart":40,"gold":10,"nothing":50}
 
 
     def select_target(self,player):
@@ -76,7 +77,7 @@ class Enemy(Creature):
             self.status["attack_cooldown"] = int(0.5*onesecond)
 
             #effects
-            attack = effectmod.Effect("Enemy Attack",effectmod.player_attack,target.pos_x,target.pos_y,int(0.5*onesecond))
+            attack = Effect("Enemy Attack",player_attack_icon,target.pos_x,target.pos_y,int(0.5*onesecond))
             attack.add(effectsgroup)
             attack.add(camera_group[0])
 
@@ -94,11 +95,11 @@ class Enemy(Creature):
         loot = choices(list(self.loot_table.keys()),weights=self.loot_table.values(),k=1)
         # print(loot)
         if loot[0] == "heart":
-            drop = Healing("Small Heal",testheart,self.pos_x,self.pos_y,randint(1,10))
+            drop = Healing("Small Heal",testheart_icon,self.pos_x,self.pos_y,randint(1,5))
             drop.add(itemgroup)
             drop.add(camera_group[0])
         elif loot[0] == "gold":
-            drop = Currency("Pile-o-Gold",testitem,self.pos_x,self.pos_y,randint(1,10))
+            drop = Currency("Pile-o-Gold",testitem_icon,self.pos_x,self.pos_y,randint(10,50))
             drop.add(itemgroup)
             drop.add(camera_group[0])
         else:
