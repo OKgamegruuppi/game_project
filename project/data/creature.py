@@ -103,8 +103,9 @@ class Creature(pygame.sprite.Sprite):
     def targeting(self):
         if (self.target is None) or (self.target.alive() == False):
             self.target = None
-            if "targeting" in self.status: del self.status["targeting"]         #delete targeting status if target was removed elsewhere
-            if self.status["walking"]<=0: self.status["walking"] = self.wander_dur
+            if "targeting" in self.status:
+                del self.status["targeting"]         #delete targeting status if target was removed elsewhere
+                if self.status["walking"]<=0: self.status["walking"] = self.wander_dur
             return
 
 
@@ -218,7 +219,6 @@ class Creature(pygame.sprite.Sprite):
 
             #kun seisonut 0.2s, määritä kävely taas 60 ticks
             if self.status["standing"] >= self.wait_dur:        #0.2*onesec is a float, remember this for later
-                print(f"waited for {self.wait_dur} {self.status['standing']}")
                             
                 #print("stood for ",self.status["standing"])
                 self.status["walking"] = self.wander_dur
