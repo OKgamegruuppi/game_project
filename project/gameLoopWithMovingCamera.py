@@ -7,6 +7,7 @@ from map.camera import CameraGroup
 from data.init_groups import *
 from map.init_map import *
 from data.controls import game_event_observer
+from data.ui_elements import TextBox
 
 
 class Mainloop():
@@ -46,12 +47,8 @@ class Mainloop():
             #IF is_game_paused == False ==> PAUSE THE GAME
             #Draw the pause menu stuff inside the else
             else:
-                style_of_font = pygame.font.SysFont("Arial", 24)
-                displayed_text = style_of_font.render("PAUSED", True, (250, 100, 0))
-                pygame.draw.rect(self.screen, "green", [230, 230, 640, 340])
-                pygame.draw.rect(self.screen, "orange", [240, 240, 620, 320])
-                self.screen.blit(displayed_text, (430, 250))
-
+                pausemenu_window = TextBox(40,50,400,300)
+                pausemenu.window.update(screen=self.screen)
                 pygame.display.flip()
                 pygame.display.update()
 
