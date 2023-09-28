@@ -4,11 +4,17 @@ mapsizeX = 3648
 mapsizeY = 3200
 fps = 60
 
+quest_length = 3
+
 show_hitboxes = True
 
 # Temporary place for this:
 game_state = {
-    "MainMenu": False,
+    "MainMenu": True,
     "PlayerAlive": True,
-    "GamePaused": False
+    "GamePaused": True
+}
+progression={
+    "Currency":0,
+    "Quest":0
 }

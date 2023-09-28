@@ -8,7 +8,7 @@ spywillow_icon = pygame.image.load("data/assets/Spy_Willow.png")
 
 # Item assets
 testitem_icon = pygame.image.load("data/assets/gold_pile.png")
-testheart_icon = pygame.image.load("data/assets/heart.png")
+testheart_icon = pygame.image.load("data/assets/heart_pickup.png")
 quest_icon = pygame.image.load("data/assets/cat-collectible.png")
 
 # Effect assets
@@ -42,11 +42,7 @@ health_anim_icon = [pygame.image.load("data/assets/hp/healthbar-00.png"), 	\
                     pygame.image.load("data/assets/hp/healthbar-19.png"), 	\
                     pygame.image.load("data/assets/hp/healthbar-20.png"), 	]
 
-                    
-            #          pygame.image.load("data/assets/hp/1.png"),
-            #   pygame.image.load("data/assets/hp/2.png"), pygame.image.load("data/assets/hp/3.png"),
-            #   pygame.image.load("data/assets/hp/4.png"), pygame.image.load("data/assets/hp/4.png"),
-            #   pygame.image.load("data/assets/hp/6.png")]
+cat_HUD_icon = pygame.image.load("data/assets/quest-cat.png")
 
 # Function to split a spritesheet into a list of individual images
 def spritesheet(img,sprite_rows,sprite_cols):

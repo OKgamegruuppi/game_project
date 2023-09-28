@@ -9,6 +9,7 @@ def game_update(game):
     # game.enemies.update(game.player,game.friendlies,game.grouplist,game.camera_group)
     friendlies.update()
     itemgroup.update()
+    questgroup.update()
     playergroup.update()
     effectsgroup.update()
 

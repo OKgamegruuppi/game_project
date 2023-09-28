@@ -1,6 +1,6 @@
 import pygame
 from random import randint
-from data.settings import mapsizeX, mapsizeY
+from data.settings import mapsizeX, mapsizeY,quest_length
 from data.settings import fps as onesecond
 from data.init_groups import *
 
@@ -80,3 +80,13 @@ class Healing(Item):
 
     def on_pick_up(self,target=None):
         target.hp_change(self.heal,self)
+
+class QuestItem(Item):
+    def __init__(self,name,image,pos_x,pos_y):
+        super().__init__(name,image,pos_x,pos_y,None,True)
+        self.heal = 20
+        
+    def on_pick_up(self,target=None):
+        target.hp_change(self.heal,self)
+        found_cats.append(self)
+        print(f"\nFound {self.name}! {len(found_cats)}/{quest_length} cats found!\n")

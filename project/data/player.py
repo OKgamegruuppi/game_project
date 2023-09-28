@@ -1,20 +1,23 @@
 import pygame
-from data.creature import Creature
+from data.creature import Creature,QuestCat
 from data.items import Currency
-from data.settings import fps, game_state
+from data.settings import fps, game_state,progression
 from data.effects import Effect
 from data.init_groups import *
 from data.assets.images import *
-from data.ui_elements import HealthBar
+from data.ui_elements import HealthBar,CatHUD,TextBox
 
 class Player(Creature):
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=6,target=None,awareness=0,dmg=1):
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=20,target=None,awareness=0,dmg=1):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)     
         self.status={"attack_cooldown":0}
         self.dmg = dmg
-        self.healthbar = HealthBar(20,20,100,30,self.maxhealth)
+        self.healthbar = HealthBar(20,20,188,24,self.maxhealth)
+        self.cat_bar = CatHUD(220,20,325,24)
+        #self.cat_bar_text = TextBox(220,20,60,24,"Find 13: ")
         print(self.healthbar.maxhealth)
-        uigroup.add(self.healthbar)
+        #uigroup.add(self.healthbar,self.cat_bar,self.cat_bar_text)
+        uigroup.add(self.healthbar,self.cat_bar)
 
         # Determine if player is moving in any direction
         self.move = {
@@ -171,7 +174,15 @@ class Player(Creature):
         if target.tangible:
             self.inventory.append(target)
             self.inventory[-1].timer = None
+
+        ### spawn a cat if you picked up a quest item
+        if target in quest_items:
+            cat = QuestCat(target.name,cat_icon,target.pos_x,target.pos_y,[0,0],1,10,self)
+            questgroup.add(cat)
+            camera_group[0].add(cat)
+            
         target.kill()
+        print(target)
 
     def hp_change(self,change,source=None):
         super().hp_change(change,source)
@@ -190,6 +201,9 @@ class Player(Creature):
         elif self.status["attack_cooldown"] > 0:
             self.status["attack_cooldown"] += 1
         if self.status["attack_cooldown"] == 0:
-            self.movement()      
+            self.movement()   
+
+        progression["Currency"] = self.currency    
+        progression["Quest"] = len(found_cats)
         #pygame.draw.rect(screen,"#333333",self.hitbox)
         #screen.blit(self.image,(self.pos_x,self.pos_y))

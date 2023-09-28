@@ -12,6 +12,8 @@ playergroup = pygame.sprite.GroupSingle()
 playergroup.name = "Playergroup"
 friendlies = pygame.sprite.Group()
 friendlies.name = "Friendlies"
+questgroup = pygame.sprite.Group()
+questgroup.name ="Quest Cats and Player"
 enemies = pygame.sprite.Group()
 enemies.name = "Enemies"
 itemgroup = pygame.sprite.Group()
@@ -22,7 +24,9 @@ borders = pygame.sprite.Group()
 
 # collidables.name = "Collidables"
 
-
+'collectibles necessary to win'
+quest_items = []
+found_cats = []
 
 decor = pygame.sprite.Group()
 

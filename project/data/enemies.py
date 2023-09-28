@@ -127,7 +127,7 @@ class Enemy(Creature):
         
      
 class Spy(Enemy):
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=1,awareness=50,dmg=1):
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=1,awareness=50,dmg=4):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,awareness)
         self.wander_dur = int(0.2*onesecond)
         self.wait_dur = 3*onesecond + randint(-30,31)

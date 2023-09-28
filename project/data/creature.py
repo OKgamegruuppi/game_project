@@ -50,16 +50,16 @@ class Creature(pygame.sprite.Sprite):
         collide_result = False
 
         for group in collidables:
-            #if current group is a group that contains this sprite, test if more than 1 collision:
-            # if sprite is in the same group the sprite itself counts as 1 collision to itself
-            if group in self.groups() and len(pygame.sprite.spritecollide(self,group,False)) > 1:
-                #print(f"{self.name} got hit by {group}!")
-                self.collidedwith.append(group)
-                collide_result = True
-                continue
-                #return True if mode=="y/n" else group #returns either a boolean or the group that was hit
+                    #if current group is a group that contains this sprite, test if more than 1 collision:
+                    # if sprite is in the same group the sprite itself counts as 1 collision to itself
+            # if group in self.groups() and len(pygame.sprite.spritecollide(self,group,False)) > 1:
+            #     #print(f"{self.name} got hit by {group}!")
+            #     self.collidedwith.append(group)
+            #     collide_result = True
+            #     continue
             
-            elif (group not in self.groups()) and pygame.sprite.spritecollideany(self,group):
+            # elif (group not in self.groups()) and pygame.sprite.spritecollideany(self,group):
+            if (group not in self.groups()) and pygame.sprite.spritecollideany(self,group):
                 #print(f"{self.name} got hit by {group}!")
                 self.collidedwith.append(group)
                 collide_result = True
@@ -301,5 +301,46 @@ class NPC(Creature):
         pass
 
         ##UI elements
+
+class QuestCat(Creature):
+    def __init__(self, name, image, pos_x, pos_y, dir, speed, health, target, awareness=50):
+        super().__init__(name, cat_icon, pos_x, pos_y, dir, speed, health, target, awareness)
+        self.image = cat_icon
+        self.targeting_dur = int(0.5*onesecond)
+        self.heal_dur = 10*onesecond
+        self.status = {"walking":self.wander_dur,"standing":0,"targeting":self.targeting_dur,"heal_cooldown":0}
+
+    def interact(self,player):
+        if self.status["heal_cooldown"]==0:
+            player.hp_change(+1,self)
+            self.status["heal_cooldown"] = self.heal_dur
+
+    def targeting(self):
+            
+
+        if self.target.alive() == False:
+            self.target = None
+            if "targeting" in self.status:
+                del self.status["targeting"]         #delete targeting status if target was removed elsewhere
+                if self.status["walking"]<=0: self.status["walking"] = self.wander_dur
+            return
+       
+        if self.status["heal_cooldown"] == 0:
+            if self.notice(self.target):        #notice returns False if target is None
+                self.status["targeting"] = self.targeting_dur       #refresh targeting status if in notice range
+                #better awareness = longer memory
+
+            elif "targeting" in self.status:
+                self.status["targeting"] -= 1
+                if self.status["targeting"] == 0:
+                    del self.status["targeting"]       #clear status effect
+
+        elif self.status["heal_cooldown"] > 0: 
+            self.status["heal_cooldown"] -= 1
+
+    def update(self):
+        super().update()
+        
+
 
         

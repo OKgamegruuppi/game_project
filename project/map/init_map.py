@@ -2,12 +2,12 @@ import math
 from random import randint
 from data.settings import mapsizeX as X
 from data.settings import mapsizeY as Y
-from data.settings import show_hitboxes
+from data.settings import show_hitboxes,quest_length
 from data.location import Map_object,Decor
 from data.creature import Creature
 from data.enemies import Enemy, Spy
 from data.player import Player
-from data.items import Currency, Healing
+from data.items import Currency, Healing,QuestItem
 from data.init_groups import *
 from data.assets.images import *
 
@@ -18,6 +18,7 @@ playerX,playerY = 930,450
 
 player = Player("Marcos Goopyades",marcos_icon,playerX,playerY,(0,0))
 playergroup.add(player)
+#friendlies.add(player)
 
 
 
@@ -37,32 +38,54 @@ def rand_coords(avoidplayer_dist=False,minX= 20, maxX= X-20 ,minY= 20 ,maxY= Y-2
             looplen +=1
     return newX,newY
 
+### Good kitties need names
+quest_names=[
+            "Tilly",
+            "Molly",
+            "Mr. Jenkins",
+            "Garfield",
+            "Oh Lawd",
+            "Mittens",
+            "Snickers",
+            "El Gato",
+            "Puss",
+            "Whiskers",
+            "Wednesday",
+            "Kitty Softpaws",
+            "Toast"
+            ]
 
+###### make the collectibles necessary to win #####
+for i in range(0,min(quest_length,13)):
+    xx,yy = rand_coords(40)
+    quest_items.append(QuestItem(quest_names[i],quest_icon,xx,yy))
+    itemgroup.add(quest_items[i])
+    
 
 
 for i in range(3):
     ####################    name,                   image           pos_x           pos_y       dir,speed,health
-    xx,yy = rand_coords(20)
+    xx,yy = rand_coords(40)
     itemgroup.add(Healing("Small Heal"+str(int(i/3)),testheart_icon,xx,yy))
     
 
     
 for i in range(0,10):
     ###########                   name,      image pos_x,pos_y           dir     speed   health awareness
-    xx,yy = rand_coords(20)
-    friendlies.add(Creature("Cat"+str(i),cat1_icon,xx,yy,[1,0],randint(2,4),2))           
+    # xx,yy = rand_coords(40)
+    # friendlies.add(Creature("Cat"+str(i),cat_icon,xx,yy,[1,0],randint(2,4),2))           
     
-    xx,yy = rand_coords(20)
+    xx,yy = rand_coords(40)
     itemgroup.add(Currency("Pile-o-Gold"+str(i),testitem_icon,xx,yy))
     
     xx,yy = rand_coords(700)
-    enemies.add(Enemy("Green menace"+str(int(i/3)),defaultEnemy_icon2,xx,yy,[1,0],2,3,400))             
+    enemies.add(Enemy("Green menace"+str(int(i/3)),defaultEnemy_icon2,xx,yy,[1,0],2,3,800))             
 
  
 for i in range(0,30):
     ########################    name,  image pos_x,pos_y, dir     speed   health,awareness
-    xx,yy = rand_coords(10)
-    enemies.add(Spy("Spy"+str(i),spywillow_icon,xx,yy,[1,0],1,1,150))             
+    xx,yy = rand_coords(70)
+    enemies.add(Spy("Spy"+str(i),spywillow_icon,xx,yy,[1,0],1,2,300))             
 
 # def spawn(number,function):
 #     for i in range(number):
@@ -80,8 +103,8 @@ bord_y100 = Map_object(X+150,-120,pygame.image.load("data/assets/y-border-height
 
 borders.add(bord_x0,bord_x100,bord_y0,bord_y100)
 
-for i in range(200):
-    xx,yy = rand_coords(10)
+for i in range(100):
+    xx,yy = rand_coords(30)
     decor.add(Decor(xx,yy,willow_icon))
 
 
