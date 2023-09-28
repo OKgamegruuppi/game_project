@@ -10,10 +10,12 @@ from data.init_groups import *
 from data.assets.images import *
 
 
-class Enemy(Creature):               
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,awareness=1,dmg=1):
-        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)
+class Enemy(Creature):
+                
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0, awareness=1,dmg=1):
+        super().__init__(name,image,pos_x,pos_y,dir,speed,health,awareness)
         self.status = {"walking":self.wander_dur, "standing":0, "attack_cooldown":0}
+        self.target = None
         self.dmg = dmg
         # Add loot table to creature: item and chance to drop!
         self.loot_table = {"heart":40,"gold":10,"nothing":50}
@@ -124,3 +126,11 @@ class Enemy(Creature):
         #self.attack(camera_group)
         
 
+class Spy(Enemy):
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=1,awareness=50,dmg=1):
+        super().__init__(name,image,pos_x,pos_y,dir,speed,health,awareness)
+        self.wander_dur = int(0.2*onesecond)
+        self.wait_dur = 3*onesecond
+        self.status = {"walking":self.wander_dur, "standing":0, "attack_cooldown":0}
+        self.loot_table = {"heart":100,"gold":0}
+        self.dmg = dmg

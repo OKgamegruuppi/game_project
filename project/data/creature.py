@@ -173,8 +173,8 @@ class Creature(pygame.sprite.Sprite):
                 self.dir.xy = randint(-1,1), randint(-1,1)
         
 ########    Direction has been selected     ###################################
-
         if (self.status["walking"] > 0) or "targeting" in self.status:
+            if not "targeting" in self.status: self.status["walking"] -= 1
 
             self.pos_x += self.dir.x * speed_x
             self.pos_y += self.dir.y * speed_y
@@ -184,7 +184,7 @@ class Creature(pygame.sprite.Sprite):
             self.collisions()
             #self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
             if len(self.collidedwith) == 0:          #empty list is FALSE    
-                if "walking" in self.status: self.status["walking"] -= 1
+                #if "walking" in self.status: self.status["walking"] -= 1
                 return              #nothing collided, exit the function
             
             
@@ -211,7 +211,6 @@ class Creature(pygame.sprite.Sprite):
                     self.pos_x = orig_pos_x
                     self.pos_y = orig_pos_y
 
-                self.status["walking"] -= 1
             
         elif self.status["walking"] == 0:
 
@@ -219,6 +218,7 @@ class Creature(pygame.sprite.Sprite):
 
             #kun seisonut 0.2s, määritä kävely taas 60 ticks
             if self.status["standing"] >= self.wait_dur:        #0.2*onesec is a float, remember this for later
+                print(f"waited for {self.wait_dur} {self.status['standing']}")
                             
                 #print("stood for ",self.status["standing"])
                 self.status["walking"] = self.wander_dur
