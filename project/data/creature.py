@@ -104,7 +104,7 @@ class Creature(pygame.sprite.Sprite):
         if (self.target is None) or (self.target.alive == False):
             self.target = None
             if "targeting" in self.status: del self.status["targeting"]         #delete targeting status if target was removed elsewhere
-            self.status["walking"] = 1*onesecond
+            if self.status["walking"]<=0: self.status["walking"] = self.wander_dur
             return
 
 
@@ -183,8 +183,7 @@ class Creature(pygame.sprite.Sprite):
 
             self.collisions()
             #self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
-
-            if self.collidedwith == False:          #empty list is FALSE    
+            if len(self.collidedwith) == 0:          #empty list is FALSE    
                 if "walking" in self.status: self.status["walking"] -= 1
                 return              #nothing collided, exit the function
             
@@ -260,6 +259,7 @@ class Creature(pygame.sprite.Sprite):
             damage = effectmod.Effect("Ouchie",effectmod.blood_red,self.pos_x,self.pos_y,int(onesecond/2))
             damage.add(effectsgroup)
             damage.add(camera_group)
+            if self in friendlies: self.speed += 1
             if source:
                 print(f"{self.name} was dealt {-change} damage by {source.name}.")
             else:
@@ -280,7 +280,6 @@ class Creature(pygame.sprite.Sprite):
         self.collisions()
         self.targeting()
         self.movement()
-        #print(self.status)
 
         #movement checks if your target's hitbox was reached and adds the target to the list self.collidedwith
         if self.target in self.collidedwith:
@@ -290,8 +289,8 @@ class Creature(pygame.sprite.Sprite):
 
 
 class NPC(Creature):
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,status={"walking":20,"standing":0},awareness=1,job=None):
-        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,status,awareness)
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,awareness=1,job=None):
+        super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)
         self.job = job
 
     def interact(self,name,job,target,status):

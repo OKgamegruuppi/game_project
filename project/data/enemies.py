@@ -12,7 +12,7 @@ class Enemy(Creature):
                 
     def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,awareness=1,dmg=1):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)
-        self.status = {"walking":20, "standing":0, "attack_cooldown":0}
+        self.status = {"walking":self.wander_dur, "standing":0, "attack_cooldown":0}
         self.dmg = dmg
 
 
@@ -24,6 +24,7 @@ class Enemy(Creature):
         ##notice already checks for .alive
         if self.notice(player):        
             self.target = player
+            print(f"{self.name} started targeting the player {self.target.name}!")
             return
         
         #if Player is too far, find the closest friendly
@@ -62,31 +63,33 @@ class Enemy(Creature):
     #             self.target = None                  #target is forgot
 
 
-    def collisions(self):
-        #muista päivittää hitbox ennen ku testaat collisionit
-        self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
+
+######## OLD CODE!!!!!!!!!!
+    # def collisions(self):
+    #     #muista päivittää hitbox ennen ku testaat collisionit
+    #     self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
         
-        for group in collidables:
+    #     for group in collidables:
 
-            if group == enemies:
-                continue
+    #         if group == enemies:
+    #             continue
             
-            elif pygame.sprite.spritecollideany(self,group):
-                #print(f"{self.name} got hit by {group}!")
+    #         elif pygame.sprite.spritecollideany(self,group):
+    #             #print(f"{self.name} got hit by {group}!")
 
-                return True
-            else:
-                continue
+    #             return True
+    #         else:
+    #             continue
 
         
     def interact(self,target):
         self.attack(target) #SIKE
 
     def attack(self,target):
-        if pygame.sprite.collide_rect(self,target) and self.status["attack_cooldown"] == 0:
+        if self.status["attack_cooldown"] == 0:
             print(f"{self.name} attacked {target.name}!")
-            target.hp_change(-1)
-            self.status["attack_cooldown"] = int(0.5*onesecond)
+            target.hp_change(-1,self)
+            self.status["attack_cooldown"] = int(0.2*onesecond)
 
             #effects
             attack = effectmod.Effect("Enemy Attack",effectmod.player_attack,target.pos_x,target.pos_y,int(0.5*onesecond))
@@ -102,10 +105,16 @@ class Enemy(Creature):
         #enemy attack cooldown in player function??
 
     def update(self,player):
+        self.collisions()
         self.select_target(player)
+        self.targeting()
+        self.movement()
+
+        print(self.collidedwith)
+        if self.target in self.collidedwith:
+            self.attack(self.target)
         # if self.collisions(groups) and self.target:
         #     self.attack(self.target)
-        self.movement()
         #self.attack(camera_group)
         
 
