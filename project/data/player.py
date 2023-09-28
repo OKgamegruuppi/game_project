@@ -12,7 +12,7 @@ class Player(Creature):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)     
         self.status={"attack_cooldown":0}
         self.dmg = dmg
-        self.healthbar = HealthBar(20,20,self.maxhealth)
+        self.healthbar = HealthBar(20,20,100,30,self.maxhealth)
         print(self.healthbar.maxhealth)
         uigroup.add(self.healthbar)
 
