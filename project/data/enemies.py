@@ -1,9 +1,10 @@
 import math
 import pygame
-from random import randint,choice
+from random import randint,choices
 from data.settings import windowsizeX, windowsizeY
 from data.settings import fps as onesecond
 from data.creature import Creature
+from data.items import Currency, Healing
 import data.effects as effectmod
 from data.init_groups import *
 
@@ -14,6 +15,8 @@ class Enemy(Creature):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)
         self.status = {"walking":self.wander_dur, "standing":0, "attack_cooldown":0}
         self.dmg = dmg
+        # Add loot table to creature: item and chance to drop!
+        self.loot_table = {"heart":50,"gold":50}
 
 
     def select_target(self,player):
@@ -24,7 +27,7 @@ class Enemy(Creature):
         ##notice already checks for .alive
         if self.notice(player):        
             self.target = player
-            print(f"{self.name} started targeting the player {self.target.name}!")
+            #print(f"{self.name} started targeting the player {self.target.name}!")
             return
         
         #if Player is too far, find the closest friendly
@@ -87,7 +90,7 @@ class Enemy(Creature):
 
     def attack(self,target):
         if self.status["attack_cooldown"] == 0:
-            print(f"{self.name} attacked {target.name}!")
+            #print(f"{self.name} attacked {target.name}!")
             target.hp_change(-1,self)
             self.status["attack_cooldown"] = int(0.2*onesecond)
 
@@ -104,13 +107,35 @@ class Enemy(Creature):
         #at least 0.5s cooldown after succesful hit
         #enemy attack cooldown in player function??
 
+    def drop_loot(self):
+        testitem = pygame.image.load("data/assets/gold_pile.png")
+        testheart = pygame.image.load("data/assets/heart.png")
+        loot = choices(list(self.loot_table.keys()),weights=self.loot_table.values(),k=1)
+        print(loot)
+        if loot[0] == "heart":
+            drop = Healing("Small Heal",testheart,self.pos_x,self.pos_y,randint(1,10))
+            drop.add(itemgroup)
+            drop.add(camera_group[0])
+        elif loot[0] == "gold":
+            drop = Currency("Pile-o-Gold",testitem,self.pos_x,self.pos_y,randint(1,10))
+            drop.add(itemgroup)
+            drop.add(camera_group[0])
+        else:
+            print("No loot this time!")
+
+
+    def hp_change(self,change,source=None):
+        super().hp_change(change,source)
+        if self.health <= 0:
+            self.drop_loot()
+
     def update(self,player):
         self.collisions()
         self.select_target(player)
         self.targeting()
         self.movement()
 
-        print(self.collidedwith)
+        #print(self.collidedwith)
         if self.target in self.collidedwith:
             self.attack(self.target)
         # if self.collisions(groups) and self.target:

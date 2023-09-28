@@ -72,11 +72,11 @@ class Currency(Item):
 
 # Class for Healing Items
 class Healing(Item):
-    def __init__(self,name,image,pos_x,pos_y,value=1,timer=None,tangible=None):
+    def __init__(self,name,image,pos_x,pos_y,heal=1,timer=None,tangible=None):
         super().__init__(name,image,pos_x,pos_y,timer,tangible)
-        self.value = value
+        self.heal = heal
 
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))
 
     def on_pick_up(self,target=None):
-        target.hp_change(self.value,self)
+        target.hp_change(self.heal,self)

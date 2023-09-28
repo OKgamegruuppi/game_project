@@ -18,7 +18,7 @@ def spritesheet(img,sprite_rows,sprite_cols):
     return sheet
 
 class Player(Creature):
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=10,target=None,awareness=0,dmg=1):
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=20,target=None,awareness=0,dmg=1):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)     
         self.status={"attack_cooldown":0}
         self.dmg = dmg

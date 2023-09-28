@@ -37,7 +37,7 @@ class Creature(pygame.sprite.Sprite):
     #Remember to add INFO: in start of every print command here.
     #info is called once per onesecond
     def info(self):
-        print(f"INFO: {self.name} targeting {self.target.name if self.target else None}")
+        #print(f"INFO: {self.name} targeting {self.target.name if self.target else None}")
         #print(f"INFO: {self.name}{self.status}")
         pass
 
@@ -137,7 +137,7 @@ class Creature(pygame.sprite.Sprite):
             
             if self.target in self.collidedwith:
                 #target is caught, do not move
-                print(self.name,"caught the target")
+                #print(self.name,"caught the target")
                 return
             
             # if pygame.sprite.collide_rect(self,self.target):
@@ -250,7 +250,7 @@ class Creature(pygame.sprite.Sprite):
         if change > 0:
             damage = effectmod.Effect("Heal",effectmod.small_heart,self.pos_x,self.pos_y,int(onesecond/3))
             damage.add(effectsgroup)
-            damage.add(camera_group)
+            damage.add(camera_group[0])
             if source:
                 print(f"{self.name} was healed {change}hp by {source.name}.")
             else:
@@ -258,7 +258,7 @@ class Creature(pygame.sprite.Sprite):
         elif change < 0:
             damage = effectmod.Effect("Ouchie",effectmod.blood_red,self.pos_x,self.pos_y,int(onesecond/2))
             damage.add(effectsgroup)
-            damage.add(camera_group)
+            damage.add(camera_group[0])
             if self in friendlies: self.speed += 1
             if source:
                 print(f"{self.name} was dealt {-change} damage by {source.name}.")
