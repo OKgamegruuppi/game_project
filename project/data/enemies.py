@@ -130,7 +130,7 @@ class Spy(Enemy):
     def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=1,awareness=50,dmg=1):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,awareness)
         self.wander_dur = int(0.2*onesecond)
-        self.wait_dur = 3*onesecond
+        self.wait_dur = 3*onesecond + randint(-30,31)
         self.targeting_dur = 1*onesecond
         self.status = {"walking":self.wander_dur, "standing":0, "attack_cooldown":0}
         self.loot_table = {"heart":100,"gold":0}

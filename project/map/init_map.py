@@ -56,13 +56,13 @@ for i in range(0,10):
     itemgroup.add(Currency("Pile-o-Gold"+str(i),testitem_icon,xx,yy))
     
     xx,yy = rand_coords(700)
-    enemies.add(Enemy("Green"+str(int(i/3)),defaultEnemy_icon2,xx,yy,[1,0],2,3,150))             
+    enemies.add(Enemy("Green menace"+str(int(i/3)),defaultEnemy_icon2,xx,yy,[1,0],2,3,400))             
 
  
 for i in range(0,30):
     ########################    name,  image pos_x,pos_y, dir     speed   health,awareness
     xx,yy = rand_coords(10)
-    enemies.add(Spy("Spy"+str(i),spywillow_icon,xx,yy,[1,0],1,1,400))             
+    enemies.add(Spy("Spy"+str(i),spywillow_icon,xx,yy,[1,0],1,1,150))             
 
 # def spawn(number,function):
 #     for i in range(number):

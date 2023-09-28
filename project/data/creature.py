@@ -121,6 +121,8 @@ class Creature(pygame.sprite.Sprite):
                 self.target = None                  #target is forgot
 
 
+    'MOVING THE CREATURES'
+########################################################################################################################
     def movement(self,speedmodifier=1):
         speed_x = self.speed*speedmodifier
         speed_y = self.speed*speedmodifier
