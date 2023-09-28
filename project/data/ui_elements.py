@@ -1,7 +1,46 @@
 import pygame
+from data.assets.images import health_anim_icon
 
 def hellobutton():
     print("Hello, I am a Button!")
+
+class HealthBar(pygame.sprite.Sprite):
+    #def __init__(self,x,y,width,height,health):
+    def __init__(self,x,y,health):
+        super().__init__()
+        self.pos_x = x
+        self.pos_y = y
+        #self.width = width
+        #self.height = height
+        self.health = health
+        self.maxhealth = health
+        #self.fill_color = "#00000000"
+        self.images = health_anim_icon
+        if health > len(self.images)-1:
+            self.health = len(self.images)
+            self.maxhealth = len(self.images)-1
+        self.image = self.images[self.maxhealth]
+        #self.bar_surface = pygame.Surface((width, height))
+        self.rect = self.image.get_rect(topleft=(self.pos_x,self.pos_y))
+
+    def hp_change(self,change):
+        self.health = min(self.maxhealth,self.health+change)
+        if self.health >= 0:
+            self.image = self.images[self.health]
+        else: 
+            print("Invalid HP range!")
+
+    def update(self,screen):
+        # Color the box
+        #self.bar_surface.fill(self.fill_color)
+        # Blit the surface containing the button text
+        #self.bar_surface.blit(self.image, [
+        #    self.rect.width/2 - self.image.get_rect().width/2,
+        #    self.rect.height/2 - self.image.get_rect().height/2
+        #])
+        # Blit everything to the screen
+        #screen.blit(self.bar_surface, self.rect)
+        screen.blit(self.image, self.rect)
 
 class TextBox():
     def __init__(self,x,y,width,height,box_text="TextBox",font_val="default",fill_colors="#ffffff",
@@ -10,7 +49,7 @@ class TextBox():
         self.y = y
         self.width = width
         self.height = height
-        # Is box transparent?
+        # Is box transparent? Doesn't work how I thought it would!
         self.transparent = transparent
         # Border?
         self.border = border
@@ -36,8 +75,8 @@ class TextBox():
 
     def update(self,screen):
         # Color the box
-        if not self.transparent:
-            self.box_surface.fill(self.fill_colors)
+        #if not self.transparent:
+        self.box_surface.fill(self.fill_colors)
             
         # Blit the surface containing the button text
         self.box_surface.blit(self.box_text_surf, [
@@ -72,16 +111,16 @@ class Button(TextBox):
     def update(self,screen):
         # Get mouse position
         mouse_pos = pygame.mouse.get_pos()
-        if not self.transparent:
-            self.box_surface.fill(self.fill_colors["normal"])
+        #if not self.transparent:
+        self.box_surface.fill(self.fill_colors["normal"])
         # If mouse is on Button, change color of button
         if self.box_rect.collidepoint(mouse_pos):
-            if not self.transparent:
-                self.box_surface.fill(self.fill_colors["hover"])
+            #if not self.transparent:
+            self.box_surface.fill(self.fill_colors["hover"])
             # If mousebutton 1 (left-click) is pressed, change color, and run onclickfunction
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
-                if not self.transparent:
-                    self.box_surface.fill(self.fill_colors["pressed"])
+                #if not self.transparent:
+                self.box_surface.fill(self.fill_colors["pressed"])
                 # If onePress True, keeping button held keeps executing the function over and over
                 if self.onePress:
                     self.onclick_function()

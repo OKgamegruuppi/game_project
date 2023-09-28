@@ -5,12 +5,16 @@ from data.settings import fps
 from data.effects import Effect
 from data.init_groups import *
 from data.assets.images import *
+from data.ui_elements import HealthBar
 
 class Player(Creature):
-    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=20,target=None,awareness=0,dmg=1):
+    def __init__(self,name,image,pos_x,pos_y,dir,speed=5,health=6,target=None,awareness=0,dmg=1):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)     
         self.status={"attack_cooldown":0}
         self.dmg = dmg
+        self.healthbar = HealthBar(20,20,self.maxhealth)
+        print(self.healthbar.maxhealth)
+        uigroup.add(self.healthbar)
 
         # Determine if player is moving in any direction
         self.move = {
@@ -168,6 +172,10 @@ class Player(Creature):
             self.inventory.append(target)
             self.inventory[-1].timer = None
         target.kill()
+
+    def hp_change(self,change,source=None):
+        super().hp_change(change,source)
+        self.healthbar.hp_change(change)
 
     def interact(self,target=None):
         print("Nothing to interact with!")

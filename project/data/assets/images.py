@@ -14,6 +14,12 @@ player_attack_icon = pygame.image.load("data/assets/attack.png")
 blood_red_icon = pygame.image.load("data/assets/blood_red1.png")
 small_heart_icon = pygame.image.load("data/assets/small_heart.png")
 
+# UI assets 
+health_anim_icon = [pygame.image.load("data/assets/hp/0.png"), pygame.image.load("data/assets/hp/1.png"),
+              pygame.image.load("data/assets/hp/2.png"), pygame.image.load("data/assets/hp/3.png"),
+              pygame.image.load("data/assets/hp/4.png"), pygame.image.load("data/assets/hp/4.png"),
+              pygame.image.load("data/assets/hp/6.png")]
+
 # Function to split a spritesheet into a list of individual images
 def spritesheet(img,sprite_rows,sprite_cols):
     sheet = []

@@ -16,6 +16,8 @@ enemies = pygame.sprite.Group()
 enemies.name = "Enemies"
 itemgroup = pygame.sprite.Group()
 itemgroup.name = "Items"
+uigroup = pygame.sprite.Group()
+uigroup.name = "UI elements"
 borders = pygame.sprite.Group()
 
 # collidables.name = "Collidables"
