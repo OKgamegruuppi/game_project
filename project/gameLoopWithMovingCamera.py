@@ -46,11 +46,11 @@ class Mainloop():
             #IF is_game_paused == False ==> PAUSE THE GAME
             #Draw the pause menu stuff inside the else
             else:
-                pausemenu_window = TextBox(windowsizeX/4,windowsizeY/4,windowsizeX/2,windowsizeY/2)
-                pause_menu_button_1 = Button(windowsizeX/3,windowsizeY/3,windowsizeX/3,windowsizeY/3,box_text="CONTINUE")
+                self.pausemenu_window = TextBox(windowsizeX/4,windowsizeY/4,windowsizeX/2,windowsizeY/2)
+                self.pause_menu_button_1 = Button(windowsizeX/3,windowsizeY/3,windowsizeX/3,windowsizeY/3,box_text="CONTINUE")
                 
-                pause_menu_button_1.update(screen=self.screen)
-                pausemenu_window.update(screen=self.screen)
+                self.pause_menu_button_1.update(screen=self.screen)
+                self.pausemenu_window.update(screen=self.screen)
                 
                 pygame.display.flip()
                 pygame.display.update()
