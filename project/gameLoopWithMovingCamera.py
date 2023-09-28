@@ -47,7 +47,7 @@ class Mainloop():
             #Draw the pause menu stuff inside the else
             else:
                 pausemenu_window = TextBox(windowsizeX/4,windowsizeY/4,windowsizeX/2,windowsizeY/2)
-                pause_menu_button_1 = Button(windowsizeX/3,windowsizeY/3,windowsizeX/3,windowsizeY/3,box_text="CONTINUE")
+                pause_menu_button_1 = Button(windowsizeX/3,windowsizeY/3,windowsizeX/3,windowsizeY/3,"CONTINUE",data.controls.pause_game)
                 
                 pausemenu_window.update(screen=self.screen)
                 pause_menu_button_1.update(screen=self.screen)
