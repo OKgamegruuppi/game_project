@@ -1,14 +1,13 @@
 #libraries
 import pygame
-import data.controls
-from data.settings import windowsizeX, windowsizeY,fps,game_state
+from data.settings import windowsizeX, windowsizeY,fps,game_state, progression
+from data.ui_elements import *
 from data.game_update import game_update, ui_update
 from map.camera import CameraGroup
-from data.init_groups import *
+ 
 from map.init_map import *
 from data.controls import game_event_observer
-from data.ui_elements import *
-from data.menus import pause_menu_update, game_over_screen
+from data.menus import pause_menu_update, game_over_screen, WIN_screen,start_screen
 
 class Mainloop():
     def __init__(self):
@@ -33,9 +32,19 @@ class Mainloop():
         while True:
             game_event_observer(self)
             # If player dead, print game over screen
-            if not game_state["PlayerAlive"]:
+            if game_state["MainMenu"]:
+                start_screen(self.screen)
+                pygame.display.flip()
+                pygame.display.update()
+
+            elif not game_state["PlayerAlive"]:
                 game_over_screen(self.screen)
 
+                pygame.display.flip()
+                pygame.display.update()
+
+            elif progression["Quest"] == quest_length:
+                WIN_screen(self.screen)
                 pygame.display.flip()
                 pygame.display.update()
 
@@ -52,11 +61,13 @@ class Mainloop():
 
             #IF is_game_paused == True ==> PAUSE THE GAME
             #Draw the pause menu stuff inside the else
-            else:
+            elif game_state["GamePaused"]:
                 pause_menu_update(self.screen)
                 
                 pygame.display.flip()
                 pygame.display.update()
+            else:
+                continue
 
 #Calling the main loop that creates the window and game
 if __name__ == "__main__":

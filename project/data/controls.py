@@ -1,6 +1,15 @@
 import pygame
 from data.settings import game_state
 
+# Function that starts the game
+def start_game():
+    if game_state["MainMenu"] == True:
+        game_state["MainMenu"] = False
+        game_state["GamePaused"] = False
+        return True
+    else:
+        return False
+
 # Function that pauses game
 def pause_game():
     if game_state["GamePaused"] == False:
