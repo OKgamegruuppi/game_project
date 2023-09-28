@@ -1,16 +1,18 @@
 import pygame
-
-game_turned_on = True
+from data.settings import game_state
 
 # Function that pauses game
 def pause_game():
-    global game_turned_on
-    if game_turned_on == False:
-        game_turned_on = True
-        return game_turned_on
+    if game_state["GamePaused"] == False:
+        game_state["GamePaused"] = True
+        return game_state["GamePaused"]
     else:
-        game_turned_on = False
-        return game_turned_on
+        game_state["GamePaused"] = False
+        return game_state["GamePaused"]
+
+# Function to exit game    
+def exit_game():
+    exit()
 
 # Event observer for main menu(?)
 def menu_event_observer():
@@ -61,7 +63,7 @@ def game_event_observer(game):
 
             # Quit Game
             if keyPress.key == pygame.K_ESCAPE:
-                exit()
+                exit_game()
             # Inventory    
             if keyPress.key == pygame.K_i:
                 pass

@@ -1,13 +1,14 @@
 #libraries
 import pygame
 import data.controls
-from data.settings import windowsizeX, windowsizeY,fps
+from data.settings import windowsizeX, windowsizeY,fps,game_state
 from data.game_update import game_update, ui_update
 from map.camera import CameraGroup
 from data.init_groups import *
 from map.init_map import *
 from data.controls import game_event_observer
 from data.ui_elements import *
+from data.menus import pause_menu_update, game_over_screen
 
 class Mainloop():
     def __init__(self):
@@ -31,8 +32,14 @@ class Mainloop():
 
         while True:
             game_event_observer(self)
-            is_game_paused = data.controls.game_turned_on
-            if is_game_paused == True:
+            # If player dead, print game over screen
+            if not game_state["PlayerAlive"]:
+                game_over_screen(self.screen)
+
+                pygame.display.flip()
+                pygame.display.update()
+
+            elif not game_state["GamePaused"]:
                 #print(f'GAME IS PAUSED? {self.game_pause_check}')
                 self.screen.fill('#71ddee')
                 #self.camera_group.update(self.grouplist)
@@ -43,14 +50,10 @@ class Mainloop():
                 pygame.display.update()
                 self.clock.tick(fps)
 
-            #IF is_game_paused == False ==> PAUSE THE GAME
+            #IF is_game_paused == True ==> PAUSE THE GAME
             #Draw the pause menu stuff inside the else
             else:
-                pausemenu_window = TextBox(windowsizeX/4,windowsizeY/4,windowsizeX/2,windowsizeY/2)
-                pause_menu_button_1 = Button(windowsizeX/3,windowsizeY/3,windowsizeX/3,windowsizeY/3,"CONTINUE",data.controls.pause_game)
-                
-                pausemenu_window.update(screen=self.screen)
-                pause_menu_button_1.update(screen=self.screen)
+                pause_menu_update(self.screen)
                 
                 pygame.display.flip()
                 pygame.display.update()

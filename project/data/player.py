@@ -1,7 +1,7 @@
 import pygame
 from data.creature import Creature
 from data.items import Currency
-from data.settings import fps
+from data.settings import fps, game_state
 from data.effects import Effect
 from data.init_groups import *
 from data.assets.images import *
@@ -176,6 +176,8 @@ class Player(Creature):
     def hp_change(self,change,source=None):
         super().hp_change(change,source)
         self.healthbar.hp_change(change)
+        if self.health <= 0:
+            game_state["PlayerAlive"] = False
 
     def interact(self,target=None):
         print("Nothing to interact with!")
