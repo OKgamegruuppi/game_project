@@ -47,7 +47,7 @@ class Mainloop():
             #IF is_game_paused == False ==> PAUSE THE GAME
             #Draw the pause menu stuff inside the else
             else:
-                pausemenu_window = TextBox(40,50,400,300)
+                pausemenu_window = TextBox(windowsizeX/4,windowsizeY/4,windowsizeX/2,windowsizeY/2)
                 pausemenu_window.update(screen=self.screen)
                 pygame.display.flip()
                 pygame.display.update()
