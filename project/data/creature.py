@@ -24,6 +24,7 @@ class Creature(pygame.sprite.Sprite):
         self.awareness = awareness 
         self.wander_dur = 1*onesecond           #"walking"
         self.wait_dur = int(0.2*onesecond)      #"standing"
+        self.targeting_dur = 1*onesecond        #"targeting"
         self.status = {"walking":self.wander_dur,"standing":0}            #dictionary, ex:  "walking", "standing", "targeting", "attack_cooldown" 
         self.collidedwith = []      #includes a list of groups and self.target Creature
 
@@ -110,7 +111,7 @@ class Creature(pygame.sprite.Sprite):
 
 
         if self.notice(self.target):        #notice returns False if target is None
-            self.status["targeting"] = math.floor(0.1 * self.awareness * onesecond)       #refresh targeting status if in notice range
+            self.status["targeting"] = self.targeting_dur       #refresh targeting status if in notice range
             #better awareness = longer memory
 
         elif "targeting" in self.status:
@@ -118,12 +119,11 @@ class Creature(pygame.sprite.Sprite):
             if self.status["targeting"] == 0:
                 del self.status["targeting"]       #clear status effect
                 self.target = None                  #target is forgot
-                
 
 
-    def movement(self):
-        speed_x = self.speed
-        speed_y = self.speed
+    def movement(self,speedmodifier=1):
+        speed_x = self.speed*speedmodifier
+        speed_y = self.speed*speedmodifier
 
         orig_pos_x = self.pos_x 
         orig_pos_y = self.pos_y
@@ -213,7 +213,7 @@ class Creature(pygame.sprite.Sprite):
                     self.pos_y = orig_pos_y
 
             
-        elif self.status["walking"] == 0:
+        elif self.status["walking"] == 0 and (not "targeting" in self.status):
 
             self.status["standing"] += 1
 
