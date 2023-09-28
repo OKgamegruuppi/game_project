@@ -4,18 +4,27 @@ def hellobutton():
     print("Hello, I am a Button!")
 
 class TextBox():
-    def __init__(self,x,y,width,height,box_text="TextBox",font_val="default",fill_colors="#ffffff",transparent=False):
+    def __init__(self,x,y,width,height,box_text="TextBox",font_val="default",fill_colors="#ffffff",
+                 transparent=False,border=False,border_thickness=0,border_color="#333333"):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         # Is box transparent?
         self.transparent = transparent
+        # Border?
+        self.border = border
+        self.border_thickness = border_thickness
+        self.border_color = border_color
+        self.border_width = width+2*border_thickness
+        self.border_height = height+2*border_thickness
+        self.border_surface = pygame.Surface((self.border_width,self.border_height))
+        self.border_rect = pygame.Rect(x-border_thickness,y-border_thickness,self.border_width,self.border_height)
         # Set button colors for different cases
         self.fill_colors = fill_colors
         # Define the Surface and Rect for the button, and the surface for the button text
-        self.box_surface = pygame.Surface((self.width, self.height))
-        self.box_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.box_surface = pygame.Surface((width, height))
+        self.box_rect = pygame.Rect(x, y, width, height)
         if font_val == "default":
             self.font = pygame.font.SysFont("Arial", 24)
         else:
@@ -36,12 +45,15 @@ class TextBox():
             self.box_rect.height/2 - self.box_text_surf.get_rect().height/2
         ])
         # Blit everything to the screen
+        if self.border:
+            self.border_surface.fill(self.border_color)
+            screen.blit(self.border_surface,self.border_rect)
         screen.blit(self.box_surface, self.box_rect)
 
 class Button(TextBox):
     def __init__(self,x,y,width,height,box_text="Button",onclick_function=hellobutton,one_press=False,font_val="default",
-                 fill_colors=["#ffffff","#666666","#333333"],transparent=False):
-        super().__init__(x,y,width,height,box_text,font_val,fill_colors,transparent)    
+                 fill_colors=["#ffffff","#666666","#333333"],transparent=False,border=False,border_thickness=0,border_color="#333333"):
+        super().__init__(x,y,width,height,box_text,font_val,fill_colors,transparent,border,border_thickness,border_color)    
         self.onclick_function = onclick_function
         # if onePress == True -> If button pressed down, keep executing function
         self.onePress = one_press
@@ -84,5 +96,8 @@ class Button(TextBox):
             self.box_rect.height/2 - self.box_text_surf.get_rect().height/2
         ])
         # Blit everything to the screen
+        if self.border:
+            self.border_surface.fill(self.border_color)
+            screen.blit(self.border_surface,self.border_rect)
         screen.blit(self.box_surface, self.box_rect)
         
