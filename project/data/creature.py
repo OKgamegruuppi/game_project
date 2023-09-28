@@ -23,7 +23,8 @@ class Creature(pygame.sprite.Sprite):
         self.maxhealth = health
         self.target = target        #another Creature or map object, is a SHALLOW COPY, remove with self.target = None
         self.awareness = awareness 
-        self.wander_dur = 1*onesecond     
+        self.wander_dur = 1*onesecond           #"walking"
+        self.wait_dur = int(0.2*onesecond)      #"standing"
         self.status = {"walking":self.wander_dur,"standing":0}            #dictionary, ex:  "walking", "standing", "targeting", "attack_cooldown" 
         self.collidedwith = []      #includes a list of groups and self.target Creature
 
@@ -89,7 +90,7 @@ class Creature(pygame.sprite.Sprite):
     def notice(self,target):
 
         #awareness = 5 or something, in units of distance
-        if target.alive == False:
+        if target.alive()    == False:
             return False
         
         distance= math.dist( (target.pos_x,target.pos_y) , (self.pos_x,self.pos_y) )
@@ -101,7 +102,7 @@ class Creature(pygame.sprite.Sprite):
 
 
     def targeting(self):
-        if (self.target is None) or (self.target.alive == False):
+        if (self.target is None) or (self.target.alive() == False):
             self.target = None
             if "targeting" in self.status: del self.status["targeting"]         #delete targeting status if target was removed elsewhere
             if self.status["walking"]<=0: self.status["walking"] = self.wander_dur
@@ -218,7 +219,7 @@ class Creature(pygame.sprite.Sprite):
             self.status["standing"] += 1
 
             #kun seisonut 0.2s, määritä kävely taas 60 ticks
-            if self.status["standing"] >= 0.2*onesecond:        #0.2*onesec is a float, remember this for later
+            if self.status["standing"] >= self.wait_dur:        #0.2*onesec is a float, remember this for later
                             
                 #print("stood for ",self.status["standing"])
                 self.status["walking"] = self.wander_dur
@@ -268,7 +269,7 @@ class Creature(pygame.sprite.Sprite):
                 self.kill()
                 print(f"{self.name}: Oops, I was killed by {source.name}")
 
-        print(f"{self.name}: Current HP: {self.health}")
+        print(f"{self.name}: Current HP: {self.health}, alive: {self.alive()==True}")
 
 
     '''Call interact() funcion from other creatures for NPC interaction, opening doors etc'''
