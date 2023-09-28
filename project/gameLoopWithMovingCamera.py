@@ -7,7 +7,7 @@ from map.camera import CameraGroup
 from data.init_groups import *
 from map.init_map import *
 from data.controls import game_event_observer
-from data.ui_elements import TextBox
+from data.ui_elements import TextBox, Button
 
 
 class Mainloop():
@@ -26,7 +26,6 @@ class Mainloop():
         camera_group.append(CameraGroup())
         add_to_camera()
         self.gameEventLoop()
-
 
     #main loop execution
     def gameEventLoop(self):
@@ -48,7 +47,11 @@ class Mainloop():
             #Draw the pause menu stuff inside the else
             else:
                 pausemenu_window = TextBox(windowsizeX/4,windowsizeY/4,windowsizeX/2,windowsizeY/2)
+                pause_menu_button_1 = Button(windowsizeX/3,windowsizeY/3,windowsizeX/3,windowsizeY/3,box_text="CONTINUE")
+                
+                pause_menu_button_1.update(screen=self.screen)
                 pausemenu_window.update(screen=self.screen)
+                
                 pygame.display.flip()
                 pygame.display.update()
 
