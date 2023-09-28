@@ -269,7 +269,7 @@ class Creature(pygame.sprite.Sprite):
                 self.kill()
                 print(f"{self.name}: Oops, I was killed by {source.name}")
 
-        print(f"{self.name}: Current HP: {self.health}, alive: {self.alive()==True}")
+        print(f"{self.name}: Current HP: {self.health}, alive: {self.alive()}")
 
 
     '''Call interact() funcion from other creatures for NPC interaction, opening doors etc'''

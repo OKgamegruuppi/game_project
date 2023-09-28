@@ -49,9 +49,9 @@ def game_event_observer(game):
             if keyPress.key == pygame.K_i:
                 game.player.check_inventory()
 
-            # Pause Menu
+            # Quit Game
             if keyPress.key == pygame.K_ESCAPE:
-                pass
+                exit()
             # Inventory    
             if keyPress.key == pygame.K_i:
                 pass

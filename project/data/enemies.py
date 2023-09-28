@@ -9,8 +9,7 @@ import data.effects as effectmod
 from data.init_groups import *
 
 
-class Enemy(Creature):
-                
+class Enemy(Creature):               
     def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=0,target=None,awareness=1,dmg=1):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,target,awareness)
         self.status = {"walking":self.wander_dur, "standing":0, "attack_cooldown":0}
@@ -93,7 +92,7 @@ class Enemy(Creature):
         testitem = pygame.image.load("data/assets/gold_pile.png")
         testheart = pygame.image.load("data/assets/heart.png")
         loot = choices(list(self.loot_table.keys()),weights=self.loot_table.values(),k=1)
-        print(loot)
+        # print(loot)
         if loot[0] == "heart":
             drop = Healing("Small Heal",testheart,self.pos_x,self.pos_y,randint(1,10))
             drop.add(itemgroup)
