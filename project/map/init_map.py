@@ -44,7 +44,6 @@ playergroup.add(player)
 
 for i in range(3):
     ####################    name,                   image           pos_x           pos_y       dir,speed,health
-    enemies.add(Enemy("Green"+str(int(i/3)),defaultEnemy_icon2,randint(20,mapX-20),randint(20,mapY-20),[1,0],2,3,150))             #make 3
     itemgroup.add(Healing("Small Heal"+str(int(i/3)),testheart_icon,randint(20,mapX-20),randint(20,mapY-20)))
     
 
@@ -53,7 +52,12 @@ for i in range(0,10):
     ########################    name,      image    pos_x           pos_y           dir     speed   health
     friendlies.add(Creature("Cat"+str(i),cat1_icon,randint(20,mapX-20),randint(20,mapY-20),[1,0],randint(2,4),2))           #make 9
     itemgroup.add(Currency("Pile-o-Gold"+str(i),testitem_icon,randint(20,mapX-20),randint(20,mapY-20)))
-    enemies.add(Spy("Spy"+str(i),spywillow_icon,randint(20,mapX-20),randint(20,mapY-20),[1,0],1,1,150))             #make 3
+    enemies.add(Enemy("Green"+str(int(i/3)),defaultEnemy_icon2,randint(20,mapX-20),randint(20,mapY-20),[1,0],2,3,150))             #make 3
+
+# Make objects, and add them to the Group    
+for i in range(0,30):
+    ########################    name,      image    pos_x           pos_y           dir     speed   health
+    enemies.add(Spy("Spy"+str(i),spywillow_icon,randint(20,mapX-20),randint(20,mapY-20),[1,0],1,1,400))             #make 3
 
 
 # (startX,startY,sizeX,sizeY, starts from top left corner)
