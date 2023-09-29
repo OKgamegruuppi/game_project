@@ -79,7 +79,7 @@ for i in range(0,10):
     itemgroup.add(Currency("Pile-o-Gold"+str(i),testitem_icon,xx,yy))
     
     xx,yy = rand_coords(700)
-    enemies.add(Enemy("Green menace"+str(int(i/3)),defaultEnemy_icon2,xx,yy,[1,0],2,3,800))             
+    enemies.add(Enemy("Green menace"+str(i),defaultEnemy_icon2,xx,yy,[1,0],2,3,800))             
 
  
 for i in range(0,30):
