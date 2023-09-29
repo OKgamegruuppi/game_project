@@ -4,12 +4,12 @@
 Controls:
 
 
-Movement: WASD or Arrow Keys,
+Movement: WASD or Arrow Keys
 
-Attack: Space,
+Attack: Space
 
-Pause: P,
+Pause: P
 
-Inventory: I,
+Inventory: I
 
 Quit: ESC
