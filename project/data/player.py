@@ -88,6 +88,9 @@ class Player(Creature):
                 if self.collisions():
                     self.pos_x -= self.speed
                     self.rect = self.rect.move(-self.speed,0)
+                    self.walking = 0
+                    self.dir.xy = 1,0
+                    self.image = self.image_right[0]
                 else:
                     self.dir.xy = 1,0
                     self.image = self.walk_animation(self.image_right)
@@ -98,6 +101,9 @@ class Player(Creature):
                 if self.collisions():
                     self.pos_x += self.speed
                     self.rect = self.rect.move(self.speed,0)
+                    self.walking = 0
+                    self.dir.xy = -1,0
+                    self.image = self.image_left[0]
                 else:
                     self.dir.xy = -1,0
                     self.image = self.walk_animation(self.image_left)
@@ -108,6 +114,9 @@ class Player(Creature):
                 if self.collisions():
                     self.pos_y += self.speed
                     self.rect = self.rect.move(0,self.speed)
+                    self.walking = 0
+                    self.dir.xy = 0,-1
+                    self.image = self.image_up[0]
                 else:
                     self.dir.xy = 0,-1
                     self.image = self.walk_animation(self.image_up)
@@ -118,6 +127,9 @@ class Player(Creature):
                 if  self.collisions():
                     self.pos_y -= self.speed
                     self.rect = self.rect.move(0,-self.speed)
+                    self.walking = 0
+                    self.dir.xy = 0,1
+                    self.image = self.image_down[0]
                 else:
                     self.dir.xy = 0,1
                     self.image = self.walk_animation(self.image_down)
