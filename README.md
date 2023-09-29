@@ -3,9 +3,13 @@
 
 Controls:
 
+
 Movement: WASD or Arrow Keys
+
 Attack: Space
+
 Pause: P
+
 Inventory: I
 
 Quit: ESC
