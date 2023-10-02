@@ -13,7 +13,7 @@ class Player(Creature):
         self.status={"attack_cooldown":0}
         self.dmg = dmg
         self.healthbar = HealthBar(20,20,188,24,self.maxhealth)
-        self.cat_bar = CatHUD(220,20,325,24)
+        self.cat_bar = CatHUD(220,20,364,24)
         #self.cat_bar_text = TextBox(220,20,60,24,"Find 13: ")
         print(self.healthbar.maxhealth)
         #uigroup.add(self.healthbar,self.cat_bar,self.cat_bar_text)
