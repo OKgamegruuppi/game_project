@@ -13,6 +13,8 @@ quest_icon = pygame.image.load("data/assets/cat-collectible.png")
 
 # Effect assets
 player_attack_icon = pygame.image.load("data/assets/attack.png")
+attack_miss_icon = pygame.image.load("data/assets/attack_fail.png")
+wood_chips_icon = pygame.image.load("data/assets/wood_chips_larger.png")
 blood_red_icon = pygame.image.load("data/assets/blood_red1.png")
 small_heart_icon = pygame.image.load("data/assets/small_heart.png")
 
