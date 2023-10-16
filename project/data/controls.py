@@ -1,5 +1,5 @@
 import pygame
-from data.settings import game_state
+from data.settings import progression, game_state
 
 # Function that starts the game
 def start_game():
@@ -22,6 +22,18 @@ def pause_game():
 # Function to exit game    
 def exit_game():
     exit()
+
+# Function to restart game    
+def new_game():
+    ##set everything to starting values
+
+    progression["Currency"] = 0
+    progression["Quest"] = 0
+
+    game_state["MainMenu"] = True
+    game_state["PlayerAlive"] = True
+    game_state["GamePaused"] = True
+    game_state["Restarting"] = True
 
 # Event observer for main menu(?)
 def menu_event_observer():

@@ -6,6 +6,7 @@ from data.game_update import game_update, ui_update
 from map.camera import CameraGroup
  
 from map.init_map import *
+from map.clear_map import clear_map
 from data.controls import game_event_observer
 from data.menus import pause_menu_update, game_over_screen, WIN_screen,start_screen
 
@@ -19,17 +20,25 @@ class Mainloop():
         pygame.display.set_caption("GAME WINDOW")
 
         ##initing the variables brought from init_map
+        initialize_game()
         self.player = player
 
         #camera setup
-        camera_group.append(CameraGroup())
+        if camera_group.__len__() == 0:
+            camera_group.append(CameraGroup())
         add_to_camera()
+        print(camera_group)
         self.gameEventLoop()
 
     #main loop execution
     def gameEventLoop(self):
 
         while True:
+            if game_state["Restarting"]:
+                game_state["Restarting"] = False
+                print("RESTARTING")
+                clear_map()
+                Mainloop()
             game_event_observer(self)
             # If player dead, print game over screen
             if game_state["MainMenu"]:

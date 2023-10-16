@@ -12,7 +12,8 @@ show_hitboxes = True
 game_state = {
     "MainMenu": True,
     "PlayerAlive": True,
-    "GamePaused": True
+    "GamePaused": True,
+    "Restarting": False
 }
 progression={
     "Currency":0,

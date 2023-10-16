@@ -27,10 +27,12 @@ def pause_menu_update(screen):
 def game_over_screen(screen):
     moneys = progression["Currency"]
     gameover_window = TextBox(windowsizeX/4,windowsizeY/4,windowsizeX/2,windowsizeY/2,f"YOU DIED! GAME OVER! Money: {moneys}")
-    gameover_button_1 = Button(windowsizeX/2-50,windowsizeY*3/4-50,100,50,"Exit",data.controls.exit_game)
+    gameover_button_1 = Button(windowsizeX/2-50,windowsizeY*3/4-100,100,50,"New Game",data.controls.new_game)
+    gameover_button_2 = Button(windowsizeX/2-50,windowsizeY*3/4-50,100,50,"Exit",data.controls.exit_game)
                 
     gameover_window.update(screen)
     gameover_button_1.update(screen)
+    gameover_button_2.update(screen)
 
 def WIN_screen(screen):
     moneys = progression["Currency"]
