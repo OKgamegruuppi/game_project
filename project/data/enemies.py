@@ -14,11 +14,16 @@ class Enemy(Creature):
                 
     def __init__(self,name,image,pos_x,pos_y,dir,speed=1,health=1,awareness=10,dmg=1):
         super().__init__(name,image,pos_x,pos_y,dir,speed,health,None,awareness)
+        # pygame.sprite.Sprite.__init__(self,camera_group[0],enemies,collidables)
         self.status = {"walking":self.wander_dur, "standing":0, "attack_cooldown":0}
+        self.hurt_cd_dur = 5
         self.targeting_dur = 2*onesecond
         self.dmg = dmg
+        self.attackspeed = int(0.5*onesecond)
         # Add loot table to creature: item and chance to drop!
         self.loot_table = {"heart":40,"gold":10,"nothing":50}
+
+        self.hurt_icon = wood_chips_icon
 
 
     def select_target(self,player):
@@ -76,7 +81,7 @@ class Enemy(Creature):
         if self.status["attack_cooldown"] == 0:
             print(f"{self.name} attacked {target.name}!")
             target.hp_change(-self.dmg,self)
-            self.status["attack_cooldown"] = int(0.5*onesecond)
+            self.status["attack_cooldown"] = self.attackspeed
 
             #effects
             attack = Effect("Enemy Attack",player_attack_icon,target.pos_x,target.pos_y,int(0.5*onesecond))
@@ -118,9 +123,13 @@ class Enemy(Creature):
         self.select_target(player)
         self.targeting()
         self.movement()
+        
 
         if self.target in self.collidedwith:
             self.attack(self.target)
+
+        self.status_update()
+
         # if self.collisions(groups) and self.target:
         #     self.attack(self.target)
         #self.attack(camera_group)
@@ -132,6 +141,7 @@ class Spy(Enemy):
         self.wander_dur = int(0.2*onesecond)
         self.wait_dur = 3*onesecond + randint(-30,31)
         self.targeting_dur = 1*onesecond
+        self.attackspeed = int(0.2*onesecond)
         self.status = {"walking":self.wander_dur, "standing":0, "attack_cooldown":0}
         self.loot_table = {"heart":100,"gold":0}
         self.dmg = dmg

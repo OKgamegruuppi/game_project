@@ -25,11 +25,12 @@ class HealthBar(pygame.sprite.Sprite):
         self.bar_surface = pygame.Surface((width, height),pygame.SRCALPHA)
         self.rect = self.image.get_rect(topleft=(self.pos_x,self.pos_y))
 
-    def hp_change(self,change):
-        self.health = min(self.maxhealth,self.health+change)
+    def hp_update(self,playerhealth):
+        self.health = min(self.maxhealth,playerhealth)
         if self.health >= 0:
             self.image = self.images[self.health]
         else: 
+            self.image = self.images[0]
             print("Invalid HP range!")
 
     def update(self,screen):

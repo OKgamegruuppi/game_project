@@ -39,6 +39,8 @@ class Player(Creature):
             self.image_left.append(pygame.transform.flip(element,True,False))
         # Set starting image
         self.image = self.image_down[0]
+
+        self.hurt_icon = blood_red_icon
         # Walking counter for animation
         self.walking = 0
 
@@ -198,7 +200,7 @@ class Player(Creature):
 
     def hp_change(self,change,source=None):
         super().hp_change(change,source)
-        self.healthbar.hp_change(change)
+        self.healthbar.hp_update(self.health)
         if self.health <= 0:
             game_state["PlayerAlive"] = False
 
@@ -213,7 +215,8 @@ class Player(Creature):
         elif self.status["attack_cooldown"] > 0:
             self.status["attack_cooldown"] += 1
         if self.status["attack_cooldown"] == 0:
-            self.movement()   
+            self.movement()  
+        self.status_update()        ##updates hurt cooldown (invincibility frames) 
 
         progression["Currency"] = self.currency    
         progression["Quest"] = len(found_cats)

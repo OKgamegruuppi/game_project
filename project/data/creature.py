@@ -10,8 +10,11 @@ from data.assets.images import *
 class Creature(pygame.sprite.Sprite):
     def __init__(self,name,image,pos_x,pos_y,dir,speed,health=0,target=None,awareness=0):
         super().__init__()
+        # pygame.sprite.Sprite.__init__(self,camera_group[0])
         self.name = name
         self.image = image
+        self.hurt_icon = blood_red_icon
+
         self.pos_x = pos_x          #position X
         self.pos_y = pos_y          #position Y
         self.rect = self.image.get_rect(center=(self.pos_x,self.pos_y))     #this draws the image and works as a hitbox
@@ -20,6 +23,7 @@ class Creature(pygame.sprite.Sprite):
         self.speed = speed          #jos speed on negatiivinen niin käevelee takaperin
         self.health = health
         self.maxhealth = health
+        self.hurt_cd_dur = int(0.5*onesecond)        ##duration for invincibility frames
         self.target = target        #another Creature or map object, is a SHALLOW COPY, remove with self.target = None
         self.awareness = awareness 
         self.wander_dur = 1*onesecond           #"walking"
@@ -248,8 +252,11 @@ class Creature(pygame.sprite.Sprite):
 
     # Change HP of the Creature
     def hp_change(self,change,source=None):
-        self.health = min(self.maxhealth,self.health+change)
+
+        #self.health = min(self.maxhealth,self.health+change)
+
         if change > 0:
+            self.health = min(self.maxhealth,self.health+change)
             damage = Effect("Heal",small_heart_icon,self.pos_x,self.pos_y,int(onesecond/3))
             damage.add(effectsgroup)
             damage.add(camera_group[0])
@@ -257,10 +264,20 @@ class Creature(pygame.sprite.Sprite):
                 print(f"{self.name} was healed {change}hp by {source.name}.")
             else:
                 print(f"{self.name} was healed {change}hp.")
-        elif change < 0:
-            damage = Effect("Ouchie",blood_red_icon,self.pos_x,self.pos_y,int(onesecond/2))
+
+        elif "hurt_cooldown" in self.status and change < 0:
+            damage = Effect("Miss",attack_miss_icon,self.pos_x,self.pos_y,int(onesecond/2),10)
             damage.add(effectsgroup)
             damage.add(camera_group[0])
+            #self.status["hurt_cooldown"] -= 1
+
+        elif change < 0:
+            self.health = min(self.maxhealth,self.health+change)
+            damage = Effect("Ouchie",self.hurt_icon,self.pos_x,self.pos_y,int(onesecond/2),10)
+            damage.add(effectsgroup)
+            damage.add(camera_group[0])
+
+            self.status["hurt_cooldown"] = self.hurt_cd_dur         #hurt cooldown is decremented in the update -> status() function
             if self in friendlies: self.speed += 1
             if source:
                 print(f"{self.name} was dealt {-change} damage by {source.name}.")
@@ -270,8 +287,15 @@ class Creature(pygame.sprite.Sprite):
                 self.kill()
                 print(f"{self.name}: Oops, I was killed by {source.name}")
 
-        print(f"{self.name}: Current HP: {self.health}, alive: {self.alive()}")
+               
 
+            print(f"{self.name}: Current HP: {self.health}, alive: {self.alive()}")
+
+    def status_update(self):
+        if "hurt_cooldown" in self.status:
+            self.status["hurt_cooldown"] -= 1
+            if self.status["hurt_cooldown"] == 0:
+                del self.status["hurt_cooldown"]   
 
     '''Call interact() funcion from other creatures for NPC interaction, opening doors etc'''
     def interact(self,target):
@@ -282,6 +306,7 @@ class Creature(pygame.sprite.Sprite):
         self.collisions()
         self.targeting()
         self.movement()
+        self.status_update()
 
         #movement checks if your target's hitbox was reached and adds the target to the list self.collidedwith
         if self.target in self.collidedwith:
