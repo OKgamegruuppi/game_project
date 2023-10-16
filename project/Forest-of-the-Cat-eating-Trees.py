@@ -27,7 +27,6 @@ class Mainloop():
         if camera_group.__len__() == 0:
             camera_group.append(CameraGroup())
         add_to_camera()
-        print(camera_group)
         self.gameEventLoop()
 
     #main loop execution

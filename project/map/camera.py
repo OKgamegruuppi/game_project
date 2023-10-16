@@ -3,7 +3,7 @@ class CameraGroup(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
         self.display_surface = pygame.display.get_surface()
-        print(self.display_surface)
+        #print(self.display_surface)
        
         # camera offset
         self.offset = pygame.math.Vector2(300,100)

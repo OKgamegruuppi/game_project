@@ -15,7 +15,6 @@ class Player(Creature):
         self.healthbar = HealthBar(20,20,188,24,self.maxhealth)
         self.cat_bar = CatHUD(220,20,364,24)
         #self.cat_bar_text = TextBox(220,20,60,24,"Find 13: ")
-        print(self.healthbar.maxhealth)
         #uigroup.add(self.healthbar,self.cat_bar,self.cat_bar_text)
         uigroup.add(self.healthbar,self.cat_bar)
 
@@ -196,7 +195,7 @@ class Player(Creature):
             camera_group[0].add(cat)
             
         target.kill()
-        print(target)
+        #print("Picked up",target.name)
 
     def hp_change(self,change,source=None):
         super().hp_change(change,source)
